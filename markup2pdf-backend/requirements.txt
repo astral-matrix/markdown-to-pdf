@@ -3,7 +3,8 @@ uvicorn
 pydantic
 python-multipart
 reportlab
-weasyprint
+# WeasyPrint ≥ 62 is compatible with pydyf 0.11 +
+weasyprint>=62
 markdown-it-py
 mdit-py-plugins
 pygments
