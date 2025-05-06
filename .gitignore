@@ -1,0 +1,96 @@
+# Combined .gitignore for the entire Markdown to PDF project
+
+# Node.js / Next.js (Frontend)
+node_modules/
+.next/
+out/
+.swc/
+build/
+dist/
+.output/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnp.*
+*.tsbuildinfo
+next-env.d.ts
+
+# Python (Backend)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+flask_session/
+
+# Application specific
+*.pdf
+uploads/
+downloads/
+test-results/
+*.lcov
+coverage/
+
+# Environment variables
+.env*
+!.env.example
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# System files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+*.pem
+
+# Local files
+*.local
+
+# Log files
+*.log
+logs/
+log/ 
