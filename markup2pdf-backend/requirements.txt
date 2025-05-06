@@ -8,3 +8,5 @@ markdown-it-py
 mdit-py-plugins
 pygments
 python-dotenv
+requests
+fonttools[woff]

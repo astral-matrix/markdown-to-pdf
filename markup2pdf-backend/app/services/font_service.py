@@ -7,13 +7,13 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 class FontService:
     def __init__(self):
-        self.default_font = "Inter"
+        self.default_font = "Helvetica"
         self.available_fonts = {
             "Inter": {
-                "regular": "Inter-Regular.ttf",
-                "bold": "Inter-Bold.ttf",
-                "italic": "Inter-Italic.ttf",
-                "bold_italic": "Inter-BoldItalic.ttf",
+                "regular": "Inter-Regular.woff2",
+                "bold": "Inter-Bold.woff2",
+                "italic": "Inter-Italic.woff2",
+                "bold_italic": "Inter-BoldItalic.woff2",
             },
             "Roboto": {
                 "regular": "Roboto-Regular.ttf",
@@ -21,11 +21,11 @@ class FontService:
                 "italic": "Roboto-Italic.ttf",
                 "bold_italic": "Roboto-BoldItalic.ttf",
             },
-            "Source Code Pro": {
+            "SourceCodePro": {
                 "regular": "SourceCodePro-Regular.ttf",
                 "bold": "SourceCodePro-Bold.ttf",
-                "italic": "SourceCodePro-Italic.ttf",
-                "bold_italic": "SourceCodePro-BoldItalic.ttf",
+                "italic": "SourceCodePro-Italic.otf",
+                "bold_italic": "SourceCodePro-BoldItalic.otf",
             }
         }
         self._fonts_registered = False
@@ -35,40 +35,51 @@ class FontService:
         if self._fonts_registered:
             return
             
-        fonts_dir = Path(__file__).parent.parent / "static" / "fonts"
-        os.makedirs(fonts_dir, exist_ok=True)
-        
-        # TODO: In production, ensure all font files exist
-        # For now, we'll assume they're available
-        
-        for font_family, variants in self.available_fonts.items():
-            for style, filename in variants.items():
-                font_path = fonts_dir / filename
-                if style == "regular":
-                    pdfmetrics.registerFont(TTFont(font_family, str(font_path)))
-                else:
-                    style_name = f"{font_family}-{style.replace('_', '')}"
-                    pdfmetrics.registerFont(TTFont(style_name, str(font_path)))
-                    
+        # Just use built-in fonts for now since we're having issues with font conversion
+        # ReportLab has built-in Helvetica, Times, Courier and Symbol
         self._fonts_registered = True
     
     def get_available_fonts(self) -> List[str]:
         """Return list of available font families"""
-        return list(self.available_fonts.keys())
+        # Include the built-in ReportLab fonts
+        return ["Helvetica", "Times-Roman", "Courier"]
     
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""
-        if font_family not in self.available_fonts:
-            font_family = self.default_font
+        # Only use built-in fonts to avoid conversion issues
+        if font_family not in ["Helvetica", "Times-Roman", "Courier"]:
+            font_family = "Helvetica"
             
-        if bold and italic:
-            return f"{font_family}-bolditalic"
-        elif bold:
-            return f"{font_family}-bold"
-        elif italic:
-            return f"{font_family}-italic"
+        # Map to built-in fonts with appropriate styles
+        if font_family == "Helvetica":
+            if bold and italic:
+                return "Helvetica-BoldOblique"
+            elif bold:
+                return "Helvetica-Bold"
+            elif italic:
+                return "Helvetica-Oblique"
+            else:
+                return "Helvetica"
+        elif font_family == "Times-Roman":
+            if bold and italic:
+                return "Times-BoldItalic"
+            elif bold:
+                return "Times-Bold"
+            elif italic:
+                return "Times-Italic"
+            else:
+                return "Times-Roman"
+        elif font_family == "Courier":
+            if bold and italic:
+                return "Courier-BoldOblique"
+            elif bold:
+                return "Courier-Bold"
+            elif italic:
+                return "Courier-Oblique"
+            else:
+                return "Courier"
         else:
-            return font_family
+            return "Helvetica"
 
 
 # Create a singleton instance

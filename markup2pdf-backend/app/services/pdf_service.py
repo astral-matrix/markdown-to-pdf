@@ -70,24 +70,57 @@ class PDFService:
         styles['Heading3'].fontSize = base_size * 1.25
         styles['Heading3'].leading = base_size * 1.25 * line_spacing
         
-        # Code style
-        code_style = ParagraphStyle(
-            'Code',
-            fontName='Source Code Pro',
-            fontSize=base_size - 1,
-            leading=(base_size - 1) * line_spacing,
-            backColor=colors.lightgrey,
-            borderPadding=5,
-        )
-        styles.add(code_style)
+        # Add Code style only if it doesn't exist already
+        if 'Code' not in styles:
+            code_style = ParagraphStyle(
+                'Code',
+                fontName='Courier',
+                fontSize=base_size - 1,
+                leading=(base_size - 1) * line_spacing,
+                backColor=colors.lightgrey,
+                borderPadding=5,
+            )
+            styles.add(code_style)
         
         return styles
         
     def generate_pdf_reportlab(self, request: PDFGenerationRequest) -> bytes:
-        """Generate PDF using ReportLab (to be implemented)"""
-        # TODO: Implement full ReportLab PDF generation
-        # For now, we'll use WeasyPrint as a fallback
-        return self.generate_pdf_weasyprint(request)
+        """Generate PDF using ReportLab"""
+        # Convert markdown to HTML
+        html_content = markdown_service.convert_to_html(request.markup)
+        
+        # Create a BytesIO object to store the PDF
+        pdf_buffer = io.BytesIO()
+        
+        # Create a PDF document
+        doc = SimpleDocTemplate(
+            pdf_buffer,
+            pagesize=self.page_size,
+            leftMargin=self.margin,
+            rightMargin=self.margin,
+            topMargin=self.margin,
+            bottomMargin=self.margin
+        )
+        
+        # Set up styles based on user preferences
+        styles = self._setup_styles(
+            request.font_family, 
+            request.size_level, 
+            request.spacing
+        )
+        
+        # Process the HTML content into ReportLab flowables
+        # For now, we'll just create a basic paragraph
+        flowables = [
+            Paragraph(html_content, styles['Normal'])
+        ]
+        
+        # Build the PDF
+        doc.build(flowables)
+        
+        # Get the PDF bytes
+        pdf_buffer.seek(0)
+        return pdf_buffer.getvalue()
     
     def generate_pdf_weasyprint(self, request: PDFGenerationRequest) -> bytes:
         """Generate PDF using WeasyPrint as a fallback"""
@@ -98,10 +131,8 @@ class PDFService:
         pdf_buffer = io.BytesIO()
         
         # Use WeasyPrint to generate PDF
-        HTML(string=html_content).write_pdf(
-            pdf_buffer,
-            presentational_hints=True,
-        )
+        html = HTML(string=html_content)
+        html.write_pdf(pdf_buffer)
         
         # Get the PDF bytes
         pdf_buffer.seek(0)
