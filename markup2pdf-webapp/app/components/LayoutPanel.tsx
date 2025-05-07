@@ -8,7 +8,9 @@ export function LayoutPanel() {
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 rounded-md">
-      <h2 className="text-lg font-medium">Layout</h2>
+      <h2 className="text-xl font-bold text-gray-900 pb-2 border-b border-gray-200">
+        Layout
+      </h2>
 
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">

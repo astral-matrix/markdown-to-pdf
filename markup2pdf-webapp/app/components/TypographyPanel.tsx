@@ -8,7 +8,9 @@ export function TypographyPanel() {
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 rounded-md">
-      <h2 className="text-lg font-medium">Typography</h2>
+      <h2 className="text-xl font-bold text-gray-900 pb-2 border-b border-gray-200">
+        Typography
+      </h2>
 
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
@@ -48,9 +50,9 @@ export function TypographyPanel() {
               step={1}
               value={sizeLevel}
               onChange={(e) => setSizeLevel(Number(e.target.value))}
-              className="w-full"
+              className="w-3/4"
             />
-            <span className="text-sm font-medium w-24">
+            <span className="text-sm font-medium w-32 text-gray-900">
               {sizeLevelToName(sizeLevel)}
             </span>
           </div>

@@ -65,7 +65,9 @@ function EditorPage() {
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white shadow-sm rounded-md p-4">
-            <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900">
+              Markdown Editor
+            </h2>
             <MarkupEditor value={markup} onChange={setMarkup} />
           </div>
 

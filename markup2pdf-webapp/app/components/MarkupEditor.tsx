@@ -29,7 +29,7 @@ export function MarkupEditor({
         ref={textareaRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-full min-h-[300px] p-4 font-mono text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+        className="w-full h-full min-h-[300px] p-4 font-mono text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-400"
         placeholder="# Enter your markdown here
 
 ## Example Content
