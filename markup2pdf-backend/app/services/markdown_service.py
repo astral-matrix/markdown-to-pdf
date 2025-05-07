@@ -21,6 +21,8 @@ import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.tables import TableExtension
 from markdown.extensions.fenced_code import FencedCodeExtension
+from markdown.extensions import Extension
+from markdown.inlinepatterns import SubstituteTagInlineProcessor
 
 
 # ---------- helpers ---------------------------------------------------------
@@ -74,6 +76,14 @@ def preserve_code_block_whitespace(html: str) -> str:
     
     return html
 
+# Custom extension to handle line breaks
+class LineBreakExtension(Extension):
+    """Extension to convert newlines to <br> tags."""
+    def extendMarkdown(self, md):
+        # This pattern matches newlines not in code blocks
+        pattern = r'(?<!\n)\n(?!\n)'  # Match single newlines
+        processor = SubstituteTagInlineProcessor(pattern, 'br')
+        md.inlinePatterns.register(processor, 'linebreaks', 175)  # Priority higher than nl2br
 
 class MarkdownService:
     """Singleton service that converts Markdown to HTML."""
@@ -82,6 +92,7 @@ class MarkdownService:
         TableExtension(),
         CodeHiliteExtension(css_class="code-highlight", pygments_style="github-dark", linenums=False),
         FencedCodeExtension(),  # Explicitly add fenced code extension
+        LineBreakExtension(),  # Add our custom line break extension
     ]
 
     def convert_to_html(self, markdown_text: str, css: str | None = None) -> str:
@@ -93,6 +104,14 @@ class MarkdownService:
         
         # Ensure code blocks preserve whitespace
         html_body = preserve_code_block_whitespace(html_body)
+        
+        # Handle paragraph breaks more explicitly to ensure they render in PDF
+        # This replaces double newlines with properly spaced paragraphs
+        html_body = re.sub(r'</p>\s*<p>', '</p>\n\n<p>', html_body)
+        
+        # Ensure single line breaks within paragraphs are preserved (CommonMark treats single newlines as spaces)
+        # We need to do this after markdown conversion for content not in code blocks
+        html_body = re.sub(r'([^>])\n([^<])', r'\1<br>\n\2', html_body)
         
         if css:
             return f"""
