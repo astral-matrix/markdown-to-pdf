@@ -33,6 +33,16 @@ _GLYPH_MAP: dict[str, str] = {
     "\u2019": "'",   # right single quote
     "\u201c": '"',   # left double quote
     "\u201d": '"',   # right double quote
+    "\~": '~',   # tilde
+    "\&": '&amp;',   # ampersand
+    "\#": '#',   # hash
+    "\*": '*',   # asterisk
+    "\_": '_',   # underscore
+    "\+": '+',   # plus
+    "\-": '-',   # dash
+    "\=": '=',   # equals
+
+
 }
 
 def sanitize_glyphs(text: str) -> str:
