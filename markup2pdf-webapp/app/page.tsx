@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MarkupEditor } from "./components/MarkupEditor";
-import { PreviewCard } from "./components/PreviewCard";
+import { TypographyPanel } from "./components/TypographyPanel";
+import { LayoutPanel } from "./components/LayoutPanel";
+import { GenerateButton } from "./components/GenerateButton";
+import { PDFPreview } from "./components/PDFPreview";
 import { usePDFStore } from "./store/pdfStore";
 import { api, PDFGenerationRequest, SpacingOption } from "./lib/api";
 
@@ -53,16 +56,28 @@ function EditorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold text-gray-900">
             Markup to PDF Converter
           </h1>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto w-full py-6 px-4 sm:px-6 lg:px-8 flex-grow">
+        {/* Formatting Controls */}
+        <div className="bg-white shadow-sm rounded-md p-4 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 pb-2 border-b border-gray-200 mb-4">
+            Formatting Options
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TypographyPanel />
+            <LayoutPanel />
+          </div>
+        </div>
+
+        {/* Editor and Preview Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white shadow-sm rounded-md p-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
@@ -71,14 +86,19 @@ function EditorPage() {
             <MarkupEditor value={markup} onChange={setMarkup} />
           </div>
 
-          <div>
-            <PreviewCard request={pdfRequest} />
+          <div className="bg-white shadow-sm rounded-md">
+            <PDFPreview request={pdfRequest} />
           </div>
+        </div>
+
+        {/* Generate Button Section */}
+        <div className="mt-6">
+          <GenerateButton request={pdfRequest} disabled={!markup.trim()} />
         </div>
       </main>
 
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-white border-t mt-auto">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 text-sm">
             &copy; {new Date().getFullYear()} Markup to PDF Converter
           </p>
