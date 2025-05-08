@@ -1,10 +1,10 @@
-import React from "react";
-import { usePDFStore } from "../store/pdfStore";
+import React, { memo } from "react";
+import { useLayout } from "./FormattingContext";
 import { SpacingOption } from "../lib/api";
 
-export function LayoutPanel() {
+function LayoutPanelComponent() {
   const { spacing, autoWidthTables, setSpacing, setAutoWidthTables } =
-    usePDFStore();
+    useLayout();
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 rounded-md">
@@ -51,3 +51,6 @@ export function LayoutPanel() {
     </div>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const LayoutPanel = memo(LayoutPanelComponent);

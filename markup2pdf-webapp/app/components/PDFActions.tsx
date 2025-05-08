@@ -2,26 +2,17 @@ import React, { memo, useMemo } from "react";
 import { FilenameInput } from "./FilenameInput";
 import { GenerateButton } from "./GenerateButton";
 import { PDFGenerationRequest } from "../lib/api";
-import { usePDFStore } from "../store/pdfStore";
+import { useTypography, useLayout, useFilename } from "./FormattingContext";
 
 interface PDFActionsProps {
   markup: string;
 }
 
 function PDFActionsComponent({ markup }: PDFActionsProps) {
-  // Only access store values needed for the PDF request
-  // Explicitly NOT subscribing to filename changes - that's handled by FilenameInput
-  const { fontFamily, sizeLevel, spacing, autoWidthTables } = usePDFStore(
-    (state) => ({
-      fontFamily: state.fontFamily,
-      sizeLevel: state.sizeLevel,
-      spacing: state.spacing,
-      autoWidthTables: state.autoWidthTables,
-    })
-  );
-
-  // Get filename separately so this component doesn't re-render when filename changes
-  const filename = usePDFStore((state) => state.filename);
+  // Get values from specific contexts to prevent unnecessary re-renders
+  const { fontFamily, sizeLevel } = useTypography();
+  const { spacing, autoWidthTables } = useLayout();
+  const { filename } = useFilename();
 
   // Memoize the PDF request object to prevent unnecessary re-creation
   const pdfRequest: PDFGenerationRequest = useMemo(

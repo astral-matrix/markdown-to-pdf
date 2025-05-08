@@ -6,7 +6,11 @@ import { MarkupEditor } from "./components/MarkupEditor";
 import { TypographyPanel } from "./components/TypographyPanel";
 import { LayoutPanel } from "./components/LayoutPanel";
 import { PDFPreview } from "./components/PDFPreview";
-import { usePDFStore } from "./store/pdfStore";
+import {
+  FormattingProvider,
+  useTypography,
+  useLayout,
+} from "./components/FormattingContext";
 import { api, PDFGenerationRequest } from "./lib/api";
 import { PDFActions } from "./components/PDFActions";
 
@@ -22,15 +26,17 @@ const queryClient = new QueryClient({
 export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
-      <EditorPage />
+      <FormattingProvider>
+        <EditorPage />
+      </FormattingProvider>
     </QueryClientProvider>
   );
 }
 
 function EditorPage() {
   const [markup, setMarkup] = useState<string>("");
-  const { fontFamily, sizeLevel, spacing, autoWidthTables, setAvailableFonts } =
-    usePDFStore();
+  const { setAvailableFonts, fontFamily, sizeLevel } = useTypography();
+  const { spacing, autoWidthTables } = useLayout();
 
   // Fetch available fonts on component mount
   useEffect(() => {

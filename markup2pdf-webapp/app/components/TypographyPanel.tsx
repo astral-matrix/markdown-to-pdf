@@ -1,10 +1,10 @@
-import React from "react";
-import { usePDFStore } from "../store/pdfStore";
+import React, { memo } from "react";
+import { useTypography } from "./FormattingContext";
 import { sizeLevelToName } from "../lib/utils";
 
-export function TypographyPanel() {
+function TypographyPanelComponent() {
   const { fontFamily, availableFonts, sizeLevel, setFontFamily, setSizeLevel } =
-    usePDFStore();
+    useTypography();
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 rounded-md">
@@ -61,3 +61,6 @@ export function TypographyPanel() {
     </div>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const TypographyPanel = memo(TypographyPanelComponent);

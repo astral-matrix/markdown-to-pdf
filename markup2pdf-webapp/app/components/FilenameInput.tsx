@@ -1,15 +1,15 @@
 import React, { useState, useCallback, memo, useEffect } from "react";
-import { usePDFStore } from "../store/pdfStore";
+import { useFilename } from "./FormattingContext";
 
 interface FilenameInputProps {
   className?: string;
 }
 
 function FilenameInputComponent({ className }: FilenameInputProps) {
-  const { filename, setFilename } = usePDFStore();
+  const { filename, setFilename } = useFilename();
   const [localFilename, setLocalFilename] = useState(filename);
 
-  // Set up debouncing - only update the global store after typing stops for 300ms
+  // Set up debouncing - only update the global state after typing stops for 300ms
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localFilename !== filename) {
@@ -20,7 +20,7 @@ function FilenameInputComponent({ className }: FilenameInputProps) {
     return () => clearTimeout(timer);
   }, [localFilename, setFilename, filename]);
 
-  // Handle local state change without updating the store immediately
+  // Handle local state change without updating the global state immediately
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalFilename(e.target.value);
   }, []);
