@@ -17,7 +17,11 @@ export function GenerateButton({
     onSuccess: (data) => {
       // Save the PDF with a timestamp in the filename
       const timestamp = getTimestampForFilename();
-      savePDF(data, `document-${timestamp}.pdf`);
+      const baseFilename =
+        request.filename && request.filename.trim()
+          ? request.filename
+          : "document";
+      savePDF(data, `${baseFilename}-${timestamp}.pdf`);
     },
   });
 
@@ -25,11 +29,11 @@ export function GenerateButton({
   const hasError = generatePdfMutation.isError;
 
   return (
-    <div className="space-y-2">
+    <div>
       <button
         onClick={() => generatePdfMutation.mutate(request)}
         disabled={disabled || isLoading}
-        className={`w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center justify-center transition-colors
+        className={`w-full h-10 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center justify-center transition-colors
           ${disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""}
         `}
       >
@@ -63,7 +67,7 @@ export function GenerateButton({
       </button>
 
       {hasError && (
-        <div className="text-red-500 text-sm text-center">
+        <div className="text-red-500 text-sm text-center mt-2">
           Error generating PDF. Please try again.
         </div>
       )}

@@ -16,6 +16,7 @@ class PDFGenerationRequest(BaseModel):
     size_level: int = Field(3, ge=1, le=5)
     spacing: SpacingOption = SpacingOption.DEFAULT
     auto_width_tables: bool = True
+    filename: Optional[str] = None
 
     @validator("markup")
     def markup_must_not_be_empty(cls, v):

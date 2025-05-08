@@ -17,12 +17,17 @@ async def generate_pdf(request: PDFGenerationRequest):
         # Generate PDF
         pdf_bytes = pdf_service.generate_pdf(request)
         
+        # Use provided filename or default to "document"
+        filename = "document.pdf"
+        if request.filename:
+            filename = f"{request.filename}.pdf"
+            
         # Return the PDF as a streaming response
         return StreamingResponse(
             io.BytesIO(pdf_bytes),
             media_type="application/pdf",
             headers={
-                "Content-Disposition": "attachment; filename=document.pdf"
+                "Content-Disposition": f"attachment; filename={filename}"
             }
         )
     except Exception as e:

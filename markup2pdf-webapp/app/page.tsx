@@ -29,8 +29,15 @@ export default function Home() {
 
 function EditorPage() {
   const [markup, setMarkup] = useState<string>("");
-  const { fontFamily, sizeLevel, spacing, autoWidthTables, setAvailableFonts } =
-    usePDFStore();
+  const {
+    fontFamily,
+    sizeLevel,
+    spacing,
+    autoWidthTables,
+    setAvailableFonts,
+    filename,
+    setFilename,
+  } = usePDFStore();
 
   // Fetch available fonts on component mount
   useEffect(() => {
@@ -53,6 +60,12 @@ function EditorPage() {
     size_level: sizeLevel,
     spacing: spacing as SpacingOption,
     auto_width_tables: autoWidthTables,
+    filename: filename,
+  };
+
+  // Handle filename change
+  const handleFilenameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilename(e.target.value);
   };
 
   return (
@@ -75,9 +88,37 @@ function EditorPage() {
             <TypographyPanel />
             <LayoutPanel />
           </div>
+          {/* Start Generate Button Section */}
+          <div className="bg-white  rounded-md p-4 mb-4">
+            <div className="flex items-end space-x-4">
+              <div>
+                <label
+                  htmlFor="filename"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Filename (optional)
+                </label>
+                <input
+                  type="text"
+                  id="filename"
+                  name="filename"
+                  placeholder="Optional filename"
+                  value={filename}
+                  onChange={handleFilenameChange}
+                  className="block w-96 rounded-md border p-2 h-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+              <div className="pb-0">
+                <GenerateButton
+                  request={pdfRequest}
+                  disabled={!markup.trim()}
+                />
+              </div>
+            </div>
+          </div>
+          {/* End Generate Button Section */}
         </div>
-
-        {/* Editor and Preview Section */}
+        {/* Generate Button Section */}n{/* Editor and Preview Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white shadow-sm rounded-md p-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
@@ -89,11 +130,6 @@ function EditorPage() {
           <div className="bg-white shadow-sm rounded-md">
             <PDFPreview request={pdfRequest} />
           </div>
-        </div>
-
-        {/* Generate Button Section */}
-        <div className="mt-6">
-          <GenerateButton request={pdfRequest} disabled={!markup.trim()} />
         </div>
       </main>
 

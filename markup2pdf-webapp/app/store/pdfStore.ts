@@ -18,6 +18,10 @@ interface PDFState {
   setSpacing: (spacing: SpacingOption) => void;
   setAutoWidthTables: (auto: boolean) => void;
 
+  // File settings
+  filename: string;
+  setFilename: (filename: string) => void;
+
   // Reset to defaults
   resetToDefaults: () => void;
 }
@@ -39,6 +43,10 @@ export const usePDFStore = create<PDFState>((set) => ({
   setSpacing: (spacing) => set({ spacing }),
   setAutoWidthTables: (auto) => set({ autoWidthTables: auto }),
 
+  // File settings
+  filename: "",
+  setFilename: (filename) => set({ filename }),
+
   // Reset to defaults
   resetToDefaults: () =>
     set({
@@ -46,5 +54,6 @@ export const usePDFStore = create<PDFState>((set) => ({
       sizeLevel: 3,
       spacing: SpacingOption.DEFAULT,
       autoWidthTables: true,
+      filename: "",
     }),
 }));
