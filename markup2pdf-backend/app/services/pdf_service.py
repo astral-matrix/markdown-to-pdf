@@ -15,6 +15,7 @@ from weasyprint import HTML
 
 from app.models import PDFGenerationRequest
 from app.services.markdown_service import markdown_service
+from app.services.font_service import font_service
 
 # ---------------------------------------------------------------------------
 # CSS templates
@@ -35,7 +36,7 @@ body {{
 }}
 
 code, pre {{
-  font-family: 'Source Code Pro', 'DejaVu Sans Mono', monospace;
+  font-family: '{monospace_font}', 'DejaVu Sans Mono', monospace;
 }}
 
 table {{
@@ -83,11 +84,15 @@ class PDFService:
     # ---------------------------------------------------------------------
 
     def generate_pdf(self, request: PDFGenerationRequest) -> bytes:
-        """Generate PDF from markdown respecting the user’s styling choices."""
+        """Generate PDF from markdown respecting the user's styling choices."""
+        # Ensure fonts are registered
+        font_service.register_fonts()
+        
+        # Build CSS with font settings
         css = self._build_css(request)
         html_doc = markdown_service.convert_to_html(request.markup, css=css)
 
-                # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
+        # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:
             return HTML(string=html_doc, base_url=str(Path.cwd())).write_pdf()
         except TypeError:
@@ -110,11 +115,15 @@ class PDFService:
         line_height = _SPACING_LEVELS.get(spacing_key, 1.4)
 
         font_stack = _FONT_STACKS.get(getattr(request, "font_family", "Inter"), "'DejaVu Sans', sans-serif")
+        
+        # Get the monospace font to use for code blocks
+        monospace_font = font_service.get_monospace_font()
 
         body_css = _BODY_CSS_TEMPLATE.format(
             font_stack=font_stack,
             base_size=base_size,
             line_height=line_height,
+            monospace_font=monospace_font
         )
 
         return _PAGE_CSS + body_css

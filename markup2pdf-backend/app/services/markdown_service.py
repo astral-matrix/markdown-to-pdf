@@ -24,6 +24,8 @@ from markdown.extensions.fenced_code import FencedCodeExtension
 from markdown.extensions import Extension
 from markdown.inlinepatterns import SubstituteTagInlineProcessor
 
+# Import font service to get the monospace font
+from app.services.font_service import font_service
 
 # ---------- helpers ---------------------------------------------------------
 
@@ -54,11 +56,14 @@ def sanitize_glyphs(text: str) -> str:
 
 def preserve_code_block_whitespace(html: str) -> str:
     """Ensure code blocks preserve their whitespace by properly handling pre/code tags."""
+    # Get the monospace font to use for code blocks
+    monospace_font = font_service.get_monospace_font()
+    
     # Make sure pre tags have the necessary CSS for whitespace preservation and styling
     pre_style = (
         'style="white-space: pre-wrap; word-break: keep-all; '
         'background-color: #f5f7f9; border-radius: 8px; padding: 16px; '
-        'font-family: monospace; margin: 16px 0; display: inline-block; '
+        f'font-family: {monospace_font}, monospace; margin: 16px 0; display: inline-block; '
         'min-width: 40%; max-width: 100%; overflow-x: auto;"'
     )
     
@@ -113,6 +118,9 @@ class MarkdownService:
         # We need to do this after markdown conversion for content not in code blocks
         html_body = re.sub(r'([^>])\n([^<])', r'\1<br>\n\2', html_body)
         
+        # Get the monospace font for CSS
+        monospace_font = font_service.get_monospace_font()
+        
         if css:
             return f"""
 <!doctype html>
@@ -129,7 +137,7 @@ class MarkdownService:
         background-color: #f5f7f9;
         border-radius: 8px;
         padding: 16px;
-        font-family: monospace;
+        font-family: {monospace_font}, monospace;
         margin: 16px 0;
         display: inline-block;
         min-width: 40%;
@@ -138,7 +146,7 @@ class MarkdownService:
     }}
     code {{
         white-space: pre-wrap;
-        font-family: monospace;
+        font-family: {monospace_font}, monospace;
     }}
     </style>
   </head>
