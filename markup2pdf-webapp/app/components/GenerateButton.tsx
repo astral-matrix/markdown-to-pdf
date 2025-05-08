@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api, PDFGenerationRequest } from "../lib/api";
 import { savePDF, getTimestampForFilename } from "../lib/utils";
@@ -8,7 +8,7 @@ interface GenerateButtonProps {
   disabled?: boolean;
 }
 
-export function GenerateButton({
+function GenerateButtonComponent({
   request,
   disabled = false,
 }: GenerateButtonProps) {
@@ -74,3 +74,6 @@ export function GenerateButton({
     </div>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const GenerateButton = memo(GenerateButtonComponent);

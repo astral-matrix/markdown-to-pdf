@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo, useCallback } from "react";
 import { cn } from "../lib/utils";
 
 interface MarkupEditorProps {
@@ -7,21 +7,27 @@ interface MarkupEditorProps {
   className?: string;
 }
 
-export function MarkupEditor({
+function MarkupEditorComponent({
   value,
   onChange,
   className,
 }: MarkupEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-resize textarea is removed to maintain fixed height
+  // Memoize the change handler
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      onChange(e.target.value);
+    },
+    [onChange]
+  );
 
   return (
     <div className={cn("relative w-full", className)}>
       <textarea
         ref={textareaRef}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
         className="w-full min-h-[300px] h-[300px] p-4 font-mono text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-400"
         placeholder="# Enter your markdown here
 
@@ -48,3 +54,6 @@ console.log('Code block example');
     </div>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const MarkupEditor = memo(MarkupEditorComponent);

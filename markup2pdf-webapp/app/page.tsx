@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MarkupEditor } from "./components/MarkupEditor";
 import { TypographyPanel } from "./components/TypographyPanel";
 import { LayoutPanel } from "./components/LayoutPanel";
-import { GenerateButton } from "./components/GenerateButton";
 import { PDFPreview } from "./components/PDFPreview";
 import { usePDFStore } from "./store/pdfStore";
-import { api, PDFGenerationRequest, SpacingOption } from "./lib/api";
+import { api, PDFGenerationRequest } from "./lib/api";
+import { PDFActions } from "./components/PDFActions";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -29,15 +29,8 @@ export default function Home() {
 
 function EditorPage() {
   const [markup, setMarkup] = useState<string>("");
-  const {
-    fontFamily,
-    sizeLevel,
-    spacing,
-    autoWidthTables,
-    setAvailableFonts,
-    filename,
-    setFilename,
-  } = usePDFStore();
+  const { fontFamily, sizeLevel, spacing, autoWidthTables, setAvailableFonts } =
+    usePDFStore();
 
   // Fetch available fonts on component mount
   useEffect(() => {
@@ -53,20 +46,17 @@ function EditorPage() {
     fetchFonts();
   }, [setAvailableFonts]);
 
-  // Create PDF generation request
-  const pdfRequest: PDFGenerationRequest = {
-    markup,
-    font_family: fontFamily,
-    size_level: sizeLevel,
-    spacing: spacing as SpacingOption,
-    auto_width_tables: autoWidthTables,
-    filename: filename,
-  };
-
-  // Handle filename change
-  const handleFilenameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilename(e.target.value);
-  };
+  // Create PDF generation request - memoized to prevent unnecessary recreations
+  const pdfRequest: PDFGenerationRequest = useMemo(
+    () => ({
+      markup,
+      font_family: fontFamily,
+      size_level: sizeLevel,
+      spacing,
+      auto_width_tables: autoWidthTables,
+    }),
+    [markup, fontFamily, sizeLevel, spacing, autoWidthTables]
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -88,37 +78,12 @@ function EditorPage() {
             <TypographyPanel />
             <LayoutPanel />
           </div>
-          {/* Start Generate Button Section */}
-          <div className="bg-white  rounded-md p-4 mb-4">
-            <div className="flex items-end space-x-4">
-              <div>
-                <label
-                  htmlFor="filename"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Filename (optional)
-                </label>
-                <input
-                  type="text"
-                  id="filename"
-                  name="filename"
-                  placeholder="Optional filename"
-                  value={filename}
-                  onChange={handleFilenameChange}
-                  className="block w-96 rounded-md border p-2 h-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                />
-              </div>
-              <div className="pb-0">
-                <GenerateButton
-                  request={pdfRequest}
-                  disabled={!markup.trim()}
-                />
-              </div>
-            </div>
-          </div>
-          {/* End Generate Button Section */}
+
+          {/* PDF Actions Section (including Filename input and Generate button) */}
+          <PDFActions markup={markup} />
         </div>
-        {/* Generate Button Section */}n{/* Editor and Preview Section */}
+
+        {/* Editor and Preview Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white shadow-sm rounded-md p-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
