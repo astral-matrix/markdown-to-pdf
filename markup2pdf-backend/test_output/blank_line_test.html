@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Blank Line Test</title>
+    <style>
+    /* List styling to support proper nesting */
+    ul, ol {
+        margin: 0.5em 0 0.5em 1em;
+        padding-left: 1em;
+    }
+    ul li, ol li {
+        margin-bottom: 0.25em;
+    }
+    li ul, li ol {
+        margin-top: 0.25em;
+    }
+    .nested-list {
+        margin-left: 1em !important;
+    }
+    /* Add increasing indentation based on nesting level */
+    .nested-list[data-level="1"] {
+        margin-left: 1em !important;
+    }
+    .nested-list[data-level="2"] {
+        margin-left: 1.5em !important;
+    }
+    .nested-list[data-level="3"] {
+        margin-left: 2em !important;
+    }
+    </style>
+</head>
+<body>
+<h2>Works - No blank line</h2>
+<ul>
+<li><strong>Correctness</strong> -<ul class="nested-list" data-level="1">
+<li>histories stay sorted because inputs are strictly increasing;</li>
+<li><code>bisect_right</code> ensures we choose the greatest <code>timestamp_prev ≤ timestamp</code>.</li>
+</ul>
+</li>
+<li><strong>Performance</strong> - With ≤ 2 × 10⁵ total calls, worst-case <code>get</code> does log₂(10⁵) ≈ 17 steps, far under limits.</li>
+<li><strong>Memory</strong> - Exactly one copy of each <code>(timestamp, value)</code> pair, so <strong>O(total sets)</strong>.</li>
+</ul>
+<h2>Problematic - Blank line after parent item</h2>
+<ul class="nested-list">
+<li><strong>Correctness</strong> -<ul class="nested-list" data-level="1">
+<li>histories stay sorted because inputs are strictly increasing;</li>
+<li><code>bisect_right</code> ensures we choose the greatest <code>timestamp_prev ≤ timestamp</code>.</li>
+</ul>
+</li>
+<li><strong>Performance</strong> - With ≤ 2 × 10⁵ total calls, worst-case <code>get</code> does log₂(10⁵) ≈ 17 steps, far under limits.</li>
+<li><strong>Memory</strong> - Exactly one copy of each <code>(timestamp, value)</code> pair, so <strong>O(total sets)</strong>.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Nested List Test</title>
+    <style>
+    /* List styling to support proper nesting */
+    ul, ol {
+        margin: 0.5em 0 0.5em 1em;
+        padding-left: 1em;
+    }
+    ul li, ol li {
+        margin-bottom: 0.25em;
+    }
+    li ul, li ol {
+        margin-top: 0.25em;
+    }
+    .nested-list {
+        margin-left: 1em !important;
+    }
+    /* Add increasing indentation based on nesting level */
+    .nested-list[data-level="1"] {
+        margin-left: 1em !important;
+    }
+    .nested-list[data-level="2"] {
+        margin-left: 1.5em !important;
+    }
+    .nested-list[data-level="3"] {
+        margin-left: 2em !important;
+    }
+    .nested-list[data-level="4"] {
+        margin-left: 2.5em !important;
+    }
+    .nested-list[data-level="5"] {
+        margin-left: 3em !important;
+    }
+    </style>
+</head>
+<body>
+<h1>Nested List Test</h1>
+<ul>
+<li>Level 1 Item A<ul class="nested-list" data-level="1">
+<li>Level 2 Item A.1<ul class="nested-list" data-level="2">
+<li>Level 3 Item A.1.1</li>
+<li>Level 3 Item A.1.2</li>
+</ul>
+</li>
+<li>Level 2 Item A.2</li>
+</ul>
+</li>
+<li>
+<p>Level 1 Item B</p>
+<ul class="nested-list" data-level="1">
+<li>Level 2 Item B.1<ul class="nested-list" data-level="2">
+<li>Level 3 Item B.1.1<ul class="nested-list" data-level="3">
+<li>Level 4 Item B.1.1.1<ul class="nested-list" data-level="4">
+<li>Level 5 Item B.1.1.1.1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Ordered List Item 1</p>
+<ol class="nested-list" data-level="1">
+<li>Nested Ordered Item 1.1<br />
+        1. Nested Ordered Item 1.1.1</li>
+<li>Nested Ordered Item 1.2</li>
+</ol>
+</li>
+<li>Ordered List Item 2<ul class="nested-list" data-level="1">
+<li>Mixed List Item 2.1<ul class="nested-list" data-level="2">
+<li>Mixed List Item 2.1.1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1>Problem Requirements List Test</h1>
+<ul class="nested-list">
+<li><strong>Correctness</strong> -<ul class="nested-list" data-level="1">
+<li>histories stay sorted because inputs are strictly increasing;</li>
+<li><code>bisect_right</code> ensures we choose the greatest <code>timestamp_prev ≤ timestamp</code>.</li>
+</ul>
+</li>
+<li><strong>Performance</strong> - With ≤ 2 × 10⁵ total calls, worst-case <code>get</code> does log₂(10⁵) ≈ 17 steps, far under limits.</li>
+<li><strong>Memory</strong> - Exactly one copy of each <code>(timestamp, value)</code> pair, so <strong>O(total sets)</strong>.</li>
+</ul>
+</body>
+</html>
