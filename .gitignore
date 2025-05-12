@@ -94,3 +94,6 @@ Thumbs.db
 *.log
 logs/
 log/ 
+
+# Script generated files
+.running_pids 
