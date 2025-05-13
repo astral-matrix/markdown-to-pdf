@@ -2,6 +2,17 @@
 
 A full-stack web application that converts Markdown to beautifully styled PDFs with customizable typography and layout options.
 
+## Purpose
+
+This application was created to generate high-quality PDFs from ChatGPT responses. Simply:
+
+1. Copy any ChatGPT response using ChatGPT's built-in copy button (which copies the markdown format)
+2. Paste the markdown text into the input box
+3. Customize the typography and layout options
+4. Generate and download a professionally formatted PDF
+
+The app works by preserving all markdown formatting from ChatGPT responses, including code blocks, tables, lists, and other formatting elements. The backend processes the markdown using Python's markdown library with extensions for enhanced features like syntax highlighting, then converts it to PDF using a combination of HTML rendering and PDF generation libraries.
+
 ## Project Structure
 
 This is a monorepo containing:
@@ -25,6 +36,34 @@ This is a monorepo containing:
 | Backend    | Python, FastAPI, Uvicorn, Pydantic                      |
 | PDF Engine | ReportLab (primary), WeasyPrint (fallback)              |
 | Markdown   | markdown-it-py with table and highlight plugins         |
+
+## Quick Start
+
+For convenience, a startup script is provided to launch both the backend and frontend services:
+
+1. Make sure the script is executable:
+
+   ```
+   chmod +x start.sh
+   ```
+
+2. Run the script:
+   ```
+   ./start.sh
+   ```
+
+This will:
+
+- Activate the Python virtual environment
+- Start the backend server in the background
+- Start the frontend development server in the background
+- Save the process IDs to `.running_pids` for easy termination
+
+To stop all services:
+
+```
+kill $(cat .running_pids)
+```
 
 ## Getting Started
 
