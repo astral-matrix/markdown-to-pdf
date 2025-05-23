@@ -28,7 +28,7 @@ function PDFActionsComponent({ markup }: PDFActionsProps) {
   );
 
   return (
-    <div className="bg-white rounded-md p-4 mb-4">
+    <div className="bg-white dark:bg-neutral-900 rounded-md shadow p-4 mb-4">
       <div className="flex items-end space-x-4">
         <FilenameInput />
         <div className="pb-0">
