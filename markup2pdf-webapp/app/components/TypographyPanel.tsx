@@ -7,7 +7,7 @@ function TypographyPanelComponent() {
     useTypography();
 
   return (
-    <div className="space-y-4 p-4 bg-gray-50 dark:bg-neutral-800 rounded-md shadow">
+    <div className="space-y-3 p-4 bg-gray-50 dark:bg-neutral-800 rounded-md shadow">
       <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 pb-2 border-b border-gray-200 dark:border-neutral-700">
         Typography
       </h2>

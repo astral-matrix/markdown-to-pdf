@@ -34,9 +34,11 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
   ]);
 
   return (
-    <div className="border rounded-md shadow-sm bg-white dark:bg-neutral-900 dark:border-neutral-700 overflow-auto">
-      <div className="p-4 border-b dark:border-neutral-700">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">PDF Preview</h2>
+    <div className="border rounded-md shadow-sm bg-white dark:bg-neutral-900 dark:border-neutral-800 overflow-auto">
+      <div className="p-4 border-b dark:border-neutral-800">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          PDF Preview
+        </h2>
       </div>
 
       <div className="p-4 min-h-[300px]">

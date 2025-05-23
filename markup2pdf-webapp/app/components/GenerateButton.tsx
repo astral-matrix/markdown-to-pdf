@@ -33,7 +33,7 @@ function GenerateButtonComponent({
       <button
         onClick={() => generatePdfMutation.mutate(request)}
         disabled={disabled || isLoading}
-        className={`w-full h-10 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center justify-center transition-colors
+        className={`w-full h-8 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center justify-center transition-colors
           ${disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""}
         `}
       >
