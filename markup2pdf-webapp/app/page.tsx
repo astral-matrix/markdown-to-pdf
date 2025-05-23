@@ -74,14 +74,14 @@ function EditorPage() {
 
       <main className="flex-grow max-w-7xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-4">
-          <aside className="space-y-6 lg:col-span-1">
+          <aside className="space-y-6 lg:col-span-1 min-w-64">
             <TypographyPanel />
             <LayoutPanel />
             <PDFActions markup={markup} />
           </aside>
 
-          <div className="space-y-6 lg:col-span-3">
-            <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4">
+          <div className="space-y-6 lg:col-span-3 ">
+            <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 ">
               <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
               <MarkupEditor value={markup} onChange={setMarkup} />
             </div>

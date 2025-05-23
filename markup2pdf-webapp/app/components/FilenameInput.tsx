@@ -40,7 +40,7 @@ function FilenameInputComponent({ className }: FilenameInputProps) {
         placeholder="Optional filename"
         value={localFilename}
         onChange={handleChange}
-        className="block w-96 rounded-md border p-2 h-10 text-gray-900 dark:text-gray-100 bg-white dark:bg-neutral-900 border-gray-300 dark:border-neutral-700 focus:border-blue-500 focus:ring-blue-500"
+        className="block w-full rounded-md border p-2 h-10 text-gray-900 dark:text-gray-100 bg-white dark:bg-neutral-900 border-gray-300 dark:border-neutral-700 focus:border-blue-500 focus:ring-blue-500"
       />
     </div>
   );

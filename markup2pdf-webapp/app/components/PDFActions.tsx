@@ -28,12 +28,12 @@ function PDFActionsComponent({ markup }: PDFActionsProps) {
   );
 
   return (
-    <div className="bg-white dark:bg-neutral-900 rounded-md shadow p-4 mb-4">
+    <div className="bg-white dark:bg-neutral-900 rounded-md shadow p-4 mb-4 min-w-64 border dark:border-neutral-800 ">
       <div className="flex items-end space-x-4">
         <FilenameInput />
-        <div className="pb-0">
-          <GenerateButton request={pdfRequest} disabled={!markup.trim()} />
-        </div>
+      </div>
+      <div className="flex justify-end items-end space-x-4 pt-4">
+        <GenerateButton request={pdfRequest} disabled={!markup.trim()} />
       </div>
     </div>
   );
