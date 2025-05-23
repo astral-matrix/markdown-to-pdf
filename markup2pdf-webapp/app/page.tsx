@@ -65,48 +65,36 @@ function EditorPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
+      <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Markup to PDF Converter
-          </h1>
+          <h1 className="text-2xl font-bold">Markup to PDF Converter</h1>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto w-full py-6 px-4 sm:px-6 lg:px-8 flex-grow">
-        {/* Formatting Controls */}
-        <div className="bg-white shadow-sm rounded-md p-4 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 pb-2 border-b border-gray-200 mb-4">
-            Formatting Options
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <main className="flex-grow max-w-7xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-4">
+          <aside className="space-y-6 lg:col-span-1">
             <TypographyPanel />
             <LayoutPanel />
-          </div>
+            <PDFActions markup={markup} />
+          </aside>
 
-          {/* PDF Actions Section (including Filename input and Generate button) */}
-          <PDFActions markup={markup} />
-        </div>
-
-        {/* Editor and Preview Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white shadow-sm rounded-md p-4">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900">
-              Markdown Editor
-            </h2>
-            <MarkupEditor value={markup} onChange={setMarkup} />
-          </div>
-
-          <div className="bg-white shadow-sm rounded-md">
-            <PDFPreview request={pdfRequest} />
+          <div className="space-y-6 lg:col-span-3">
+            <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4">
+              <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
+              <MarkupEditor value={markup} onChange={setMarkup} />
+            </div>
+            <div className="bg-white dark:bg-neutral-900 shadow rounded-md">
+              <PDFPreview request={pdfRequest} />
+            </div>
           </div>
         </div>
       </main>
 
-      <footer className="bg-white border-t mt-auto">
+      <footer className="bg-white dark:bg-neutral-900 border-t dark:border-neutral-700 mt-auto">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-gray-500 text-sm">
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
             &copy; {new Date().getFullYear()} Markup to PDF Converter
           </p>
         </div>

@@ -12,10 +12,10 @@ export function PreviewCard({ request }: PreviewCardProps) {
   const isMarkupEmpty = !request.markup.trim();
 
   return (
-    <div className="border rounded-md shadow-sm bg-white overflow-hidden">
-      <div className="p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900">PDF Options</h2>
-        <p className="text-gray-500 text-sm mt-1">
+    <div className="border rounded-md shadow-sm bg-white dark:bg-neutral-900 dark:border-neutral-700 overflow-hidden">
+      <div className="p-4 border-b dark:border-neutral-700">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">PDF Options</h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
           Customize the appearance of your PDF
         </p>
       </div>

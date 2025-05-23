@@ -24,7 +24,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
 }
 
 /* Custom styling for code blocks in markdown preview */
@@ -35,10 +35,18 @@ body {
   overflow-x: auto;
 }
 
+.dark .prose pre {
+  background-color: #1e293b;
+}
+
 .prose code {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   padding: 0.2em 0.4em;
+}
+
+.dark .prose code {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .prose table {
@@ -57,9 +65,18 @@ body {
   background-color: #f5f7f9;
 }
 
+.dark .prose th {
+  background-color: #1e293b;
+}
+
 .prose blockquote {
   border-left: 4px solid #ddd;
   padding-left: 1rem;
   color: #666;
   margin-left: 0;
+}
+
+.dark .prose blockquote {
+  border-left-color: #334155;
+  color: #9ca3af;
 }
