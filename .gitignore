@@ -30,8 +30,9 @@ __pycache__/
 develop-eggs/
 eggs/
 .eggs/
-lib/
+/lib/
 lib64/
+!markup2pdf-webapp/app/lib/
 parts/
 sdist/
 var/
