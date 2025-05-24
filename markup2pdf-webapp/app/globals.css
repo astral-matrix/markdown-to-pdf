@@ -57,7 +57,6 @@ body {
   background-color: #f5f7f9;
 }
 
-
 .prose blockquote {
   border-left: 4px solid #ddd;
   padding-left: 1rem;
@@ -65,3 +64,12 @@ body {
   margin-left: 0;
 }
 
+/* Ensure preview text always uses dark colors */
+.pdf-preview {
+  color: #171717;
+}
+
+.pdf-preview pre,
+.pdf-preview code {
+  color: #171717;
+}
