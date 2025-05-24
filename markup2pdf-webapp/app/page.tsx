@@ -68,7 +68,7 @@ function EditorPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
       <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold">Markup to PDF Converter</h1>
+          <h1 className="text-2xl font-bold">Markdown to PDF Converter</h1>
         </div>
       </header>
 
@@ -95,7 +95,7 @@ function EditorPage() {
       <footer className="bg-white dark:bg-neutral-900 border-t dark:border-neutral-700 mt-auto">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} Markup to PDF Converter
+            &copy; {new Date().getFullYear()} Markdown to PDF Converter
           </p>
         </div>
       </footer>

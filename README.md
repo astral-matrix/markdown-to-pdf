@@ -1,4 +1,4 @@
-# Markup to PDF Converter
+# Markdown to PDF Converter
 
 A full-stack web application that converts Markdown to beautifully styled PDFs with customizable typography and layout options.
 
@@ -158,7 +158,7 @@ The frontend will be available at http://localhost:3000.
 
 ## Project Goals
 
-- **User workflow:** Paste markup → choose typography options → generate PDF → download
+- **User workflow:** Paste markdown → choose typography options → generate PDF → download
 - **Quality:** Output embeds fonts, avoids missing glyphs, wraps table text, supports accessibility tagging
 - **Performance:** Fast generation (< 1s for average documents)
 - **Reliability:** Well-tested, graceful error handling

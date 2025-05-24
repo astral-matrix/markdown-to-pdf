@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Markup to PDF Converter",
+  title: "Markdown to PDF Converter",
   description: "Convert Markdown to beautifully styled PDF documents",
 };
 
