@@ -37,6 +37,13 @@ This is a monorepo containing:
 | PDF Engine | ReportLab (primary), WeasyPrint (fallback)              |
 | Markdown   | markdown-it-py with table and highlight plugins         |
 
+## Prerequisites
+
+This project has been tested with the following runtime versions:
+
+- **Node.js** 22.x
+- **Python** 3.11
+
 ## Quick Start
 
 For convenience, an ENV install script provided:
