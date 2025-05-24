@@ -39,7 +39,7 @@ This is a monorepo containing:
 
 ## Quick Start
 
-For convenience, an ENV install script provided:
+For convenience, an ENV install script is provided:
 "install.sh" installs and configure the frontend and backend ENVs and imports.
 
 NOTE: the "start.sh" script will launch both the backend and frontend services in the background, but processes will have to be manually killed. Thus this script is not recommended. Instead, to keep things simple, run the python server start command and node server start commands in separate terminal windows.
@@ -60,7 +60,7 @@ NOTE: the "start.sh" script will launch both the backend and frontend services i
 - Install all Python dependencies
 - Install all the Node.js dependencies
 
-2. Run the server start commands (from Project Home directory):
+3. Run the server start commands (from Project Home directory):
    Python Server:
 
    ```
