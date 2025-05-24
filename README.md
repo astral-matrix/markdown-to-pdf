@@ -39,15 +39,29 @@ This is a monorepo containing:
 
 ## Quick Start
 
-For convenience, a startup script is provided to launch both the backend and frontend services:
+For convenience, an install and startup script are provided.
+"install.sh" installs and configure the frontend and backend ENVs and imports.
+"start.sh" launches both the backend and frontend services. NOTE: Python and NODE environments need to be setup before running start.sh (either using install.sh or installing the python .venv, python imports, and node modules manually)
 
-1. Make sure the script is executable:
+1. Make sure the scripts is executable:
 
    ```
    chmod +x start.sh
+   chmod +x install.sh
+
    ```
 
-2. Run the script:
+2. Run the ENV install and configuration script:
+   ```
+   ./install.sh
+   ```
+   This will:
+
+- Install and activate the Python virtual environment
+- Install all Python dependencies
+- Install all the Node.js dependencies
+
+2. Run the server start script:
    ```
    ./start.sh
    ```
@@ -65,7 +79,7 @@ To stop all services:
 kill $(cat .running_pids)
 ```
 
-## Getting Started
+## Getting Started - Python ENV (MANUAL SETUP)
 
 ### Backend Setup
 
@@ -75,29 +89,30 @@ kill $(cat .running_pids)
    cd markup2pdf-backend
    ```
 
-2. Create a virtual environment:
+2. Create a virtual environment (dir: markup2pdf-backend/ ):
 
    ```
-   python3 -m venv venv
+   python3 -m venv .venv
    ```
 
-3. Activate the virtual environment:
+3. Activate the virtual environment (dir: markup2pdf-backend/ ):
 
    ```
    # On macOS/Linux
-   source venv/bin/activate
+   source .venv/bin/activate
 
    # On Windows
-   venv\Scripts\activate
+   .venv\Scripts\activate
    ```
 
-4. Install dependencies:
+4. Install dependencies (dir: markup2pdf-backend/ ):
 
    ```
    python3 -m pip install -r requirements.txt
    ```
 
-5. Run the backend server:
+5. Run/ Test the backend server (dir: markup2pdf-backend/ ):
+
    ```
    python3 run.py
    ```
@@ -109,21 +124,23 @@ You can check if the server is running by visiting:
 - API documentation: http://localhost:5000/docs
 - Health check: http://localhost:5000/health
 
+## Getting started - Node.js ENV setup (MANUAL SETUP)
+
 ### Frontend Setup
 
-1. Navigate to the frontend directory:
+1. From Project Root, navigate to the frontend directory:
 
    ```
    cd markup2pdf-webapp
    ```
 
-2. Install dependencies:
+2. Install dependencies (dir: markup2pdf-webapp/ ) :
 
    ```
    npm install
    ```
 
-3. Run the development server:
+3. Run the development server (dir: markup2pdf-webapp/ ):
    ```
    npm run dev
    ```

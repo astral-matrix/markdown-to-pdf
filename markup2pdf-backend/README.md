@@ -2,34 +2,42 @@
 
 Python Flask backend for converting Markdown to PDF.
 
-## Setup
+## Getting Started
 
-1. Create a virtual environment:
+### Backend Setup
 
-```
-python3 -m venv venv
-```
+1. Navigate to the backend directory:
 
-2. Activate the virtual environment:
+   ```
+   cd markup2pdf-backend
+   ```
 
-```
-# On Windows
-venv\Scripts\activate
+2. Create a virtual environment in backend directory (dir: markup2pdf-backend/ ):
 
-# On macOS/Linux
-source venv/bin/activate
-```
+   ```
+   # Create virtual environment
+   python3 -m venv .venv
+   ```
 
-3. Install dependencies:
+3. Activate the virtual environment (dir: markup2pdf-backend/ ):
 
-```
-python3 -m pip install -r requirements.txt
-```
+   ```
+   # On macOS/Linux
+   source .venv/bin/activate
 
-4. Run the application:
+   # On Windows
+   .venv\Scripts\activate
+   ```
 
-```
-python3 run.py
-```
+4. Install dependencies (dir: markup2pdf-backend/ ):
+
+   ```
+   python3 -m pip install -r requirements.txt
+   ```
+
+5. Test the backend server (dir: markup2pdf-backend/ ):
+   ```
+   python3 run.py
+   ```
 
 The server will run on http://localhost:5000 by default.

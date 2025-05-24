@@ -5,7 +5,7 @@ python-multipart
 reportlab
 # WeasyPrint ≥ 62 is compatible with pydyf 0.11 +
 weasyprint>=62
-markdown-it-py
+markdown
 mdit-py-plugins
 pygments
 python-dotenv

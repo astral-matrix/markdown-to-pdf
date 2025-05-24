@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Script to start the markup2pdf backend and webapp
-
+# Run this script from the project root directory
 # Store the project root directory
 PROJECT_ROOT="$(pwd)"
 
 # Activate the Python virtual environment
 echo "Activating Python virtual environment..."
-source .venv/bin/activate || { echo "Failed to activate virtual environment"; exit 1; }
+source markup2pdf-backend/.venv/bin/activate || { echo "Failed to activate virtual environment"; exit 1; }
 echo "Virtual environment activated successfully"
 
 # Start the backend
