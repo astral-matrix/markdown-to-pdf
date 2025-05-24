@@ -39,16 +39,15 @@ This is a monorepo containing:
 
 ## Quick Start
 
-For convenience, an install and startup script are provided.
+For convenience, an ENV install script provided:
 "install.sh" installs and configure the frontend and backend ENVs and imports.
-"start.sh" launches both the backend and frontend services. NOTE: Python and NODE environments need to be setup before running start.sh (either using install.sh or installing the python .venv, python imports, and node modules manually)
 
-1. Make sure the scripts is executable:
+NOTE: the "start.sh" script will launch both the backend and frontend services in the background, but processes will have to be manually killed. Thus this script is not recommended. Instead, to keep things simple, run the python server start command and node server start commands in separate terminal windows.
+
+1. Make sure the install script is executable:
 
    ```
-   chmod +x start.sh
    chmod +x install.sh
-
    ```
 
 2. Run the ENV install and configuration script:
@@ -61,23 +60,26 @@ For convenience, an install and startup script are provided.
 - Install all Python dependencies
 - Install all the Node.js dependencies
 
-2. Run the server start script:
+2. Run the server start commands (from Project Home directory):
+   Python Server:
+
    ```
-   ./start.sh
+   cd markup2pdf-backend
+   python3 run.py
+   ```
+
+   Node.js Web Server:
+
+   ```
+   cd markup2pdf-webapp
+   npm run dev
    ```
 
 This will:
 
-- Activate the Python virtual environment
-- Start the backend server in the background
-- Start the frontend development server in the background
-- Save the process IDs to `.running_pids` for easy termination
-
-To stop all services:
-
-```
-kill $(cat .running_pids)
-```
+- Start the Python backend server
+- Start the frontend development web server
+- Web app URL: http://localhost:3000
 
 ## Getting Started - Python ENV (MANUAL SETUP)
 

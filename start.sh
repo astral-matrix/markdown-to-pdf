@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Script to start the markup2pdf backend and webapp
+# NOTE: This script is not recommended. Instead, run the python server start command and node server start commands in separate terminal windows.
+
 # Run this script from the project root directory
 # Store the project root directory
 PROJECT_ROOT="$(pwd)"
