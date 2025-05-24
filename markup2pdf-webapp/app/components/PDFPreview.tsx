@@ -34,16 +34,16 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
   ]);
 
   return (
-    <div className="border rounded-md shadow-sm bg-white overflow-auto">
+    <div className="pdf-preview border rounded-md shadow-sm bg-white overflow-auto">
       <div className="p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900">
-          PDF Preview
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-900">PDF Preview</h2>
       </div>
 
       <div className="p-4 min-h-[300px]">
         {isMarkupEmpty ? (
-          <p className="text-gray-400 italic">Enter some markdown content to see a preview</p>
+          <p className="text-gray-400 italic">
+            Enter some markdown content to see a preview
+          </p>
         ) : (
           markdownContent
         )}
