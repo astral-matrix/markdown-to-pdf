@@ -52,6 +52,24 @@ th, td {{
 
 th {{ background: #f2f2f2; }}
 tr:nth-child(even) {{ background: #f9f9f9; }}
+
+ul, ol {{
+  margin: 1em 0;
+  padding-left: 1.5em;
+}}
+
+li {{ margin: 0.25em 0; }}
+
+h1, h2, h3, h4, h5, h6 {{
+  font-weight: 600;
+}}
+
+h1 {{ font-size: 2em; margin: 0.67em 0; }}
+h2 {{ font-size: 1.5em; margin: 0.75em 0; }}
+h3 {{ font-size: 1.17em; margin: 0.83em 0; }}
+h4 {{ font-size: 1em; margin: 1.12em 0; }}
+h5 {{ font-size: 0.83em; margin: 1.5em 0; }}
+h6 {{ font-size: 0.67em; margin: 1.67em 0; }}
 """
 
 # ---------------------------------------------------------------------------
