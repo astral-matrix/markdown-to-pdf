@@ -7,7 +7,9 @@ reportlab
 weasyprint>=62
 markdown
 mdit-py-plugins
+mypy
 pygments
+pylint
 python-dotenv
 requests
 fonttools[woff]
