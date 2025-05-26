@@ -1,7 +1,6 @@
 # Agent Instructions
 
-All code changes must pass the linters and type checkers installed by
-`dev_setup.sh` before committing.
+All code changes must pass the linters and type checkers installed before committing.
 
 ## Python backend (`markup2pdf-backend`)
 
