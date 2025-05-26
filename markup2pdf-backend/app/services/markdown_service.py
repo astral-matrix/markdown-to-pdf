@@ -31,6 +31,15 @@ from app.services.font_service import font_service
 
 # ---------- helpers ---------------------------------------------------------
 
+# This is a dictionary of glyphs that are problematic in markdown and need to be replaced with safe ASCII equivalents.
+# The key is the problematic glyph, and the value is the safe ASCII equivalent.
+# it also handles cases were optional backslashes are found in chatGPT's markdown output:
+#   - if a tilde is inside markdown formatting, chatGPT will output it as "\~"
+#   - if an ampersand is inside markdown formatting, chatGPT will output it as "\&"
+# this is a problem because the backslash will remain intact after the markdown to HTML conversion, and it will appear in the PDF output
+# This is an imperfect solution, because in some cases (inside code blocks) a backslashed character should be preserved.
+# TODO: add conditional logic to ignore backslashes inside code blocks.
+
 _GLYPH_MAP: dict[str, str] = {
     "\u2013": "-",   # en dash
     "\u2014": "-",   # em dash
@@ -39,14 +48,14 @@ _GLYPH_MAP: dict[str, str] = {
     "\u2019": "'",   # right single quote
     "\u201c": '"',   # left double quote
     "\u201d": '"',   # right double quote
-    "\~": '~',   # tilde
-    "\&": '&amp;',   # ampersand
-    "\#": '#',   # hash
-    "\*": '*',   # asterisk
-    "\_": '_',   # underscore
-    "\+": '+',   # plus
-    "\-": '-',   # dash
-    "\=": '=',   # equals
+    "\\~": '~',   # tilde
+    "\\&": '&amp;',   # ampersand
+    "\\#": '#',   # hash
+    "\\*": '*',   # asterisk
+    "\\_": '_',   # underscore
+    "\\+": '+',   # plus
+    "\\-": '-',   # dash
+    "\\=": '=',   # equals
 
 
 }
