@@ -170,7 +170,7 @@ class PDFService:
             css_parts.append(extra_css)
         if font_face_css:
             css_parts.append(font_face_css)
-        css_parts.append(body_css)
+        css_parts.append(body_css)          
         return "\n".join(css_parts)
 
 

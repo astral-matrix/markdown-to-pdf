@@ -78,7 +78,7 @@ def preserve_code_block_whitespace(html: str) -> str:
         'min-width: 40%; max-width: 100%; overflow-x: auto;"'
     )
     
-    html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
+    #html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
     
     # Ensure code inside pre tags maintains its formatting
     # This mainly addresses specific formatting issues with leading spaces and newlines
@@ -179,7 +179,7 @@ class MarkdownService:
 
     _extensions = [
         TableExtension(),
-        CodeHiliteExtension(css_class="code-highlight", pygments_style="github-dark", linenums=False),
+        CodeHiliteExtension(css_class="code-highlight", pygments_style="monokai", linenums=False),
         FencedCodeExtension(),  # Explicitly add fenced code extension
         ExtraExtension(),       # Add Extra extension which includes proper list support
         LineBreakExtension(),   # Add our custom line break extension
@@ -243,7 +243,7 @@ class MarkdownService:
         
         # Convert markdown to HTML
         html_body = markdown.markdown(cleaned, extensions=self._extensions)
-        
+
         # Ensure code blocks preserve whitespace
         html_body = preserve_code_block_whitespace(html_body)
         
@@ -269,16 +269,18 @@ class MarkdownService:
     <meta charset=\"utf-8\" />
     <style>
     {css}
+    div.code-highlight {{
+        margin-bottom: 16px;
+    }}
     pre {{
         white-space: pre-wrap;
         word-break: keep-all;
         tab-size: 4;
         -moz-tab-size: 4;
-        background-color: #f5f7f9;
         border-radius: 8px;
-        padding: 16px;
+        margin: 8px;
+        padding: 8px;
         font-family: {monospace_font}, monospace;
-        margin: 16px 0;
         display: inline-block;
         min-width: 40%;
         max-width: 100%;
@@ -287,6 +289,7 @@ class MarkdownService:
     code {{
         white-space: pre-wrap;
         font-family: {monospace_font}, monospace;
+
     }}
     /* List styling to support proper nesting */
     ul, ol {{
