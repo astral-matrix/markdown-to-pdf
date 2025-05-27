@@ -17,6 +17,19 @@ from app.models import PDFGenerationRequest
 from app.services.markdown_service import markdown_service
 from app.services.font_service import font_service
 
+# Path to custom CSS for PDF output
+_STYLES_CSS_PATH = (
+    Path(__file__).resolve().parent.parent / "static" / "css" / "styles.css"
+)
+
+
+def _read_styles_css() -> str:
+    """Return the contents of ``styles.css`` if the file exists."""
+    try:
+        return _STYLES_CSS_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
 # ---------------------------------------------------------------------------
 # CSS templates
 # ---------------------------------------------------------------------------
@@ -152,9 +165,12 @@ class PDFService:
         )
 
         css_parts = [_PAGE_CSS]
+        extra_css = _read_styles_css()
+        if extra_css:
+            css_parts.append(extra_css)
         if font_face_css:
             css_parts.append(font_face_css)
-        css_parts.append(body_css)
+        css_parts.append(body_css)          
         return "\n".join(css_parts)
 
 
