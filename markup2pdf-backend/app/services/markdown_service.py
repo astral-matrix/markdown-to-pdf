@@ -166,6 +166,7 @@ def ensure_nested_lists(html: str) -> str:
     return modified_html
 
 # Custom extension to handle line breaks
+# TODO: VERIFY THIS IS STILL NEEDED
 class LineBreakExtension(Extension):
     """Extension to convert newlines to <br> tags."""
     def extendMarkdown(self, md):
@@ -281,6 +282,7 @@ class MarkdownService:
         margin: 8px;
         padding: 8px;
         font-family: {monospace_font}, monospace;
+        line-height: 125%;
         display: inline-block;
         min-width: 40%;
         max-width: 100%;
