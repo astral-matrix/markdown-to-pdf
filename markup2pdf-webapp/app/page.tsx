@@ -66,7 +66,7 @@ function EditorPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
-      <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow">
+      <header className="bg-gradient-to-r from-orange-600 to-orange-400 text-white shadow">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold">Markdown to PDF Converter</h1>
         </div>

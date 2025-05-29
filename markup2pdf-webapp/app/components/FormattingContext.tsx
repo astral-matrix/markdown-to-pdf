@@ -175,18 +175,6 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
     [resetToDefaults]
   );
 
-  // For backward compatibility, create a merged options object
-  const options = useMemo(
-    () => ({
-      fontFamily: typography.fontFamily,
-      availableFonts: typography.availableFonts,
-      sizeLevel: typography.sizeLevel,
-      spacing: layout.spacing,
-      autoWidthTables: layout.autoWidthTables,
-      filename,
-    }),
-    [typography, layout, filename]
-  );
 
   return (
     <ResetContext.Provider value={resetValue}>
