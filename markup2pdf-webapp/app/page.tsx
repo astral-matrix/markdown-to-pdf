@@ -13,6 +13,8 @@ import {
 } from "./components/FormattingContext";
 import { api, PDFGenerationRequest } from "./lib/api";
 import { PDFActions } from "./components/PDFActions";
+import { DarkModeProvider } from "./components/DarkModeProvider";
+import { DarkModeToggle } from "./components/DarkModeToggle";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -26,9 +28,11 @@ const queryClient = new QueryClient({
 export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
-      <FormattingProvider>
-        <EditorPage />
-      </FormattingProvider>
+      <DarkModeProvider>
+        <FormattingProvider>
+          <EditorPage />
+        </FormattingProvider>
+      </DarkModeProvider>
     </QueryClientProvider>
   );
 }
@@ -67,8 +71,9 @@ function EditorPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
       <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Markdown to PDF Converter</h1>
+          <DarkModeToggle />
         </div>
       </header>
 
