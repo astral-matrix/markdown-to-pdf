@@ -70,14 +70,14 @@ function EditorPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
-      <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow">
+      <header className="bg-gray-50 dark:bg-neutral-900 shadow border dark:border-neutral-800">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Markdown to PDF Converter</h1>
           <DarkModeToggle />
         </div>
       </header>
 
-      <main className="flex-grow max-w-7xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8">
+      <main className="flex-grow max-w-7xl mx-auto w-full py-4 px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-4">
           <aside className="space-y-6 lg:col-span-1 min-w-64">
             <TypographyPanel />

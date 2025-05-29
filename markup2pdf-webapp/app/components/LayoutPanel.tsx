@@ -16,7 +16,7 @@ function LayoutPanelComponent() {
     useLayout();
 
   return (
-    <div className="space-y-2 p-4 bg-gray-50 dark:bg-neutral-800 rounded-md shadow">
+    <div className="space-y-2 p-4 bg-gray-50 dark:bg-neutral-900 rounded-md shadow border dark:border-neutral-800">
       <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 pb-2 border-b border-gray-200 dark:border-neutral-700">
         Layout
       </h2>
@@ -38,7 +38,7 @@ function LayoutPanelComponent() {
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select spacing" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-gray-50 dark:bg-neutral-900">
               <SelectItem value={SpacingOption.DEFAULT}>Default</SelectItem>
               <SelectItem value={SpacingOption.COMPACT}>Compact</SelectItem>
               <SelectItem value={SpacingOption.SPACIOUS}>Spacious</SelectItem>
