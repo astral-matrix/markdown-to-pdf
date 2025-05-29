@@ -1,6 +1,15 @@
 import React, { memo } from "react";
 import { useTypography } from "./FormattingContext";
 import { sizeLevelToName } from "../lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import { Slider } from "../../components/ui/slider";
+import { Label } from "../../components/ui/label";
 
 function TypographyPanelComponent() {
   const { fontFamily, availableFonts, sizeLevel, setFontFamily, setSizeLevel } =
@@ -14,42 +23,43 @@ function TypographyPanelComponent() {
 
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <label
+          <Label
             htmlFor="font-family"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             Font Family
-          </label>
-          <select
-            id="font-family"
+          </Label>
+          <Select
             value={fontFamily}
-            onChange={(e) => setFontFamily(e.target.value)}
-            className="w-full p-2 text-sm border border-gray-300 dark:border-neutral-700 rounded-md bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onValueChange={(value: string) => setFontFamily(value)}
           >
-            {availableFonts.map((font) => (
-              <option key={font} value={font}>
-                {font}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select font family" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableFonts.map((font) => (
+                <SelectItem key={font} value={font}>
+                  {font}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
-          <label
+          <Label
             htmlFor="size-level"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             Size Level
-          </label>
+          </Label>
           <div className="flex items-center space-x-2">
-            <input
-              type="range"
-              id="size-level"
+            <Slider
+              value={[sizeLevel]}
+              onValueChange={(value: number[]) => setSizeLevel(value[0])}
               min={1}
               max={5}
               step={1}
-              value={sizeLevel}
-              onChange={(e) => setSizeLevel(Number(e.target.value))}
               className="w-3/4"
             />
             <span className="text-sm font-medium w-32 text-gray-900 dark:text-gray-100">

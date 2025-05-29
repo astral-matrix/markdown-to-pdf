@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api, PDFGenerationRequest } from "../lib/api";
 import { savePDF, getTimestampForFilename } from "../lib/utils";
+import { Button } from "../../components/ui/button";
 
 interface GenerateButtonProps {
   request: PDFGenerationRequest;
@@ -30,12 +31,10 @@ function GenerateButtonComponent({
 
   return (
     <div>
-      <button
+      <Button
         onClick={() => generatePdfMutation.mutate(request)}
         disabled={disabled || isLoading}
-        className={`w-full h-8 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center justify-center transition-colors
-          ${disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""}
-        `}
+        className="w-full h-8"
       >
         {isLoading ? (
           <>
@@ -64,7 +63,7 @@ function GenerateButtonComponent({
         ) : (
           "Generate PDF"
         )}
-      </button>
+      </Button>
 
       {hasError && (
         <div className="text-red-500 text-sm text-center mt-2">
