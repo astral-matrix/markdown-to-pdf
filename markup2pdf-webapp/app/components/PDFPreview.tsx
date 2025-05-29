@@ -35,11 +35,11 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
 
   return (
     <div className="pdf-preview border rounded-md shadow-sm bg-white overflow-auto">
-      <div className="p-4 border-b">
+      <div className="p-4 border-b border-gray-200 dark:border-neutral-500">
         <h2 className="text-xl font-semibold text-gray-900">PDF Preview</h2>
       </div>
 
-      <div className="p-4 min-h-[300px]">
+      <div className="p-4 min-h-[500px]">
         {isMarkupEmpty ? (
           <p className="text-gray-400 italic">
             Enter some markdown content to see a preview
