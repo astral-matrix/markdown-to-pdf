@@ -1,6 +1,9 @@
 import React, { memo } from "react";
 import { useTypography } from "./FormattingContext";
 import { sizeLevelToName } from "../lib/utils";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 
 function TypographyPanelComponent() {
   const { fontFamily, availableFonts, sizeLevel, setFontFamily, setSizeLevel } =
@@ -14,36 +17,24 @@ function TypographyPanelComponent() {
 
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <label
-            htmlFor="font-family"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Font Family
-          </label>
-          <select
+          <Label htmlFor="font-family">Font Family</Label>
+          <Select
             id="font-family"
             value={fontFamily}
             onChange={(e) => setFontFamily(e.target.value)}
-            className="w-full p-2 text-sm border border-gray-300 dark:border-neutral-700 rounded-md bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             {availableFonts.map((font) => (
               <option key={font} value={font}>
                 {font}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         <div className="space-y-2">
-          <label
-            htmlFor="size-level"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Size Level
-          </label>
+          <Label htmlFor="size-level">Size Level</Label>
           <div className="flex items-center space-x-2">
-            <input
-              type="range"
+            <Slider
               id="size-level"
               min={1}
               max={5}
@@ -52,7 +43,7 @@ function TypographyPanelComponent() {
               onChange={(e) => setSizeLevel(Number(e.target.value))}
               className="w-3/4"
             />
-            <span className="text-sm font-medium w-32 text-gray-900 dark:text-gray-100">
+            <span className="text-sm font-medium w-32">
               {sizeLevelToName(sizeLevel)}
             </span>
           </div>
