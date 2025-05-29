@@ -1,6 +1,9 @@
 import React, { memo } from "react";
 import { useLayout } from "./FormattingContext";
 import { SpacingOption } from "../lib/api";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 
 function LayoutPanelComponent() {
   const { spacing, autoWidthTables, setSpacing, setAutoWidthTables } =
@@ -14,38 +17,25 @@ function LayoutPanelComponent() {
 
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <label
-            htmlFor="spacing"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Spacing
-          </label>
-          <select
+          <Label htmlFor="spacing">Spacing</Label>
+          <Select
             id="spacing"
             value={spacing}
             onChange={(e) => setSpacing(e.target.value as SpacingOption)}
-            className="w-full p-2 text-sm border border-gray-300 dark:border-neutral-700 rounded-md bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value={SpacingOption.DEFAULT}>Default</option>
             <option value={SpacingOption.COMPACT}>Compact</option>
             <option value={SpacingOption.SPACIOUS}>Spacious</option>
-          </select>
+          </Select>
         </div>
 
         <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
+          <Switch
             id="auto-width-tables"
             checked={autoWidthTables}
             onChange={(e) => setAutoWidthTables(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-neutral-700 rounded"
           />
-          <label
-            htmlFor="auto-width-tables"
-            className="text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Auto-width tables
-          </label>
+          <Label htmlFor="auto-width-tables">Auto-width tables</Label>
         </div>
       </div>
     </div>
