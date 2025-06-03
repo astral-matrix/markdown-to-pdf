@@ -282,7 +282,7 @@ class MarkdownService:
         margin: 8px;
         padding: 8px;
         font-family: {monospace_font}, monospace;
-        line-height: 125%;
+        line-height: 150%;
         display: inline-block;
         min-width: 40%;
         max-width: 100%;
