@@ -99,7 +99,7 @@ _FONT_STACKS = {
     "Serif": "serif",
 }
 
-_SIZE_LEVELS = {1: 9, 2: 10.5, 3: 12, 4: 14, 5: 16}
+_SIZE_LEVELS = {1: 9, 2: 12, 3: 14, 4: 16, 5: 18}
 
 _SPACING_LEVELS = {
     "comfort": 1.6,
