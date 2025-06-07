@@ -2,17 +2,17 @@ import React, { useEffect, useRef, memo, useCallback } from "react";
 import { cn } from "../lib/utils";
 import { Textarea } from "../../components/ui/textarea";
 
-interface MarkupEditorProps {
+interface MarkdownEditorProps {
   value: string;
   onChange: (value: string) => void;
   className?: string;
 }
 
-function MarkupEditorComponent({
+function MarkdownEditorComponent({
   value,
   onChange,
   className,
-}: MarkupEditorProps) {
+}: MarkdownEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Memoize the change handler
@@ -57,4 +57,4 @@ console.log('Code block example');
 }
 
 // Memoize the component to prevent unnecessary re-renders
-export const MarkupEditor = memo(MarkupEditorComponent);
+export const MarkdownEditor = memo(MarkdownEditorComponent);

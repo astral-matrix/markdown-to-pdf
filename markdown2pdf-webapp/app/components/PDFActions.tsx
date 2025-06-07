@@ -5,10 +5,10 @@ import { PDFGenerationRequest } from "../lib/api";
 import { useTypography, useLayout, useFilename } from "./FormattingContext";
 
 interface PDFActionsProps {
-  markup: string;
+  markdown: string;
 }
 
-function PDFActionsComponent({ markup }: PDFActionsProps) {
+function PDFActionsComponent({ markdown }: PDFActionsProps) {
   // Get values from specific contexts to prevent unnecessary re-renders
   const { fontFamily, sizeLevel } = useTypography();
   const { spacing, autoWidthTables } = useLayout();
@@ -17,14 +17,14 @@ function PDFActionsComponent({ markup }: PDFActionsProps) {
   // Memoize the PDF request object to prevent unnecessary re-creation
   const pdfRequest: PDFGenerationRequest = useMemo(
     () => ({
-      markup,
+      markdown,
       font_family: fontFamily,
       size_level: sizeLevel,
       spacing,
       auto_width_tables: autoWidthTables,
       filename,
     }),
-    [markup, fontFamily, sizeLevel, spacing, autoWidthTables, filename]
+    [markdown, fontFamily, sizeLevel, spacing, autoWidthTables, filename]
   );
 
   return (
@@ -33,7 +33,7 @@ function PDFActionsComponent({ markup }: PDFActionsProps) {
         <FilenameInput />
       </div>
       <div className="flex justify-end items-end space-x-4 pt-4">
-        <GenerateButton request={pdfRequest} disabled={!markup.trim()} />
+        <GenerateButton request={pdfRequest} disabled={!markdown.trim()} />
       </div>
     </div>
   );

@@ -17,8 +17,8 @@ The app works by preserving all markdown formatting from ChatGPT responses, incl
 
 This is a monorepo containing:
 
-- `markup2pdf-backend`: FastAPI Python service for Markdown-to-PDF conversion
-- `markup2pdf-webapp`: Next.js frontend for the web application
+- `markdown2pdf-backend`: FastAPI Python service for Markdown-to-PDF conversion
+- `markdown2pdf-webapp`: Next.js frontend for the web application
 
 ## Features
 
@@ -71,14 +71,14 @@ NOTE: the "start.sh" script will launch both the backend and frontend services i
    Python Server:
 
    ```
-   cd markup2pdf-backend
+   cd markdown2pdf-backend
    python3 run.py
    ```
 
    Node.js Web Server:
 
    ```
-   cd markup2pdf-webapp
+   cd markdown2pdf-webapp
    npm run dev
    ```
 
@@ -95,16 +95,16 @@ This will:
 1. Navigate to the backend directory:
 
    ```
-   cd markup2pdf-backend
+   cd markdown2pdf-backend
    ```
 
-2. Create a virtual environment (dir: markup2pdf-backend/ ):
+2. Create a virtual environment (dir: markdown2pdf-backend/ ):
 
    ```
    python3 -m venv .venv
    ```
 
-3. Activate the virtual environment (dir: markup2pdf-backend/ ):
+3. Activate the virtual environment (dir: markdown2pdf-backend/ ):
 
    ```
    # On macOS/Linux
@@ -114,13 +114,13 @@ This will:
    .venv\Scripts\activate
    ```
 
-4. Install dependencies (dir: markup2pdf-backend/ ):
+4. Install dependencies (dir: markdown2pdf-backend/ ):
 
    ```
    python3 -m pip install -r requirements.txt
    ```
 
-5. Run/ Test the backend server (dir: markup2pdf-backend/ ):
+5. Run/ Test the backend server (dir: markdown2pdf-backend/ ):
 
    ```
    python3 run.py
@@ -140,16 +140,16 @@ You can check if the server is running by visiting:
 1. From Project Root, navigate to the frontend directory:
 
    ```
-   cd markup2pdf-webapp
+   cd markdown2pdf-webapp
    ```
 
-2. Install dependencies (dir: markup2pdf-webapp/ ) :
+2. Install dependencies (dir: markdown2pdf-webapp/ ) :
 
    ```
    npm install
    ```
 
-3. Run the development server (dir: markup2pdf-webapp/ ):
+3. Run the development server (dir: markdown2pdf-webapp/ ):
    ```
    npm run dev
    ```

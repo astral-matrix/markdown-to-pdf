@@ -9,28 +9,28 @@ interface PDFPreviewProps {
 
 // Extract only the content needed for preview from the full request
 function PDFPreviewComponent({ request }: PDFPreviewProps) {
-  const isMarkupEmpty = !request.markup.trim();
+  const isMarkdownEmpty = !request.markdown.trim();
 
   // Memoize the markdown content to prevent re-renders when request reference changes
-  // but the actual markup content and styling values remain the same
+  // but the actual markdown content and styling values remain the same
   const markdownContent = useMemo(() => {
-    if (isMarkupEmpty) {
+    if (isMarkdownEmpty) {
       return null;
     }
 
     return (
       <article className="prose prose-sm sm:prose max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {request.markup}
+          {request.markdown}
         </ReactMarkdown>
       </article>
     );
   }, [
-    request.markup,
+    request.markdown,
     request.font_family,
     request.size_level,
     request.spacing,
-    isMarkupEmpty,
+    isMarkdownEmpty,
   ]);
 
   return (
@@ -40,7 +40,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
       </div>
 
       <div className="p-4 min-h-[500px]">
-        {isMarkupEmpty ? (
+        {isMarkdownEmpty ? (
           <p className="text-gray-400 italic">
             Enter some markdown content to see a preview
           </p>
@@ -54,10 +54,10 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
 
 // Use custom equality check to prevent unnecessary re-renders
 function arePropsEqual(prevProps: PDFPreviewProps, nextProps: PDFPreviewProps) {
-  // Only re-render if markup content or formatting options change
+  // Only re-render if markdown content or formatting options change
   // Ignore filename changes as they don't affect the preview
   return (
-    prevProps.request.markup === nextProps.request.markup &&
+    prevProps.request.markdown === nextProps.request.markdown &&
     prevProps.request.font_family === nextProps.request.font_family &&
     prevProps.request.size_level === nextProps.request.size_level &&
     prevProps.request.spacing === nextProps.request.spacing &&

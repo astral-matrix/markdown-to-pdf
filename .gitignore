@@ -32,7 +32,7 @@ eggs/
 .eggs/
 /lib/
 lib64/
-!markup2pdf-webapp/app/lib/
+!markdown2pdf-webapp/app/lib/
 parts/
 sdist/
 var/

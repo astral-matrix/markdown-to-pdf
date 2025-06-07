@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MarkupEditor } from "./components/MarkupEditor";
+import { MarkdownEditor } from "./components/MarkdownEditor";
 import { TypographyPanel } from "./components/TypographyPanel";
 import { LayoutPanel } from "./components/LayoutPanel";
 import { PDFPreview } from "./components/PDFPreview";
@@ -38,7 +38,7 @@ export default function Home() {
 }
 
 function EditorPage() {
-  const [markup, setMarkup] = useState<string>("");
+  const [markdown, setMarkdown] = useState<string>("");
   const { setAvailableFonts, fontFamily, sizeLevel } = useTypography();
   const { spacing, autoWidthTables } = useLayout();
 
@@ -59,13 +59,13 @@ function EditorPage() {
   // Create PDF generation request - memoized to prevent unnecessary recreations
   const pdfRequest: PDFGenerationRequest = useMemo(
     () => ({
-      markup,
+      markdown,
       font_family: fontFamily,
       size_level: sizeLevel,
       spacing,
       auto_width_tables: autoWidthTables,
     }),
-    [markup, fontFamily, sizeLevel, spacing, autoWidthTables]
+    [markdown, fontFamily, sizeLevel, spacing, autoWidthTables]
   );
 
   return (
@@ -82,13 +82,13 @@ function EditorPage() {
           <div className="h-max grid gap-4 lg:col-span-1 min-w-64">
             <TypographyPanel />
             <LayoutPanel />
-            <PDFActions markup={markup} />
+            <PDFActions markdown={markdown} />
           </div>
 
           <div className="space-y-6 lg:col-span-3 ">
             <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 ">
               <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
-              <MarkupEditor value={markup} onChange={setMarkup} />
+              <MarkdownEditor value={markdown} onChange={setMarkdown} />
             </div>
             <div className="bg-white dark:bg-neutral-900 shadow rounded-md">
               <PDFPreview request={pdfRequest} />

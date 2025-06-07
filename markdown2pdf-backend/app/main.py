@@ -10,7 +10,7 @@ load_dotenv()
 
 # Create FastAPI app
 app = FastAPI(
-    title="Markup2PDF API",
+    title="Markdown2PDF API",
     description="API for converting Markdown to PDF with custom styling",
     version="1.0.0",
 )

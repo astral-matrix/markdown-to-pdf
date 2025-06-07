@@ -126,7 +126,7 @@ class PDFService:
         
         # Build CSS with font settings
         css = self._build_css(request)
-        html_doc = markdown_service.convert_to_html(request.markup, css=css)
+        html_doc = markdown_service.convert_to_html(request.markdown, css=css)
 
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:

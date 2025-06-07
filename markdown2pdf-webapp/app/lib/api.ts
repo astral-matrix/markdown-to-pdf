@@ -9,7 +9,7 @@ export enum SpacingOption {
 }
 
 export interface PDFGenerationRequest {
-  markup: string;
+  markdown: string;
   font_family?: string;
   size_level?: number;
   spacing?: SpacingOption;

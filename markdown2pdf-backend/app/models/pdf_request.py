@@ -11,17 +11,17 @@ class SpacingOption(str, Enum):
 
 
 class PDFGenerationRequest(BaseModel):
-    markup: str
+    markdown: str
     font_family: Optional[str] = "Inter"
     size_level: int = Field(3, ge=1, le=5)
     spacing: SpacingOption = SpacingOption.DEFAULT
     auto_width_tables: bool = True
     filename: Optional[str] = None
 
-    @validator("markup")
-    def markup_must_not_be_empty(cls, v):
+    @validator("markdown")
+    def markdown_must_not_be_empty(cls, v):
         if not v.strip():
-            raise ValueError("Markup cannot be empty")
+            raise ValueError("Markdown cannot be empty")
         return v
 
     @validator("font_family")

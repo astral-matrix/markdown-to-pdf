@@ -1,4 +1,4 @@
-# Markup2PDF Web Application
+# Markdown2PDF Web Application
 
 This is the Next.js frontend for the Markdown-to-PDF converter application.
 
