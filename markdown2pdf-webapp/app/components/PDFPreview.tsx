@@ -41,7 +41,8 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
     request.spacing,
     request.auto_width_tables,
     isMarkdownEmpty,
-    // Note: throttledGeneratePreview is stable from the hook
+    throttledGeneratePreview,
+    request,
   ]);
 
   // Cleanup effect - runs once on unmount
