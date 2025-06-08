@@ -74,11 +74,9 @@ def preserve_code_block_whitespace(html: str) -> str:
     # WeasyPrint-specific CSS for proper text wrapping in PDFs
     pre_style = (
         'style="white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; '
-        'hyphens: auto; -webkit-hyphens: auto; -moz-hyphens: auto; '
         'background-color: #f5f7f9; border-radius: 8px; padding: 16px; '
         f'font-family: {monospace_font}, monospace; margin: 0 0 12px 0; display: block; '
-        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box; '
-        'max-width: 100%; word-wrap: break-word;"'
+        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box;"'
     )
     
     #html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
@@ -304,8 +302,6 @@ class MarkdownService:
         white-space: pre-wrap;
         word-break: break-word;
         overflow-wrap: break-word;
-        word-wrap: break-word;
-        hyphens: auto;
         tab-size: 4;
         -moz-tab-size: 4;
         border-radius: 8px;
@@ -315,34 +311,14 @@ class MarkdownService:
         line-height: 150%;
         display: block;
         width: 100%;
-        max-width: 100%;
         page-break-inside: auto;
         break-inside: auto;
         box-sizing: border-box;
     }}
     code {{
         white-space: pre-wrap;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
         font-family: {monospace_font}, monospace;
-    }}
-    /* WeasyPrint-specific rules for syntax highlighting spans */
-    .code-highlight pre span {{
-        word-break: break-word;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        hyphens: auto;
-        display: inline;
-    }}
-    /* Force breaking for long content in specific span types */
-    .code-highlight pre span.s,
-    .code-highlight pre span.s1,
-    .code-highlight pre span.s2,
-    .code-highlight pre span.p {{
-        word-break: break-all;
-        overflow-wrap: anywhere;
-        word-wrap: break-word;
+
     }}
     /* List styling to support proper nesting */
     ul, ol {{
