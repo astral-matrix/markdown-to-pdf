@@ -105,7 +105,10 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
                 }}
               />
               {isLoading && (
-                <div className="absolute inset-0 bg-white flex flex-col items-center justify-center">
+                <div
+                  className="absolute inset-0 bg-white flex flex-col items-center"
+                  style={{ paddingTop: "150px" }}
+                >
                   <div className="flex items-center space-x-2 mb-4">
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
                     <h2 className="text-gray-600 text-lg font-semibold">
