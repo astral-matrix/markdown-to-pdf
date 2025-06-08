@@ -289,12 +289,27 @@ class MarkdownService:
         
         if css:
             return f"""
-<!doctype html>
+<!DOCTYPE html>
 <html lang=\"en\">
   <head>
     <meta charset=\"utf-8\" />
     <style>
     {css}
+
+    :root {{
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+                     Helvetica, Arial, sans-serif;
+        --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+        --text:        #222;   /* body copy */
+        --heading:     #111;
+        --muted:       #555;
+        --accent:      #0057c2;
+
+        --border:      #d0d7de;
+        --bg-note:     #f5f7fa;    /* light grey boxes (code, call-outs) */
+        --bg-table-even:#fafbfc;
+    }}
     div.code-highlight {{
         margin-bottom: 16px;
     }}
@@ -320,6 +335,25 @@ class MarkdownService:
         font-family: {monospace_font}, monospace;
 
     }}
+
+    /* ------------------------------------------------------------------
+        Grey “call-out” boxes (for blockquotes))
+        ------------------------------------------------------------------ */
+    blockquote, .note {{
+        background: var(--bg-note);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1em 1.5em;
+        margin: 1em 0 1.5em 0;
+        color: var(--muted);
+        font-size: .90em;
+    }}
+
+    hr {{
+        border: 0.05em solid var(--border);
+        margin: 1em 0 1em 0;
+    }}
+
     /* List styling to support proper nesting */
     ul, ol {{
         margin: 0.5em 0 0.5em 1em;

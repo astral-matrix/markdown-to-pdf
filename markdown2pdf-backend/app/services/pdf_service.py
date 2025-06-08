@@ -48,6 +48,15 @@ body {{
   -weasy-font-embed: embed;
 }}
 
+/* ------------------------------------------------------------------
+   Body copy & inline
+   ------------------------------------------------------------------ */
+p {{ margin: 0 0 .8em; }}
+strong, b {{ font-weight: 600; }}
+em, i     {{ font-style: italic; }}
+a         {{ color: var(--accent); text-decoration: none; }}
+a:hover   {{ text-decoration: underline; }}
+
 code, pre {{
   font-family: '{monospace_font}', 'DejaVu Sans Mono', monospace;
 }}
@@ -75,14 +84,18 @@ li {{ margin: 0.25em 0; }}
 
 h1, h2, h3, h4, h5, h6 {{
   font-weight: 600;
+  line-height: 1.25;
+  margin: 0; /* reset default margin */
 }}
 
-h1 {{ font-size: 2em; margin: 0.67em 0; }}
-h2 {{ font-size: 1.5em; margin: 0.75em 0; }}
-h3 {{ font-size: 1.17em; margin: 0.83em 0; }}
-h4 {{ font-size: 1em; margin: 1.12em 0; }}
-h5 {{ font-size: 0.83em; margin: 1.5em 0; }}
-h6 {{ font-size: 0.67em; margin: 1.67em 0; }}
+
+h1 {{ font-size: 2.25em;  margin-bottom: 0.7em; page-break-before: always;}}
+h2 {{ font-size: 1.5em; margin-top: 1.3em; margin-bottom: 0.6em; }}
+h3 {{ font-size: 1.25em; margin-top: 1.1em; margin-bottom: 0.5em; }}
+h4 {{ font-size: 1.125em; margin-top: 1em; margin-bottom: .4em; }}
+h5 {{ font-size: 1em; margin-top: .9em; margin-bottom: .3em; }}
+h6 {{ font-size: 0.875em; margin-top: .9em; margin-bottom: .3em; }}
+
 """
 
 # ---------------------------------------------------------------------------
@@ -146,7 +159,7 @@ class PDFService:
         # Build CSS with font settings
         css = self._build_css(request)
         html_doc = markdown_service.convert_to_html(request.markdown, css=css)
-        
+
         return html_doc
 
     # ------------------------------------------------------------------
