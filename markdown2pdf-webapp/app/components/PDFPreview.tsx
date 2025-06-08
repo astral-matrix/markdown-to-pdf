@@ -66,13 +66,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
     <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 ">
       <div className="flex items-baseline mb-4">
         <h2 className="text-xl font-semibold">PDF Preview</h2>
-        {/* {isLoading && (
-          <span className="text-sm text-gray-500 font-semibold dark:text-gray-200 ml-3">
-            Generating preview...
-          </span>
-        )} */}
       </div>
-      {/* <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 "> */}
       <div className="flex justify-center">
         <div
           className="bg-white shadow-lg relative"
