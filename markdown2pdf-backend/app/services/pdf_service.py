@@ -36,7 +36,7 @@ def _read_styles_css() -> str:
 _PAGE_CSS = """
 @page {
   size: A4;
-  margin: 25mm;
+  margin: 12.5mm;
 }
 """
 
@@ -128,6 +128,8 @@ class PDFService:
         css = self._build_css(request)
         html_doc = markdown_service.convert_to_html(request.markdown, css=css)
 
+        print("html_doc")
+        print(html_doc) 
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:
             return HTML(string=html_doc, base_url=str(Path.cwd())).write_pdf()
