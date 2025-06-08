@@ -72,9 +72,16 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
           </span>
         )} */}
       </div>
-
-      <div className="pdf-preview border rounded-md shadow-sm bg-white overflow-hidden">
-        <div className="relative" style={{ height: "600px" }}>
+      {/* <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 "> */}
+      <div className="flex justify-center">
+        <div
+          className="bg-white shadow-lg relative"
+          style={{
+            width: "775px",
+            height: "900px", // A4 proportions (297/210 * 600)
+            maxWidth: "100%",
+          }}
+        >
           {isMarkdownEmpty ? (
             <div className="flex items-center justify-center h-full">
               <p className="text-gray-400 italic">
@@ -93,6 +100,8 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
                 style={{
                   backgroundColor: "white",
                   border: "none",
+                  padding: "47px", // 12.5mm = ~47px at 96 DPI
+                  boxSizing: "border-box",
                 }}
               />
               {isLoading && (
@@ -103,7 +112,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
                       Generating preview...
                     </h2>
                   </div>
-                  <div className="w-full max-w-md space-y-3">
+                  <div className="w-full max-w-md space-y-3 px-12">
                     <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
                     <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
                     <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2"></div>
@@ -116,6 +125,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
           )}
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }
