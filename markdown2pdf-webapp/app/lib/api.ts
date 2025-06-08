@@ -42,6 +42,29 @@ export const api = {
   },
 
   /**
+   * Generate HTML preview of PDF content
+   */
+  generatePDFPreview: async (data: PDFGenerationRequest): Promise<string> => {
+    const response = await fetch(`${API_URL}/generate-pdf-preview`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(
+        errorData?.detail ||
+          `Failed to generate PDF preview: ${response.status}`
+      );
+    }
+
+    return await response.text();
+  },
+
+  /**
    * Get available font families
    */
   getFonts: async (): Promise<string[]> => {

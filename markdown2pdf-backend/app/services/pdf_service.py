@@ -138,6 +138,17 @@ class PDFService:
             pdf_buffer.seek(0)
             return pdf_buffer.read()
 
+    def generate_pdf_preview(self, request: PDFGenerationRequest) -> str:
+        """Generate HTML preview for markdown respecting the user's styling choices."""
+        # Ensure fonts are registered
+        font_service.register_fonts()
+        
+        # Build CSS with font settings
+        css = self._build_css(request)
+        html_doc = markdown_service.convert_to_html(request.markdown, css=css)
+        
+        return html_doc
+
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------

@@ -36,4 +36,31 @@ async def generate_pdf(request: PDFGenerationRequest):
         raise HTTPException(
             status_code=500,
             detail="Failed to generate PDF"
+        )
+
+
+@router.post("/generate-pdf-preview")
+async def generate_pdf_preview(request: PDFGenerationRequest):
+    """
+    Generate HTML preview of the PDF content without creating an actual PDF.
+    Returns the styled HTML that would be used for PDF generation.
+    """
+    try:
+        # Generate HTML preview
+        html_content = pdf_service.generate_pdf_preview(request)
+        
+        # Return the HTML as plain text response
+        return Response(
+            content=html_content,
+            media_type="text/html",
+            headers={
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        )
+    except Exception as e:
+        # Log the error in a real application
+        print(f"Error generating PDF preview: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to generate PDF preview"
         ) 

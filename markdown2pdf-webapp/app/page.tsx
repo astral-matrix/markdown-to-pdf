@@ -90,11 +90,8 @@ function EditorPage() {
               <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
               <MarkdownEditor value={markdown} onChange={setMarkdown} />
             </div>
-            <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 ">
-              <h2 className="text-xl font-semibold mb-4">PDF Preview</h2>
-              {/* <div className="bg-white dark:bg-neutral-900 shadow rounded-md"> */}
-              <PDFPreview request={pdfRequest} />
-            </div>
+
+            <PDFPreview request={pdfRequest} />
           </div>
         </div>
       </main>
