@@ -71,7 +71,7 @@ function EditorPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-neutral-900 dark:to-neutral-800 flex flex-col text-gray-900 dark:text-gray-100">
       <header className="bg-gray-50 dark:bg-neutral-900 shadow border dark:border-neutral-800">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Markdown to PDF Converter</h1>
           <DarkModeToggle />
         </div>
@@ -90,7 +90,9 @@ function EditorPage() {
               <h2 className="text-xl font-semibold mb-4">Markdown Editor</h2>
               <MarkdownEditor value={markdown} onChange={setMarkdown} />
             </div>
-            <div className="bg-white dark:bg-neutral-900 shadow rounded-md">
+            <div className="bg-white dark:bg-neutral-900 shadow rounded-md p-4 border dark:border-neutral-800 ">
+              <h2 className="text-xl font-semibold mb-4">PDF Preview</h2>
+              {/* <div className="bg-white dark:bg-neutral-900 shadow rounded-md"> */}
               <PDFPreview request={pdfRequest} />
             </div>
           </div>
