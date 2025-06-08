@@ -3,7 +3,7 @@ import { PDFGenerationRequest, api } from "../lib/api";
 
 export const useThrottledPreview = (
   onPreviewUpdate: (html: string) => void,
-  delay: number = 2000
+  delay: number = 1000
 ) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const onPreviewUpdateRef = useRef(onPreviewUpdate);

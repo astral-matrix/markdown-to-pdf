@@ -311,7 +311,11 @@ class MarkdownService:
         --bg-table-even:#fafbfc;
     }}
     div.code-highlight {{
-        margin-bottom: 16px;
+        margin-top: 0.5em;
+        margin-bottom: 1.25em;
+        padding: 0px;
+        border-radius: 4px;
+
     }}
     pre {{
         white-space: pre-wrap;
@@ -319,9 +323,8 @@ class MarkdownService:
         overflow-wrap: break-word;
         tab-size: 4;
         -moz-tab-size: 4;
-        border-radius: 8px;
-        margin: 8px;
-        padding: 8px;
+        margin: 0px;
+        padding: 0.8em 1em;
         font-family: {monospace_font}, monospace;
         line-height: 150%;
         display: block;
@@ -344,19 +347,19 @@ class MarkdownService:
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 1em 1.5em;
-        margin: 1em 0 1.5em 0;
+        margin: 0.5em 0 1.5em 0;
         color: var(--muted);
-        font-size: .90em;
+        font-size: 1em;
     }}
 
     hr {{
         border: 0.05em solid var(--border);
-        margin: 1em 0 1em 0;
+        margin: 1.5em 0 1em 0;
     }}
 
     /* List styling to support proper nesting */
     ul, ol {{
-        margin: 0.5em 0 0.5em 1em;
+        margin: 0 0 0.5em 1em;
         padding-left: 1em;
     }}
     ul li, ol li {{

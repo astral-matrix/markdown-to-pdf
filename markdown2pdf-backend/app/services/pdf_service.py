@@ -51,8 +51,8 @@ body {{
 /* ------------------------------------------------------------------
    Body copy & inline
    ------------------------------------------------------------------ */
-p {{ margin: 0 0 .8em; }}
-strong, b {{ font-weight: 600; }}
+p {{ margin: 0 0 0.75em 0; }}
+strong, b {{ font-weight: 550; }}
 em, i     {{ font-style: italic; }}
 a         {{ color: var(--accent); text-decoration: none; }}
 a:hover   {{ text-decoration: underline; }}
@@ -76,11 +76,11 @@ th {{ background: #f2f2f2; }}
 tr:nth-child(even) {{ background: #f9f9f9; }}
 
 ul, ol {{
-  margin: 1em 0;
+  margin: 0 0 1em 0;
   padding-left: 1.5em;
 }}
 
-li {{ margin: 0.25em 0; }}
+li {{ margin: 0 0 0.25em 0; }}
 
 h1, h2, h3, h4, h5, h6 {{
   font-weight: 600;
@@ -88,13 +88,20 @@ h1, h2, h3, h4, h5, h6 {{
   margin: 0; /* reset default margin */
 }}
 
+/* no margin top for h1, h2, h3, h4, h5, h6 at top of page */
+h1:first-child, 
+h2:first-child, 
+h3:first-child, 
+h4:first-child, 
+h5:first-child, 
+h6:first-child  {{ margin-top: 0; }}
 
-h1 {{ font-size: 2.25em;  margin-bottom: 0.7em; page-break-before: always;}}
-h2 {{ font-size: 1.5em; margin-top: 1.3em; margin-bottom: 0.6em; }}
-h3 {{ font-size: 1.25em; margin-top: 1.1em; margin-bottom: 0.5em; }}
-h4 {{ font-size: 1.125em; margin-top: 1em; margin-bottom: .4em; }}
-h5 {{ font-size: 1em; margin-top: .9em; margin-bottom: .3em; }}
-h6 {{ font-size: 0.875em; margin-top: .9em; margin-bottom: .3em; }}
+h1 {{ font-size: 2em;  margin-bottom: 0.25em; page-break-before: always;}}
+h2 {{ font-size: 1.7411em;  margin-top: 0.75em; margin-bottom: 0.20em; }}
+h3 {{ font-size: 1.5157em; margin-top: 0.75em; margin-bottom: 0.20em; }}
+h4 {{ font-size: 1.3195em; margin-top: 1em; margin-bottom: 0.20em; }}
+h5 {{ font-size: 1.1487em; margin-top: 1em; margin-bottom: 0.20em; }}
+h6 {{ font-size: 1.0112em; margin-top: 0.75em; margin-bottom: 0.20em; }}
 
 """
 
@@ -112,7 +119,7 @@ _FONT_STACKS = {
     "Serif": "serif",
 }
 
-_SIZE_LEVELS = {1: 9, 2: 12, 3: 14, 4: 16, 5: 18}
+_SIZE_LEVELS = {1: 9, 2: 12, 3: 14, 4: 16, 5: 20}
 
 _SPACING_LEVELS = {
     "comfort": 1.6,

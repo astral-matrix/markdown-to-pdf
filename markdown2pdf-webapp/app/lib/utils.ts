@@ -21,11 +21,11 @@ export function savePDF(blob: Blob, filename: string = "document.pdf") {
  */
 export function sizeLevelToName(level: number): string {
   const sizeMap: Record<number, string> = {
-    1: "Small",
-    2: "Medium-Small",
+    1: "X-Small",
+    2: "Small",
     3: "Medium",
-    4: "Medium-Large",
-    5: "Large",
+    4: "Large",
+    5: "X-Large",
   };
 
   return sizeMap[level] || "Medium";

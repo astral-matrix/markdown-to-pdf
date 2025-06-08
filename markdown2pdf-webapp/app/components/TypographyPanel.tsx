@@ -51,7 +51,7 @@ function TypographyPanelComponent() {
             htmlFor="size-level"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Size Level
+            Font Size
           </Label>
           <div className="flex items-center space-x-2">
             <Slider
