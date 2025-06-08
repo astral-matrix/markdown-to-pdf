@@ -6,6 +6,7 @@ import React, {
   useCallback,
   ReactNode,
 } from "react";
+
 import { SpacingOption } from "../lib/api";
 
 // Define the types for our formatting state
@@ -176,17 +177,17 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
   );
 
   // For backward compatibility, create a merged options object
-  const options = useMemo(
-    () => ({
-      fontFamily: typography.fontFamily,
-      availableFonts: typography.availableFonts,
-      sizeLevel: typography.sizeLevel,
-      spacing: layout.spacing,
-      autoWidthTables: layout.autoWidthTables,
-      filename,
-    }),
-    [typography, layout, filename]
-  );
+  // const options = useMemo(
+  //   () => ({
+  //     fontFamily: typography.fontFamily,
+  //     availableFonts: typography.availableFonts,
+  //     sizeLevel: typography.sizeLevel,
+  //     spacing: layout.spacing,
+  //     autoWidthTables: layout.autoWidthTables,
+  //     filename,
+  //   }),
+  //   [typography, layout, filename]
+  // );
 
   return (
     <ResetContext.Provider value={resetValue}>

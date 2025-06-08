@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo, useCallback } from "react";
+import React, { useRef, memo, useCallback } from "react";
 import { cn } from "../lib/utils";
 import { Textarea } from "../../components/ui/textarea";
 
