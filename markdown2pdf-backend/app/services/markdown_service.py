@@ -71,11 +71,14 @@ def preserve_code_block_whitespace(html: str) -> str:
     monospace_font = font_service.get_monospace_font()
     
     # Make sure pre tags have the necessary CSS for whitespace preservation and styling
+    # WeasyPrint-specific CSS for proper text wrapping in PDFs
     pre_style = (
         'style="white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; '
+        'hyphens: auto; -webkit-hyphens: auto; -moz-hyphens: auto; '
         'background-color: #f5f7f9; border-radius: 8px; padding: 16px; '
         f'font-family: {monospace_font}, monospace; margin: 0 0 12px 0; display: block; '
-        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box;"'
+        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box; '
+        'max-width: 100%; word-wrap: break-word;"'
     )
     
     #html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
@@ -89,6 +92,27 @@ def preserve_code_block_whitespace(html: str) -> str:
     
     # Find code blocks with content and ensure they have proper whitespace preservation
     html = re.sub(r'<pre><code>(.*?)</code></pre>', fix_code_content, html, flags=re.DOTALL)
+    
+    return html
+
+def optimize_for_pdf_wrapping(html: str) -> str:
+    """Post-process HTML to ensure better text wrapping in WeasyPrint/PDF generation."""
+    # Add zero-width spaces after certain characters to encourage breaking
+    # This helps WeasyPrint break long lines at better positions
+    
+    # Add break opportunities after commas, semicolons, and other punctuation in code blocks
+    def add_break_opportunities(match):
+        code_content = match.group(1)
+        # Add zero-width space (&#8203;) after punctuation to encourage line breaks
+        code_content = re.sub(r'([,;])', r'\1&#8203;', code_content)
+        code_content = re.sub(r'(\[)', r'\1&#8203;', code_content)
+        code_content = re.sub(r'(\()', r'\1&#8203;', code_content)
+        # Add break opportunities in long quoted strings
+        code_content = re.sub(r'(&quot;[^&]{10,}?)([^&]{5})', r'\1&#8203;\2', code_content)
+        return f'<code>{code_content}</code>'
+    
+    # Apply to code blocks
+    html = re.sub(r'<code>(.*?)</code>', add_break_opportunities, html, flags=re.DOTALL)
     
     return html
 
@@ -248,6 +272,9 @@ class MarkdownService:
         # Ensure code blocks preserve whitespace
         html_body = preserve_code_block_whitespace(html_body)
         
+        # Post-process for PDF-specific text wrapping
+        html_body = optimize_for_pdf_wrapping(html_body)
+        
         # Ensure nested lists are properly styled
         html_body = ensure_nested_lists(html_body)
         
@@ -277,6 +304,8 @@ class MarkdownService:
         white-space: pre-wrap;
         word-break: break-word;
         overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
         tab-size: 4;
         -moz-tab-size: 4;
         border-radius: 8px;
@@ -286,14 +315,34 @@ class MarkdownService:
         line-height: 150%;
         display: block;
         width: 100%;
+        max-width: 100%;
         page-break-inside: auto;
         break-inside: auto;
         box-sizing: border-box;
     }}
     code {{
         white-space: pre-wrap;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
         font-family: {monospace_font}, monospace;
-
+    }}
+    /* WeasyPrint-specific rules for syntax highlighting spans */
+    .code-highlight pre span {{
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        display: inline;
+    }}
+    /* Force breaking for long content in specific span types */
+    .code-highlight pre span.s,
+    .code-highlight pre span.s1,
+    .code-highlight pre span.s2,
+    .code-highlight pre span.p {{
+        word-break: break-all;
+        overflow-wrap: anywhere;
+        word-wrap: break-word;
     }}
     /* List styling to support proper nesting */
     ul, ol {{
