@@ -72,10 +72,10 @@ def preserve_code_block_whitespace(html: str) -> str:
     
     # Make sure pre tags have the necessary CSS for whitespace preservation and styling
     pre_style = (
-        'style="white-space: pre-wrap; word-break: keep-all; '
+        'style="white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; '
         'background-color: #f5f7f9; border-radius: 8px; padding: 16px; '
-        f'font-family: {monospace_font}, monospace; margin: 0 0 12px 0; display: inline-block; '
-        'min-width: 40%; max-width: 100%; overflow-x: auto;"'
+        f'font-family: {monospace_font}, monospace; margin: 0 0 12px 0; display: block; '
+        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box;"'
     )
     
     #html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
@@ -275,7 +275,8 @@ class MarkdownService:
     }}
     pre {{
         white-space: pre-wrap;
-        word-break: keep-all;
+        word-break: break-word;
+        overflow-wrap: break-word;
         tab-size: 4;
         -moz-tab-size: 4;
         border-radius: 8px;
@@ -283,10 +284,11 @@ class MarkdownService:
         padding: 8px;
         font-family: {monospace_font}, monospace;
         line-height: 150%;
-        display: inline-block;
-        min-width: 40%;
-        max-width: 100%;
-        overflow-x: auto;
+        display: block;
+        width: 100%;
+        page-break-inside: auto;
+        break-inside: auto;
+        box-sizing: border-box;
     }}
     code {{
         white-space: pre-wrap;
