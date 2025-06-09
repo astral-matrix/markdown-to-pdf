@@ -65,34 +65,6 @@ def sanitize_glyphs(text: str) -> str:
         text = text.replace(bad, good)
     return text
 
-def preserve_code_block_whitespace(html: str) -> str:
-    """Ensure code blocks preserve their whitespace by properly handling pre/code tags."""
-    # Get the monospace font to use for code blocks
-    monospace_font = font_service.get_monospace_font()
-    
-    # Make sure pre tags have the necessary CSS for whitespace preservation and styling
-    # WeasyPrint-specific CSS for proper text wrapping in PDFs
-    pre_style = (
-        'style="white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; '
-        'background-color: #f5f7f9; border-radius: 8px; padding: 16px; '
-        f'font-family: {monospace_font}, monospace; margin: 0 0 12px 0; display: block; '
-        'width: 100%; page-break-inside: auto; break-inside: auto; box-sizing: border-box;"'
-    )
-    
-    #html = re.sub(r'<pre>', f'<pre {pre_style}>', html)
-    
-    # Ensure code inside pre tags maintains its formatting
-    # This mainly addresses specific formatting issues with leading spaces and newlines
-    def fix_code_content(match):
-        code_content = match.group(1)
-        # Ensure content inside code blocks isn't unintentionally altered
-        return f'<pre {pre_style}><code>{code_content}</code></pre>'
-    
-    # Find code blocks with content and ensure they have proper whitespace preservation
-    html = re.sub(r'<pre><code>(.*?)</code></pre>', fix_code_content, html, flags=re.DOTALL)
-    
-    return html
-
 def optimize_for_pdf_wrapping(html: str) -> str:
     """Post-process HTML to ensure better text wrapping in WeasyPrint/PDF generation."""
     # Add zero-width spaces after certain characters to encourage breaking
@@ -266,9 +238,6 @@ class MarkdownService:
         
         # Convert markdown to HTML
         html_body = markdown.markdown(cleaned, extensions=self._extensions)
-
-        # Ensure code blocks preserve whitespace
-        html_body = preserve_code_block_whitespace(html_body)
         
         # Post-process for PDF-specific text wrapping
         html_body = optimize_for_pdf_wrapping(html_body)
