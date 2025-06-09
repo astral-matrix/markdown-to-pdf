@@ -172,9 +172,12 @@ class LineBreakExtension(Extension):
 class MarkdownService:
     """Singleton service that converts Markdown to HTML."""
 
+    # to generate new pygment stylesheet run: 
+    # pygmentize -S lightbulb -f html -a .code-highlight > code.css
     _extensions = [
         TableExtension(),
-        CodeHiliteExtension(css_class="code-highlight", pygments_style="monokai", linenums=False),
+        CodeHiliteExtension(css_class="code-highlight", pygments_style="native", linenums=False),
+        #CodeHiliteExtension(css_class="code-highlight", pygments_style="monokai", linenums=False),
         FencedCodeExtension(),  # Explicitly add fenced code extension
         ExtraExtension(),       # Add Extra extension which includes proper list support
         LineBreakExtension(),   # Add our custom line break extension
