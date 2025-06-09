@@ -17,16 +17,28 @@ from app.models import PDFGenerationRequest
 from app.services.markdown_service import markdown_service
 from app.services.font_service import font_service
 
-# Path to custom CSS for PDF output
+# Path to custom CSS files for PDF output
 _STYLES_CSS_PATH = (
     Path(__file__).resolve().parent.parent / "static" / "css" / "styles.css"
 )
 
+_CODE_HIGHLIGHT_CSS_PATH = (
+    Path(__file__).resolve().parent.parent / "static" / "css" / "code-highlight.css"
+)
 
 def _read_styles_css() -> str:
-    """Return the contents of ``styles.css`` if the file exists."""
+    """Return the contents of ``styles.css`` and  ``code-highlight.css`` if files exists."""
     try:
         return _STYLES_CSS_PATH.read_text(encoding="utf-8")
+
+    except OSError:
+        return ""
+
+def _read_code_highlight_css() -> str:
+    """Return the contents of ``styles.css`` and  ``code-highlight.css`` if files exists."""
+    try:
+        return _CODE_HIGHLIGHT_CSS_PATH.read_text(encoding="utf-8")
+
     except OSError:
         return ""
 
@@ -48,60 +60,9 @@ body {{
   -weasy-font-embed: embed;
 }}
 
-/* ------------------------------------------------------------------
-   Body copy & inline
-   ------------------------------------------------------------------ */
-p {{ margin: 0 0 0.75em 0; }}
-strong, b {{ font-weight: 550; }}
-em, i     {{ font-style: italic; }}
-a         {{ color: var(--accent); text-decoration: none; }}
-a:hover   {{ text-decoration: underline; }}
-
 code, pre {{
   font-family: '{monospace_font}', 'DejaVu Sans Mono', monospace;
 }}
-
-table {{
-  border-collapse: collapse;
-  width: 100%;
-  margin: 1em 0;
-}}
-
-th, td {{
-  border: 1px solid #ddd;
-  padding: 0.5em;
-}}
-
-th {{ background: #f2f2f2; }}
-tr:nth-child(even) {{ background: #f9f9f9; }}
-
-ul, ol {{
-  margin: 0 0 1em 0;
-  padding-left: 1.5em;
-}}
-
-li {{ margin: 0 0 0.25em 0; }}
-
-h1, h2, h3, h4, h5, h6 {{
-  font-weight: 600;
-  line-height: 1.25;
-  margin: 0; /* reset default margin */
-}}
-
-/* no margin top for h1, h2, h3, h4, h5, h6 at top of page */
-h1:first-child, 
-h2:first-child, 
-h3:first-child, 
-h4:first-child, 
-h5:first-child, 
-h6:first-child  {{ margin-top: 0; }}
-
-h1 {{ font-size: 2em;  margin-bottom: 0.25em; page-break-before: always;}}
-h2 {{ font-size: 1.7411em;  margin-top: 0.75em; margin-bottom: 0.20em; }}
-h3 {{ font-size: 1.5157em; margin-top: 0.75em; margin-bottom: 0.20em; }}
-h4 {{ font-size: 1.3195em; margin-top: 1em; margin-bottom: 0.20em; }}
-h5 {{ font-size: 1.1487em; margin-top: 1em; margin-bottom: 0.20em; }}
-h6 {{ font-size: 1.0112em; margin-top: 0.75em; margin-bottom: 0.20em; }}
 
 """
 
@@ -196,11 +157,11 @@ class PDFService:
         )
 
         css_parts = [_PAGE_CSS]
-        extra_css = _read_styles_css()
-        if extra_css:
-            css_parts.append(extra_css)
+        theme_css = _read_styles_css() + _read_code_highlight_css()
         if font_face_css:
             css_parts.append(font_face_css)
+        if theme_css:
+            css_parts.append(theme_css)
         css_parts.append(body_css)          
         return "\n".join(css_parts)
 
