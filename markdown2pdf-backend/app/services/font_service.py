@@ -115,9 +115,10 @@ class FontService:
             else:
                 font_format = "truetype"
 
-            src = self.fonts_path / filename
+            # Use relative path from the backend project root (where run.py is located)
+            relative_src = f"app/static/fonts/{filename}"
             css_rules.append(
-                f"@font-face {{ font-family: '{font_family}'; src: url('{src.as_posix()}') format('{font_format}'); font-weight: {font_weight}; font-style: {font_style}; }}"
+                f"@font-face {{ font-family: '{font_family}'; src: url('{relative_src}') format('{font_format}'); font-weight: {font_weight}; font-style: {font_style}; }}"
             )
 
         return "\n".join(css_rules)
