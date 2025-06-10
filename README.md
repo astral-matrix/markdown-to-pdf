@@ -1,6 +1,8 @@
 # Markdown to PDF Converter
 
-A full-stack web application that converts Markdown to beautifully styled PDFs with customizable typography and layout options.
+A full-stack web application that converts ChatGPT markdown to beautifully styled PDFs with customizable typography layout options, and code syntax highlighting.
+
+![ui screenshot](./README.png)
 
 ## Purpose
 
