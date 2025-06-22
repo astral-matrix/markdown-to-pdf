@@ -12,6 +12,7 @@
   --accent: #0057c2;
 
   --border: #d0d7de;
+  --subtle-border: #e6e8eb;
   --bg-note: #f5f7fa; /* light grey boxes (code, call-outs) */
   --bg-table-even: #fafbfc;
 }
@@ -38,28 +39,62 @@ a:hover {
   text-decoration: underline;
 }
 
+/* ChatGPT table styling */
+/* Minimalist interview‑deck table (no vertical borders) */
 table {
-  border-collapse: collapse;
   width: 100%;
-  margin: 1em 0;
+  border-collapse: collapse; /* merge borders; horizontal lines only */
+  font-size: 0.875em;
+  line-height: 1.45;
 }
 
+/* Headings & cells */
 th,
 td {
-  border: 1px solid #ddd;
-  padding: 0.5em;
+  text-align: left;
+  vertical-align: top;
 }
 
 th {
-  background: #f2f2f2;
-}
-tr:nth-child(even) {
-  background: #f9f9f9;
+  padding: 0.375rem 1rem 0.375rem 0;
 }
 
+td {
+  padding: 0.625rem 1rem 0.625rem 0;
+}
+
+/* Header row */
+thead th {
+  font-weight: 600;
+  border-bottom: 1px solid #cfd2d6; /* stronger rule under header */
+}
+
+/* Horizontal separators between body rows */
+tbody tr:not(:last-child) td {
+  border-bottom: 1px solid #e6e8eb; /* subtle divider */
+}
+
+/* Optional row hover highlight for interactivity */
+tr:hover td {
+  background-color: #f8f9fa;
+}
+
+/* Compact variant for dense data */
+.table-compact th,
+.table-compact td {
+  padding: 0.25rem 0.5rem;
+}
+
+/* End ChatGPT table styling */
+
 hr {
-  border: 0.05em solid var(--border);
-  margin: 1.5em 0 1em 0;
+  color: #cfd2d6;
+  /*  border-top: 1px solid var(--border);*/
+  border-top: 1px solid var(--subtle-border);
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  margin: 2.5em 0 2.5em 0;
 }
 
 /* ------------------------------------------------------------------
@@ -67,8 +102,8 @@ hr {
   ------------------------------------------------------------------ */
 ul,
 ol {
-  margin: 0 0 0.5em 1em;
-  padding-left: 1em;
+  margin: 0 0 0.5em 0;
+  padding-left: 1.625em;
 }
 
 li {
@@ -77,15 +112,15 @@ li {
 
 ul li,
 ol li {
-  margin-bottom: 0.25em;
+  margin-bottom: 0.5em;
 }
 li ul,
 li ol {
-  margin-top: 0.25em;
+  margin-top: 0.5em;
 }
-.nested-list {
+/* .nested-list {
   margin-left: 1em !important;
-}
+} */
 /* Add increasing indentation based on nesting level */
 .nested-list[data-level="1"] {
   margin-left: 1em !important;
@@ -128,34 +163,38 @@ h6:first-child {
 }
 
 h1 {
-  font-size: 2em;
-  margin-bottom: 0.25em;
+  font-size: 2.25em;
+  margin-bottom: 0.875em;
   page-break-before: always;
 }
 h2 {
-  font-size: 1.7411em;
-  margin-top: 0.75em;
-  margin-bottom: 0.2em;
+  font-size: 1.5em;
+  margin-top: 1.33em;
+  margin-bottom: 0.5em;
 }
 h3 {
-  font-size: 1.5157em;
-  margin-top: 0.75em;
-  margin-bottom: 0.2em;
+  font-size: 1.25em;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  line-height: 1.6;
 }
 h4 {
-  font-size: 1.3195em;
+  font-size: 1em;
   margin-top: 1em;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.25;
 }
 h5 {
-  font-size: 1.1487em;
-  margin-top: 1em;
-  margin-bottom: 0.2em;
+  font-size: 1em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.75;
 }
 h6 {
-  font-size: 1.0112em;
-  margin-top: 0.75em;
-  margin-bottom: 0.2em;
+  font-size: 1em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.75;
 }
 
 /* ------------------------------------------------------------------

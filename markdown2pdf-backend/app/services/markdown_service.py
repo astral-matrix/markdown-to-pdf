@@ -49,18 +49,17 @@ _GLYPH_MAP: dict[str, str] = {
     "\u201c": '"',   # left double quote
     "\u201d": '"',   # right double quote
     "\\~": '~',   # tilde
-    "\~": '~',   # tilde
+    r"\~": '~',   # tilde
     "\\&": '&amp;',   # ampersand
-    "\&": '&amp;',   # ampersand
-    "\$": '$',   # dollar sign
-    "\#": '#',   # hash
+    r"\&": '&amp;',   # ampersand
+    r"\$": '$',   # dollar sign
+    r"\#": '#',   # hash
     "\\#": '#',   # hash
     "\\*": '*',   # asterisk
     "\\_": '_',   # underscore
     "\\+": '+',   # plus
     "\\-": '-',   # dash
     "\\=": '=',   # equals
-
 
 }
 
