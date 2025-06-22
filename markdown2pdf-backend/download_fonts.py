@@ -16,12 +16,48 @@ FONTS = {
         "italic": "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Italic.ttf",
         "bold_italic": "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-BoldItalic.ttf",
     },
+    "OpenSans": {
+        "regular": "https://github.com/googlefonts/opensans/raw/main/fonts/ttf/OpenSans-Regular.ttf",
+        "bold": "https://github.com/googlefonts/opensans/raw/main/fonts/ttf/OpenSans-Bold.ttf",
+        "italic": "https://github.com/googlefonts/opensans/raw/main/fonts/ttf/OpenSans-Italic.ttf",
+        "bold_italic": "https://github.com/googlefonts/opensans/raw/main/fonts/ttf/OpenSans-BoldItalic.ttf",
+    },
+    "SourceSansPro": {
+        "regular": "https://github.com/adobe-fonts/source-sans/raw/release/TTF/SourceSansPro-Regular.ttf",
+        "bold": "https://github.com/adobe-fonts/source-sans/raw/release/TTF/SourceSansPro-Bold.ttf",
+        "italic": "https://github.com/adobe-fonts/source-sans/raw/release/TTF/SourceSansPro-It.ttf",
+        "bold_italic": "https://github.com/adobe-fonts/source-sans/raw/release/TTF/SourceSansPro-BoldIt.ttf",
+    },
+    "WorkSans": {
+        "regular": "https://github.com/weiweihuanghuang/Work-Sans/raw/master/fonts/static/TTF/WorkSans-Regular.ttf",
+        "bold": "https://github.com/weiweihuanghuang/Work-Sans/raw/master/fonts/static/TTF/WorkSans-Bold.ttf",
+        "italic": "https://github.com/weiweihuanghuang/Work-Sans/raw/master/fonts/static/TTF/WorkSans-Italic.ttf",
+        "bold_italic": "https://github.com/weiweihuanghuang/Work-Sans/raw/master/fonts/static/TTF/WorkSans-BoldItalic.ttf",
+    },
+    "IBMPlexSans": {
+        "regular": "https://github.com/IBM/plex/raw/master/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Regular.ttf",
+        "bold": "https://github.com/IBM/plex/raw/master/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Bold.ttf",
+        "italic": "https://github.com/IBM/plex/raw/master/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Italic.ttf",
+        "bold_italic": "https://github.com/IBM/plex/raw/master/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-BoldItalic.ttf",
+    },
     "SourceCodePro": {
         "regular": "https://github.com/adobe-fonts/source-code-pro/raw/release/TTF/SourceCodePro-Regular.ttf",
         "bold": "https://github.com/adobe-fonts/source-code-pro/raw/release/TTF/SourceCodePro-Bold.ttf",
         "italic": "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-It.otf",
         "bold_italic": "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-BoldIt.otf",
-    }
+    },
+    "Lato": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Regular.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Bold.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Italic.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/lato/Lato-BoldItalic.ttf",
+    },
+    "NunitoSans": {
+        "regular": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-Regular.ttf",
+        "bold": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-Bold.ttf",
+        "italic": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-Italic.ttf",
+        "bold_italic": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-BoldItalic.ttf",
+    },
 }
 
 # Font directory

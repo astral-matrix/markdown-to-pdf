@@ -71,6 +71,10 @@ code, pre {{
 # ---------------------------------------------------------------------------
 _FONT_STACKS = {
     "Inter": "Inter, 'DejaVu Sans', sans-serif",
+    "OpenSans": "OpenSans, 'Open Sans', 'DejaVu Sans', sans-serif",
+    "Lato": "Lato, 'DejaVu Sans', sans-serif",
+    "NunitoSans": "NunitoSans, 'Nunito Sans', 'DejaVu Sans', sans-serif",
+    "IBMPlexSans": "IBMPlexSans, 'IBM Plex Sans', 'DejaVu Sans', sans-serif",
     "Roboto": "Roboto, 'DejaVu Sans', sans-serif",
     "SourceCodePro": "SourceCodePro, 'DejaVu Sans Mono', monospace",
     "MesloLGS": "MesloLGS, 'DejaVu Sans Mono', monospace",

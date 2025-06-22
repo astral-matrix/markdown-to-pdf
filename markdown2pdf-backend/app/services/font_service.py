@@ -22,6 +22,30 @@ class FontService:
                 "italic": "Roboto-Italic.ttf",
                 "bold_italic": "Roboto-BoldItalic.ttf",
             },
+            "OpenSans": {
+                "regular": "OpenSans-Regular.ttf",
+                "bold": "OpenSans-Bold.ttf",
+                "italic": "OpenSans-Italic.ttf",
+                "bold_italic": "OpenSans-BoldItalic.ttf",
+            },
+            "SourceSansPro": {
+                "regular": "SourceSansPro-Regular.ttf",
+                "bold": "SourceSansPro-Bold.ttf",
+                "italic": "SourceSansPro-It.ttf",
+                "bold_italic": "SourceSansPro-BoldIt.ttf",
+            },
+            "WorkSans": {
+                "regular": "WorkSans-Regular.ttf",
+                "bold": "WorkSans-Bold.ttf",
+                "italic": "WorkSans-Italic.ttf",
+                "bold_italic": "WorkSans-BoldItalic.ttf",
+            },
+            "IBMPlexSans": {
+                "regular": "IBMPlexSans-Regular.ttf",
+                "bold": "IBMPlexSans-Bold.ttf",
+                "italic": "IBMPlexSans-Italic.ttf",
+                "bold_italic": "IBMPlexSans-BoldItalic.ttf",
+            },
             "MesloLGS": {
                 "regular": "MesloLGS-Regular.ttf",
                 "bold": "MesloLGS-Bold.ttf",
@@ -33,7 +57,19 @@ class FontService:
                 "bold": "SourceCodePro-Bold.ttf",
                 "italic": "SourceCodePro-Italic.otf",
                 "bold_italic": "SourceCodePro-BoldItalic.otf",
-            }
+            },
+            "Lato": {
+                "regular": "Lato-Regular.ttf",
+                "bold": "Lato-Bold.ttf",
+                "italic": "Lato-Italic.ttf",
+                "bold_italic": "Lato-BoldItalic.ttf",
+            },
+            "NunitoSans": {
+                "regular": "NunitoSans-Regular.ttf",
+                "bold": "NunitoSans-Bold.ttf",
+                "italic": "NunitoSans-Italic.ttf",
+                "bold_italic": "NunitoSans-BoldItalic.ttf",
+            },
         }
         self._fonts_registered = False
         self._monospace_font = None
@@ -126,7 +162,7 @@ class FontService:
     def get_available_fonts(self) -> List[str]:
         """Return list of available font families"""
         # Include the built-in ReportLab fonts and custom fonts
-        return ["Inter", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
+        return ["Inter", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
     
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""
