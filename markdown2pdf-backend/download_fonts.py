@@ -58,6 +58,38 @@ FONTS = {
         "italic": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-Italic.ttf",
         "bold_italic": "https://github.com/googlefonts/NunitoSans/raw/main/fonts/ttf/NunitoSans-BoldItalic.ttf",
     },
+    # Apple SF-style fonts (Albert Sans available through Google Fonts API)
+    "AlbertSans": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/albertsans/AlbertSans%5Bwght%5D.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/albertsans/AlbertSans%5Bwght%5D.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/albertsans/AlbertSans-Italic%5Bwght%5D.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/albertsans/AlbertSans-Italic%5Bwght%5D.ttf",
+    },
+    "HankenGrotesk": {
+        "regular": "https://github.com/marcologous/hanken-grotesk/raw/master/fonts/ttf/HankenGrotesk-Regular.ttf",
+        "bold": "https://github.com/marcologous/hanken-grotesk/raw/master/fonts/ttf/HankenGrotesk-Bold.ttf",
+        "italic": "https://github.com/marcologous/hanken-grotesk/raw/master/fonts/ttf/HankenGrotesk-Italic.ttf",
+        "bold_italic": "https://github.com/marcologous/hanken-grotesk/raw/master/fonts/ttf/HankenGrotesk-BoldItalic.ttf",
+    },
+    # Helvetica Neue-style fonts
+    "Archivo": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/archivo/Archivo%5Bwdth,wght%5D.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/archivo/Archivo%5Bwdth,wght%5D.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/archivo/Archivo-Italic%5Bwdth,wght%5D.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/archivo/Archivo-Italic%5Bwdth,wght%5D.ttf",
+    },
+    "Manrope": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+    },
+    "Barlow": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-Regular.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-Bold.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-Italic.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-BoldItalic.ttf",
+    },
 }
 
 # Font directory

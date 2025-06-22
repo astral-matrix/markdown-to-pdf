@@ -70,7 +70,15 @@ code, pre {{
 # Mapping helpers
 # ---------------------------------------------------------------------------
 _FONT_STACKS = {
-    "Inter": "Inter, 'DejaVu Sans', sans-serif",
+    # Apple SF-style fonts
+    "Inter": "Inter, -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
+    "AlbertSans": "AlbertSans, 'Albert Sans', -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
+    "HankenGrotesk": "HankenGrotesk, 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
+    # Helvetica Neue-style fonts
+    "Archivo": "Archivo, 'Helvetica Neue', Helvetica, 'DejaVu Sans', sans-serif",
+    "Manrope": "Manrope, 'Helvetica Neue', Helvetica, 'DejaVu Sans', sans-serif",
+    "Barlow": "Barlow, 'Helvetica Neue', Helvetica, 'DejaVu Sans', sans-serif",
+    # Other high-quality fonts
     "OpenSans": "OpenSans, 'Open Sans', 'DejaVu Sans', sans-serif",
     "Lato": "Lato, 'DejaVu Sans', sans-serif",
     "NunitoSans": "NunitoSans, 'Nunito Sans', 'DejaVu Sans', sans-serif",
@@ -78,6 +86,7 @@ _FONT_STACKS = {
     "Roboto": "Roboto, 'DejaVu Sans', sans-serif",
     "SourceCodePro": "SourceCodePro, 'DejaVu Sans Mono', monospace",
     "MesloLGS": "MesloLGS, 'DejaVu Sans Mono', monospace",
+    # System fonts
     "Helvetica": "Helvetica, Arial, sans-serif",
     "Times-Roman": "'Times New Roman', Times, serif",
     "Courier": "Courier, monospace",

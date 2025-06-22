@@ -70,6 +70,38 @@ class FontService:
                 "italic": "NunitoSans-Italic.ttf",
                 "bold_italic": "NunitoSans-BoldItalic.ttf",
             },
+            # Apple SF-style fonts
+            "AlbertSans": {
+                "regular": "AlbertSans-Regular.ttf",
+                "bold": "AlbertSans-Bold.ttf",
+                "italic": "AlbertSans-Italic.ttf",
+                "bold_italic": "AlbertSans-BoldItalic.ttf",
+            },
+            "HankenGrotesk": {
+                "regular": "HankenGrotesk-Regular.ttf",
+                "bold": "HankenGrotesk-Bold.ttf",
+                "italic": "HankenGrotesk-Italic.ttf",
+                "bold_italic": "HankenGrotesk-BoldItalic.ttf",
+            },
+            # Helvetica Neue-style fonts
+            "Archivo": {
+                "regular": "Archivo[wdth,wght].ttf",
+                "bold": "Archivo[wdth,wght].ttf",
+                "italic": "Archivo-Italic[wdth,wght].ttf",
+                "bold_italic": "Archivo-Italic[wdth,wght].ttf",
+            },
+            "Manrope": {
+                "regular": "Manrope[wght].ttf",
+                "bold": "Manrope[wght].ttf",
+                "italic": "Manrope[wght].ttf",
+                "bold_italic": "Manrope[wght].ttf",
+            },
+            "Barlow": {
+                "regular": "Barlow-Regular.ttf",
+                "bold": "Barlow-Bold.ttf",
+                "italic": "Barlow-Italic.ttf",
+                "bold_italic": "Barlow-BoldItalic.ttf",
+            },
         }
         self._fonts_registered = False
         self._monospace_font = None
@@ -162,7 +194,7 @@ class FontService:
     def get_available_fonts(self) -> List[str]:
         """Return list of available font families"""
         # Include the built-in ReportLab fonts and custom fonts
-        return ["Inter", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
+        return ["Inter", "AlbertSans", "HankenGrotesk", "Archivo", "Manrope", "Barlow", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
     
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""
