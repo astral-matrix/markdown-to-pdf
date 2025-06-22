@@ -74,6 +74,10 @@ _FONT_STACKS = {
     "Inter": "Inter, -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
     "AlbertSans": "AlbertSans, 'Albert Sans', -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
     "HankenGrotesk": "HankenGrotesk, 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'DejaVu Sans', sans-serif",
+    # Futura-style fonts (geometric sans serif)
+    "Jost": "Jost, Futura, 'Futura PT', 'Century Gothic', 'DejaVu Sans', sans-serif",
+    "Spartan": "Spartan, Futura, 'Futura PT', 'Century Gothic', 'DejaVu Sans', sans-serif",
+    "Formera": "Formera, 'Futura Renner', Futura, 'Futura PT', 'Century Gothic', 'DejaVu Sans', sans-serif",
     # Helvetica Neue-style fonts
     "Archivo": "Archivo, 'Helvetica Neue', Helvetica, 'DejaVu Sans', sans-serif",
     "Manrope": "Manrope, 'Helvetica Neue', Helvetica, 'DejaVu Sans', sans-serif",

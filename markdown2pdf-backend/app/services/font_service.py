@@ -102,6 +102,25 @@ class FontService:
                 "italic": "Barlow-Italic.ttf",
                 "bold_italic": "Barlow-BoldItalic.ttf",
             },
+            # Futura-style fonts (geometric sans serif)
+            "Jost": {
+                "regular": "Jost[wght].ttf",
+                "bold": "Jost[wght].ttf",
+                "italic": "Jost-Italic[wght].ttf",
+                "bold_italic": "Jost-Italic[wght].ttf",
+            },
+            "Spartan": {
+                "regular": "LeagueSpartan-Regular.ttf",
+                "bold": "LeagueSpartan-Bold.ttf",
+                "italic": "LeagueSpartan-Regular.ttf",
+                "bold_italic": "LeagueSpartan-Bold.ttf",
+            },
+            "Formera": {
+                "regular": "Formera-Regular.ttf",
+                "bold": "Formera-Regular.ttf",
+                "italic": "Formera-Regular.ttf",
+                "bold_italic": "Formera-Regular.ttf",
+            },
         }
         self._fonts_registered = False
         self._monospace_font = None
@@ -194,7 +213,7 @@ class FontService:
     def get_available_fonts(self) -> List[str]:
         """Return list of available font families"""
         # Include the built-in ReportLab fonts and custom fonts
-        return ["Inter", "AlbertSans", "HankenGrotesk", "Archivo", "Manrope", "Barlow", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
+        return ["Inter", "AlbertSans", "HankenGrotesk", "Jost", "Spartan", "Formera", "Archivo", "Manrope", "Barlow", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
     
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""

@@ -90,6 +90,25 @@ FONTS = {
         "italic": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-Italic.ttf",
         "bold_italic": "https://github.com/google/fonts/raw/main/ofl/barlow/Barlow-BoldItalic.ttf",
     },
+    # Futura-style fonts (geometric sans serif)
+    "Jost": {
+        "regular": "https://github.com/google/fonts/raw/main/ofl/jost/Jost%5Bwght%5D.ttf",
+        "bold": "https://github.com/google/fonts/raw/main/ofl/jost/Jost%5Bwght%5D.ttf",
+        "italic": "https://github.com/google/fonts/raw/main/ofl/jost/Jost-Italic%5Bwght%5D.ttf",
+        "bold_italic": "https://github.com/google/fonts/raw/main/ofl/jost/Jost-Italic%5Bwght%5D.ttf",
+    },
+    "Spartan": {
+        "regular": "https://github.com/theleagueof/league-spartan/raw/master/fonts/ttf/LeagueSpartan-Regular.ttf",
+        "bold": "https://github.com/theleagueof/league-spartan/raw/master/fonts/ttf/LeagueSpartan-Bold.ttf",
+        "italic": "https://github.com/theleagueof/league-spartan/raw/master/fonts/ttf/LeagueSpartan-Regular.ttf",
+        "bold_italic": "https://github.com/theleagueof/league-spartan/raw/master/fonts/ttf/LeagueSpartan-Bold.ttf",
+    },
+    "Formera": {
+        "regular": "https://github.com/noirblancrouge/Formera/raw/master/fonts/ttf/Formera-Regular.ttf",
+        "bold": "https://github.com/noirblancrouge/Formera/raw/master/fonts/ttf/Formera-Bold.ttf",
+        "italic": "https://github.com/noirblancrouge/Formera/raw/master/fonts/ttf/Formera-Italic.ttf",
+        "bold_italic": "https://github.com/noirblancrouge/Formera/raw/master/fonts/ttf/Formera-BoldItalic.ttf",
+    },
 }
 
 # Font directory
