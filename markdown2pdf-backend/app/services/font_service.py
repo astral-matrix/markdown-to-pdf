@@ -130,56 +130,43 @@ class FontService:
         if self._fonts_registered:
             return
         
-        # First, try to register the MesloLGS font from TTC if available
-        try:      
-            # If we have individual TTF files for MesloLGS, use them
-            if all(os.path.exists(self.fonts_path / self.available_fonts["MesloLGS"][style]) 
-                  for style in ["regular", "bold", "italic", "bold_italic"]):
-                
-                # Register MesloLGS fonts
-                pdfmetrics.registerFont(TTFont('MesloLGS', str(self.fonts_path / self.available_fonts["MesloLGS"]["regular"])))
-                pdfmetrics.registerFont(TTFont('MesloLGS-Bold', str(self.fonts_path / self.available_fonts["MesloLGS"]["bold"])))
-                pdfmetrics.registerFont(TTFont('MesloLGS-Italic', str(self.fonts_path / self.available_fonts["MesloLGS"]["italic"])))
-                pdfmetrics.registerFont(TTFont('MesloLGS-BoldItalic', str(self.fonts_path / self.available_fonts["MesloLGS"]["bold_italic"])))
-                
-                # Create font family
-                pdfmetrics.registerFontFamily(
-                    'MesloLGS',
-                    normal='MesloLGS',
-                    bold='MesloLGS-Bold',
-                    italic='MesloLGS-Italic',
-                    boldItalic='MesloLGS-BoldItalic'
-                )
-                self._monospace_font = "MesloLGS"
-                print("Registered MesloLGS font family")
-            
-            # Try SourceCodePro as fallback if MesloLGS not available
-            elif all(os.path.exists(self.fonts_path / self.available_fonts["SourceCodePro"][style]) 
-                  for style in ["regular", "bold", "italic", "bold_italic"]):
-                
-                # Register SourceCodePro fonts
-                pdfmetrics.registerFont(TTFont('SourceCodePro', str(self.fonts_path / self.available_fonts["SourceCodePro"]["regular"])))
-                pdfmetrics.registerFont(TTFont('SourceCodePro-Bold', str(self.fonts_path / self.available_fonts["SourceCodePro"]["bold"])))
-                pdfmetrics.registerFont(TTFont('SourceCodePro-Italic', str(self.fonts_path / self.available_fonts["SourceCodePro"]["italic"])))
-                pdfmetrics.registerFont(TTFont('SourceCodePro-BoldItalic', str(self.fonts_path / self.available_fonts["SourceCodePro"]["bold_italic"])))
-                
-                # Create font family
-                pdfmetrics.registerFontFamily(
-                    'SourceCodePro',
-                    normal='SourceCodePro',
-                    bold='SourceCodePro-Bold',
-                    italic='SourceCodePro-Italic',
-                    boldItalic='SourceCodePro-BoldItalic'
-                )
-                self._monospace_font = "SourceCodePro"
-                print("Registered SourceCodePro font family as fallback for monospace")
-            else:
-                print("No monospace font files found, falling back to Courier")
-                self._monospace_font = "Courier"
-        except Exception as e:
-            print(f"Error registering monospace fonts: {e}")
-            print("Falling back to built-in Courier font")
+        # Register all available fonts
+        for font_family, variants in self.available_fonts.items():
+            try:
+                # Check if all required font files exist
+                if all(os.path.exists(self.fonts_path / variants[style]) 
+                      for style in ["regular", "bold", "italic", "bold_italic"]):
+                    
+                    # Register individual font files
+                    pdfmetrics.registerFont(TTFont(font_family, str(self.fonts_path / variants["regular"])))
+                    pdfmetrics.registerFont(TTFont(f'{font_family}-Bold', str(self.fonts_path / variants["bold"])))
+                    pdfmetrics.registerFont(TTFont(f'{font_family}-Italic', str(self.fonts_path / variants["italic"])))
+                    pdfmetrics.registerFont(TTFont(f'{font_family}-BoldItalic', str(self.fonts_path / variants["bold_italic"])))
+                    
+                    # Create font family
+                    pdfmetrics.registerFontFamily(
+                        font_family,
+                        normal=font_family,
+                        bold=f'{font_family}-Bold',
+                        italic=f'{font_family}-Italic',
+                        boldItalic=f'{font_family}-BoldItalic'
+                    )
+                    print(f"Registered {font_family} font family")
+                    
+                    # Set monospace font preference
+                    if font_family == "MesloLGS" and not self._monospace_font:
+                        self._monospace_font = "MesloLGS"
+                    elif font_family == "SourceCodePro" and not self._monospace_font:
+                        self._monospace_font = "SourceCodePro"
+                        
+            except Exception as e:
+                print(f"Error registering {font_family} fonts: {e}")
+                continue
+        
+        # Set fallback monospace font if none were registered
+        if not self._monospace_font:
             self._monospace_font = "Courier"
+            print("No custom monospace fonts available, using built-in Courier")
             
         self._fonts_registered = True
 
@@ -223,30 +210,26 @@ class FontService:
     
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""
-        # Check if Menlo is requested
-        if font_family == "MesloLGS" and self._monospace_font == "MesloLGS":
-            if bold and italic:
-                return "MesloLGS-BoldItalic" if os.path.exists(self.fonts_path / self.available_fonts["MesloLGS"]["bold_italic"]) else "MesloLGS"
-            elif bold:
-                return "MesloLGS-Bold" if os.path.exists(self.fonts_path / self.available_fonts["MesloLGS"]["bold"]) else "MesloLGS"
-            elif italic:
-                return "MesloLGS-Italic" if os.path.exists(self.fonts_path / self.available_fonts["MesloLGS"]["italic"]) else "MesloLGS"
-            else:
-                return "MesloLGS"
-        elif font_family == "SourceCodePro" and self._monospace_font == "SourceCodePro":
-            if bold and italic:
-                return "SourceCodePro-BoldItalic"
-            elif bold:
-                return "SourceCodePro-Bold"
-            elif italic:
-                return "SourceCodePro-Italic"
-            else:
-                return "SourceCodePro"
+        # Make sure fonts are registered
+        if not self._fonts_registered:
+            self.register_fonts()
+        
+        # Check if the font family is available in our custom fonts
+        if font_family in self.available_fonts:
+            # Check if all required font files exist
+            if all(os.path.exists(self.fonts_path / self.available_fonts[font_family][style]) 
+                  for style in ["regular", "bold", "italic", "bold_italic"]):
+                
+                if bold and italic:
+                    return f"{font_family}-BoldItalic"
+                elif bold:
+                    return f"{font_family}-Bold"
+                elif italic:
+                    return f"{font_family}-Italic"
+                else:
+                    return font_family
+        
         # Handle built-in fonts for fallback
-        elif font_family not in ["Helvetica", "Times-Roman", "Courier", "Inter", "Roboto"]:
-            font_family = "Helvetica"
-            
-        # Map to built-in fonts with appropriate styles
         if font_family == "Helvetica":
             if bold and italic:
                 return "Helvetica-BoldOblique"
@@ -275,6 +258,7 @@ class FontService:
             else:
                 return "Courier"
         else:
+            # Fallback to Helvetica for unknown fonts
             return "Helvetica"
 
     def get_monospace_font(self) -> str:
