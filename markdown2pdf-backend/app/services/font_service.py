@@ -85,16 +85,16 @@ class FontService:
             },
             # Helvetica Neue-style fonts
             "Archivo": {
-                "regular": "Archivo[wdth,wght].ttf",
-                "bold": "Archivo[wdth,wght].ttf",
-                "italic": "Archivo-Italic[wdth,wght].ttf",
-                "bold_italic": "Archivo-Italic[wdth,wght].ttf",
+                "regular": "Archivo-Regular.ttf",
+                "bold": "Archivo-Bold.ttf",
+                "italic": "Archivo-Italic.ttf",
+                "bold_italic": "Archivo-BoldItalic.ttf",
             },
             "Manrope": {
-                "regular": "Manrope[wght].ttf",
-                "bold": "Manrope[wght].ttf",
-                "italic": "Manrope[wght].ttf",
-                "bold_italic": "Manrope[wght].ttf",
+                "regular": "Manrope-Regular.ttf",
+                "bold": "Manrope-Bold.ttf",
+                "italic": "Manrope-Italic.ttf",
+                "bold_italic": "Manrope-BoldItalic.ttf",
             },
             "Barlow": {
                 "regular": "Barlow-Regular.ttf",
@@ -104,10 +104,10 @@ class FontService:
             },
             # Futura-style fonts (geometric sans serif)
             "Jost": {
-                "regular": "Jost[wght].ttf",
-                "bold": "Jost[wght].ttf",
-                "italic": "Jost-Italic[wght].ttf",
-                "bold_italic": "Jost-Italic[wght].ttf",
+                "regular": "Jost-Regular.ttf",
+                "bold": "Jost-Bold.ttf",
+                "italic": "Jost-Italic.ttf",
+                "bold_italic": "Jost-BoldItalic.ttf",
             },
             "Spartan": {
                 "regular": "LeagueSpartan-Regular.ttf",
@@ -183,7 +183,7 @@ class FontService:
             
         self._fonts_registered = True
 
-    def get_font_face_css(self, font_family: str) -> str:
+    def get_font_face_css(self, font_family: str, for_preview: bool = False) -> str:
         """Return @font-face CSS for the given font family if available."""
         css_rules = []
         files = self.available_fonts.get(font_family)
@@ -202,10 +202,16 @@ class FontService:
             else:
                 font_format = "truetype"
 
-            # Use relative path from the backend project root (where run.py is located)
-            relative_src = f"app/static/fonts/{filename}"
+            # Choose the appropriate path based on context
+            if for_preview:
+                # For web preview: use webapp public fonts path (accessible via web server)
+                font_src = f"/fonts/{filename}"
+            else:
+                # For PDF generation: use relative path to webapp public fonts from backend
+                font_src = f"../markdown2pdf-webapp/public/fonts/{filename}"
+            
             css_rules.append(
-                f"@font-face {{ font-family: '{font_family}'; src: url('{relative_src}') format('{font_format}'); font-weight: {font_weight}; font-style: {font_style}; }}"
+                f"@font-face {{ font-family: '{font_family}'; src: url('{font_src}') format('{font_format}'); font-weight: {font_weight}; font-style: {font_style}; }}"
             )
 
         return "\n".join(css_rules)

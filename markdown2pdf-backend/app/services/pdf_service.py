@@ -122,8 +122,8 @@ class PDFService:
         # Ensure fonts are registered
         font_service.register_fonts()
         
-        # Build CSS with font settings
-        css = self._build_css(request)
+        # Build CSS with font settings for PDF generation (use system paths)
+        css = self._build_css(request, for_preview=False)
         html_doc = markdown_service.convert_to_html(request.markdown, css=css)
 
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
@@ -141,8 +141,8 @@ class PDFService:
         # Ensure fonts are registered
         font_service.register_fonts()
         
-        # Build CSS with font settings
-        css = self._build_css(request)
+        # Build CSS with font settings for preview (use web paths)
+        css = self._build_css(request, for_preview=True)
         html_doc = markdown_service.convert_to_html(request.markdown, css=css)
 
         return html_doc
@@ -151,7 +151,7 @@ class PDFService:
     # Internal helpers
     # ------------------------------------------------------------------
 
-    def _build_css(self, request: PDFGenerationRequest) -> str:
+    def _build_css(self, request: PDFGenerationRequest, for_preview: bool = False) -> str:
         base_size = _SIZE_LEVELS.get(getattr(request, "size_level", 3), 12)
 
         # `spacing` may be an Enum or a raw string; normalise to lowercase string
@@ -161,7 +161,7 @@ class PDFService:
 
         requested_font = getattr(request, "font_family", "Inter")
         font_stack = _FONT_STACKS.get(requested_font, "'DejaVu Sans', sans-serif")
-        font_face_css = font_service.get_font_face_css(requested_font)
+        font_face_css = font_service.get_font_face_css(requested_font, for_preview=for_preview)
         
         # Get the monospace font to use for code blocks
         monospace_font = font_service.get_monospace_font()
