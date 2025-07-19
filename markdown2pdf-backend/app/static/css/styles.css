@@ -94,7 +94,7 @@ hr {
   border-right-width: 0px;
   border-bottom-width: 0px;
   border-left-width: 0px;
-  margin: 2.5em 0 1.5em 0;
+  margin: 2em 0 1.25em 0;
 }
 
 /* ------------------------------------------------------------------
@@ -164,36 +164,37 @@ h6:first-child {
 
 h1 {
   font-size: 2.25em;
-  margin-bottom: 0.875em;
+  margin-top: 0.94em;
+  margin-bottom: 0.63em;
   page-break-before: always;
 }
 h2 {
   font-size: 1.5em;
-  margin-top: 1.33em;
-  margin-bottom: 0.5em;
+  margin-top: 0.84em;
+  margin-bottom: 0.41em;
 }
 h3 {
   font-size: 1.25em;
-  margin-top: 1.2em;
-  margin-bottom: 0.4em;
+  margin-top: 0.75em;
+  margin-bottom: 0.31em;
   line-height: 1.6;
 }
 h4 {
   font-size: 1em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  margin-top: 0.63em;
+  margin-bottom: 0.25em;
   line-height: 1.25;
 }
 h5 {
   font-size: 1em;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0.19em;
   line-height: 1.75;
 }
 h6 {
   font-size: 1em;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 0.41em;
+  margin-bottom: 0.13em;
   line-height: 1.75;
 }
 
