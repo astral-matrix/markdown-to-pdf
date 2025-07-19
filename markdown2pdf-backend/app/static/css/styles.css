@@ -163,39 +163,41 @@ h6:first-child {
 }
 
 h1 {
-  font-size: 2.25em;
+  font-size: 1.953em;
+  line-height: 1.25;
   margin-top: 0.94em;
   margin-bottom: 0.63em;
   page-break-before: always;
 }
 h2 {
-  font-size: 1.5em;
+  font-size: 1.563em;
+  line-height: 1.3;
   margin-top: 0.84em;
   margin-bottom: 0.41em;
 }
 h3 {
   font-size: 1.25em;
+  line-height: 1.35;
   margin-top: 0.75em;
   margin-bottom: 0.31em;
-  line-height: 1.6;
 }
 h4 {
   font-size: 1em;
+  line-height: 1.4;
   margin-top: 0.63em;
   margin-bottom: 0.25em;
-  line-height: 1.25;
 }
 h5 {
-  font-size: 1em;
+  font-size: 0.8em;
+  line-height: 1.45;
   margin-top: 0.5em;
   margin-bottom: 0.19em;
-  line-height: 1.75;
 }
 h6 {
-  font-size: 1em;
+  font-size: 0.64em;
+  line-height: 1.5;
   margin-top: 0.41em;
   margin-bottom: 0.13em;
-  line-height: 1.75;
 }
 
 /* ------------------------------------------------------------------
