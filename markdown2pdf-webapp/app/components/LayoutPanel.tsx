@@ -12,8 +12,14 @@ import { Checkbox } from "../../components/ui/checkbox";
 import { Label } from "../../components/ui/label";
 
 function LayoutPanelComponent() {
-  const { spacing, autoWidthTables, setSpacing, setAutoWidthTables } =
-    useLayout();
+  const {
+    spacing,
+    autoWidthTables,
+    includeIndex,
+    setSpacing,
+    setAutoWidthTables,
+    setIncludeIndex,
+  } = useLayout();
 
   return (
     <div className="space-y-2 p-4 bg-gray-50 dark:bg-neutral-900 rounded-md shadow border dark:border-neutral-800">
@@ -57,6 +63,20 @@ function LayoutPanelComponent() {
             className="text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             Auto-width tables
+          </Label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="include-index"
+            checked={includeIndex}
+            onCheckedChange={(checked: boolean) => setIncludeIndex(checked)}
+          />
+          <Label
+            htmlFor="include-index"
+            className="text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Include index
           </Label>
         </div>
       </div>

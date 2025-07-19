@@ -16,6 +16,7 @@ export interface FormattingOptions {
   sizeLevel: number;
   spacing: SpacingOption;
   autoWidthTables: boolean;
+  includeIndex: boolean;
   filename: string;
 }
 
@@ -35,8 +36,10 @@ interface TypographyContextType {
 interface LayoutContextType {
   spacing: SpacingOption;
   autoWidthTables: boolean;
+  includeIndex: boolean;
   setSpacing: (spacing: SpacingOption) => void;
   setAutoWidthTables: (auto: boolean) => void;
+  setIncludeIndex: (include: boolean) => void;
 }
 
 // Filename Context
@@ -67,6 +70,7 @@ const defaultFormattingOptions: FormattingOptions = {
   sizeLevel: 3,
   spacing: SpacingOption.DEFAULT,
   autoWidthTables: true,
+  includeIndex: false,
   filename: "",
 };
 
@@ -82,6 +86,7 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState({
     spacing: defaultFormattingOptions.spacing,
     autoWidthTables: defaultFormattingOptions.autoWidthTables,
+    includeIndex: defaultFormattingOptions.includeIndex,
   });
 
   const [filename, setFilenameState] = useState(
@@ -124,6 +129,13 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const setIncludeIndex = useCallback((includeIndex: boolean) => {
+    setLayout((prev) => ({
+      ...prev,
+      includeIndex,
+    }));
+  }, []);
+
   const setFilename = useCallback((name: string) => {
     setFilenameState(name);
   }, []);
@@ -137,6 +149,7 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
     setLayout({
       spacing: defaultFormattingOptions.spacing,
       autoWidthTables: defaultFormattingOptions.autoWidthTables,
+      includeIndex: defaultFormattingOptions.includeIndex,
     });
     setFilenameState(defaultFormattingOptions.filename);
   }, []);
@@ -157,8 +170,9 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
       ...layout,
       setSpacing,
       setAutoWidthTables,
+      setIncludeIndex,
     }),
-    [layout, setSpacing, setAutoWidthTables]
+    [layout, setSpacing, setAutoWidthTables, setIncludeIndex]
   );
 
   const filenameValue = useMemo(

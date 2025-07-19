@@ -124,7 +124,7 @@ class PDFService:
         
         # Build CSS with font settings for PDF generation (use system paths)
         css = self._build_css(request, for_preview=False)
-        html_doc = markdown_service.convert_to_html(request.markdown, css=css)
+        html_doc = markdown_service.convert_to_html(request.markdown, css=css, include_index=getattr(request, 'include_index', False))
 
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:
@@ -143,7 +143,7 @@ class PDFService:
         
         # Build CSS with font settings for preview (use web paths)
         css = self._build_css(request, for_preview=True)
-        html_doc = markdown_service.convert_to_html(request.markdown, css=css)
+        html_doc = markdown_service.convert_to_html(request.markdown, css=css, include_index=getattr(request, 'include_index', False))
 
         return html_doc
 

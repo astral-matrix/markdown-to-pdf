@@ -15,6 +15,7 @@ export interface PDFGenerationRequest {
   spacing?: SpacingOption;
   auto_width_tables?: boolean;
   filename?: string;
+  include_index?: boolean;
 }
 
 // API functions

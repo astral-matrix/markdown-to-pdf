@@ -40,6 +40,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
     request.size_level,
     request.spacing,
     request.auto_width_tables,
+    request.include_index,
     isMarkdownEmpty,
     throttledGeneratePreview,
     request,
@@ -139,7 +140,9 @@ function arePropsEqual(prevProps: PDFPreviewProps, nextProps: PDFPreviewProps) {
     prevProps.request.font_family === nextProps.request.font_family &&
     prevProps.request.size_level === nextProps.request.size_level &&
     prevProps.request.spacing === nextProps.request.spacing &&
-    prevProps.request.auto_width_tables === nextProps.request.auto_width_tables
+    prevProps.request.auto_width_tables ===
+      nextProps.request.auto_width_tables &&
+    prevProps.request.include_index === nextProps.request.include_index
   );
 }
 

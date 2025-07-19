@@ -235,7 +235,171 @@ class MarkdownService:
         # Join all lines back together
         return '\n'.join(processed_lines)
 
-    def convert_to_html(self, markdown_text: str, css: str | None = None) -> str:
+    def _add_heading_ids(self, html: str) -> str:
+        """Add unique IDs to headings for index linking."""
+        import re
+        
+        def add_id_to_heading(match):
+            tag = match.group(1)  # h1, h2, h3, etc.
+            content = match.group(2)  # heading text
+            
+            # Generate a slug from the heading content
+            # Remove HTML tags first
+            clean_text = re.sub(r'<[^>]+>', '', content)
+            # Convert to lowercase and replace spaces/special chars with hyphens
+            slug = re.sub(r'[^\w\s-]', '', clean_text.lower())
+            slug = re.sub(r'[-\s]+', '-', slug).strip('-')
+            
+            # Ensure the slug is not empty
+            if not slug:
+                slug = f"heading-{hash(content) % 10000}"
+            
+            return f'<{tag} id="{slug}">{content}</{tag}>'
+        
+        # Match h1, h2, h3 headings and add IDs
+        html = re.sub(r'<(h[1-3])>(.*?)</\1>', add_id_to_heading, html, flags=re.DOTALL)
+        return html
+
+    def _generate_index(self, html: str) -> str:
+        """Generate an index/table of contents from headings in the HTML."""
+        import re
+        
+        # Extract headings with their IDs
+        headings = []
+        heading_pattern = r'<(h[1-3])\s+id="([^"]+)">(.*?)</\1>'
+        
+        for match in re.finditer(heading_pattern, html, re.DOTALL):
+            level = int(match.group(1)[1])  # Extract number from h1, h2, h3
+            heading_id = match.group(2)
+            text = re.sub(r'<[^>]+>', '', match.group(3))  # Remove HTML tags from heading text
+            headings.append({
+                'level': level,
+                'id': heading_id,
+                'text': text.strip()
+            })
+        
+        if not headings:
+            return ""
+        
+        # Generate index HTML
+        index_html = ['<div class="index-page">']
+        index_html.append('<h1 class="index-title">Table of Contents</h1>')
+        index_html.append('<div class="index-content">')
+        
+        for heading in headings:
+            level_class = f"index-level-{heading['level']}"
+            index_html.append(
+                f'<div class="index-entry {level_class}">'
+                f'<a href="#{heading["id"]}" class="index-link">'
+                f'<span class="index-text">{heading["text"]}</span>'
+                f'<span class="index-leader"></span>'
+                f'<span class="index-page-number" data-target="{heading["id"]}"></span>'
+                f'</a>'
+                f'</div>'
+            )
+        
+        index_html.append('</div>')
+        index_html.append('</div>')
+        index_html.append('<div class="page-break"></div>')
+        
+        return '\n'.join(index_html)
+
+    def _get_index_css(self) -> str:
+        """Return CSS styles for the index/table of contents."""
+        return """
+/* Index/Table of Contents Styles */
+.index-page {
+    page-break-after: always;
+    margin-bottom: 2em;
+}
+
+.index-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5em;
+}
+
+.index-content {
+    margin-top: 1em;
+}
+
+.index-entry {
+    margin-bottom: 0.3em;
+    page-break-inside: avoid;
+}
+
+.index-link {
+    display: flex;
+    text-decoration: none;
+    color: #333;
+    align-items: baseline;
+}
+
+.index-link:hover {
+    color: #0066cc;
+}
+
+.index-text {
+    flex-shrink: 0;
+}
+
+.index-leader {
+    flex-grow: 1;
+    border-bottom: 1px dotted #666;
+    margin: 0 0.5em;
+    height: 1em;
+    content: "";
+}
+
+.index-page-number {
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.index-page-number::after {
+    content: target-counter(attr(data-target), page);
+}
+
+/* Different indentation levels for headings */
+.index-level-1 {
+    margin-left: 0;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.index-level-2 {
+    margin-left: 1.5em;
+    font-weight: normal;
+}
+
+.index-level-3 {
+    margin-left: 3em;
+    font-weight: normal;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.page-break {
+    page-break-after: always;
+}
+
+/* Ensure headings have proper targets for page counting */
+h1, h2, h3 {
+    page-break-after: avoid;
+}
+
+/* Print-specific styles */
+@media print {
+    .index-page-number::after {
+        content: target-counter(attr(data-target), page);
+    }
+}
+"""
+
+    def convert_to_html(self, markdown_text: str, css: str | None = None, include_index: bool = False) -> str:
         """Return **full HTML** (optionally wrapped with a `<style>` tag)."""
         # Preprocess markdown to handle nested lists
         markdown_text = self.preprocess_nested_lists(markdown_text)
@@ -244,6 +408,10 @@ class MarkdownService:
         
         # Convert markdown to HTML
         html_body = markdown.markdown(cleaned, extensions=self._extensions)
+        
+        # Add IDs to headings for index linking if index is requested
+        if include_index:
+            html_body = self._add_heading_ids(html_body)
         
         # Post-process for PDF-specific text wrapping
         html_body = optimize_for_pdf_wrapping(html_body)
@@ -259,10 +427,19 @@ class MarkdownService:
         # We need to do this after markdown conversion for content not in code blocks
         html_body = re.sub(r'([^>])\n([^<])', r'\1<br>\n\2', html_body)
         
+        # Generate index if requested
+        if include_index:
+            index_html = self._generate_index(html_body)
+            html_body = index_html + html_body
+        
         # Get the monospace font for CSS
         monospace_font = font_service.get_monospace_font()
         
         if css:
+            # Add index-specific CSS if index is included
+            if include_index:
+                css += self._get_index_css()
+            
             return f"""
 <!DOCTYPE html>
 <html lang=\"en\">

@@ -11,7 +11,7 @@ interface PDFActionsProps {
 function PDFActionsComponent({ markdown }: PDFActionsProps) {
   // Get values from specific contexts to prevent unnecessary re-renders
   const { fontFamily, sizeLevel } = useTypography();
-  const { spacing, autoWidthTables } = useLayout();
+  const { spacing, autoWidthTables, includeIndex } = useLayout();
   const { filename } = useFilename();
 
   // Memoize the PDF request object to prevent unnecessary re-creation
@@ -22,9 +22,18 @@ function PDFActionsComponent({ markdown }: PDFActionsProps) {
       size_level: sizeLevel,
       spacing,
       auto_width_tables: autoWidthTables,
+      include_index: includeIndex,
       filename,
     }),
-    [markdown, fontFamily, sizeLevel, spacing, autoWidthTables, filename]
+    [
+      markdown,
+      fontFamily,
+      sizeLevel,
+      spacing,
+      autoWidthTables,
+      includeIndex,
+      filename,
+    ]
   );
 
   return (

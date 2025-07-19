@@ -40,7 +40,7 @@ export default function Home() {
 function EditorPage() {
   const [markdown, setMarkdown] = useState<string>("");
   const { setAvailableFonts, fontFamily, sizeLevel } = useTypography();
-  const { spacing, autoWidthTables } = useLayout();
+  const { spacing, autoWidthTables, includeIndex } = useLayout();
 
   // Fetch available fonts on component mount
   useEffect(() => {
@@ -64,8 +64,9 @@ function EditorPage() {
       size_level: sizeLevel,
       spacing,
       auto_width_tables: autoWidthTables,
+      include_index: includeIndex,
     }),
-    [markdown, fontFamily, sizeLevel, spacing, autoWidthTables]
+    [markdown, fontFamily, sizeLevel, spacing, autoWidthTables, includeIndex]
   );
 
   return (
