@@ -128,12 +128,12 @@ This will:
    python3 run.py
    ```
 
-The backend API will be available at http://localhost:5000.
+The backend API will be available at http://localhost:8000.
 
 You can check if the server is running by visiting:
 
-- API documentation: http://localhost:5000/docs
-- Health check: http://localhost:5000/health
+- API documentation: http://localhost:8000/docs
+- Health check: http://localhost:8000/health
 
 ## Getting started - Node.js ENV setup (MANUAL SETUP)
 
