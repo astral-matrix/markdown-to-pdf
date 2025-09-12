@@ -308,8 +308,9 @@ class MarkdownService:
         """Return CSS styles for the index/table of contents."""
         return """
 /* Index/Table of Contents Styles */
+/* Adding page breaks via .page-break class instead of .index-page class */
 .index-page {
-    page-break-after: always;
+    page-break-after: avoid;
     margin-bottom: 2em;
 }
 
@@ -387,9 +388,14 @@ class MarkdownService:
 }
 
 /* Ensure headings have proper targets for page counting */
-h1, h2, h3 {
+h1 {
+    page-break-before: always;
+    
+}
+h1,h2, h3, h4, h5, h6 {
     page-break-after: avoid;
 }
+
 
 /* Print-specific styles */
 @media print {

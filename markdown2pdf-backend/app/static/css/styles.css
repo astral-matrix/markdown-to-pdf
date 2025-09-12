@@ -167,7 +167,7 @@ h1 {
   line-height: 1.25;
   margin-top: 0.94em;
   margin-bottom: 0.63em;
-  page-break-before: always;
+  page-break-before: avoid;
 }
 h2 {
   font-size: 1.563em;
