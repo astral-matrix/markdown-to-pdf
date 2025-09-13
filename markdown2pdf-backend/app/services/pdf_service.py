@@ -195,8 +195,8 @@ class PDFService:
 .page-break {
     /* For preview: add visual representation of page break */
     margin-top: 12em !important;
-    margin-bottom: 3em !important;
-    padding-bottom: 1em !important;
+    margin-bottom: 2.85em !important;
+    padding-bottom: 1.25em !important;
     border-bottom: 2px dashed #ccc !important;
     position: relative !important;
 }
@@ -219,26 +219,28 @@ class PDFService:
 /* PDF PREVIEW MODE ONLY */
 /* Indicate page breaks before h1 heading when index is included */
 /* heading-link is added to h1 headings when index is included */
+
 h1.heading-link {
-    margin-top: 8em !important;
-    margin-bottom: -2em !important;
-    padding-top: 4.5em !important;
-    padding-bottom: 0em !important;
-    border-top: 2px dashed #ccc !important;
+  position: relative;  /* needed for absolute positioning */
+  margin-top: 8em !important;
+  margin-bottom: 0.5em !important;
+  padding-top: 1.5em !important;
+  padding-bottom: 0em !important;
+  border-top: 2px dashed #ccc !important;
 }
 
 h1.heading-link::before {
   content: "— Page Break —";
-  display: block;          /* makes it start on a new line */
+  position: absolute;
+  top: -3em !important;         /* controls how far above the border it sits */
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.7rem;     /* smaller than the h1 font-size */
   font-weight: normal;     /* optional: not bold like h1 */
   font-style: italic !important;
-  color: #999;             /* optional: muted color */
-  margin-top: -14em !important;
-  margin-bottom: 4em !important;   /* spacing between pseudo-text and the h1 */
-  text-align: center;
-  width: 100%;
+  color: #888;
 }
+
 """
 
 
