@@ -254,7 +254,7 @@ class MarkdownService:
             if not slug:
                 slug = f"heading-{hash(content) % 10000}"
             
-            return f'<{tag} id="{slug}">{content}</{tag}>'
+            return f'<{tag} class="heading-link" id="{slug}">{content}</{tag}>'
         
         # Match h1, h2, h3 headings and add IDs
         html = re.sub(r'<(h[1-3])>(.*?)</\1>', add_id_to_heading, html, flags=re.DOTALL)
@@ -266,7 +266,7 @@ class MarkdownService:
         
         # Extract headings with their IDs
         headings = []
-        heading_pattern = r'<(h[1-3])\s+id="([^"]+)">(.*?)</\1>'
+        heading_pattern = r'<(h[1-3]) class="heading-link"\s+id="([^"]+)">(.*?)</\1>'
         
         for match in re.finditer(heading_pattern, html, re.DOTALL):
             level = int(match.group(1)[1])  # Extract number from h1, h2, h3
@@ -388,6 +388,7 @@ class MarkdownService:
 }
 
 /* Ensure headings have proper targets for page counting */
+/* h1 page break rules used only when index is included */
 h1 {
     page-break-before: always;
     

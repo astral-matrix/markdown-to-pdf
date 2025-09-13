@@ -179,8 +179,67 @@ class PDFService:
             css_parts.append(font_face_css)
         if theme_css:
             css_parts.append(theme_css)
-        css_parts.append(body_css)          
+        css_parts.append(body_css)
+        
+        # Add preview-specific CSS for page breaks
+        if for_preview:
+            preview_css = self._get_preview_specific_css()
+            css_parts.append(preview_css)
+            
         return "\n".join(css_parts)
+
+    def _get_preview_specific_css(self) -> str:
+        """Return CSS styles specific to preview mode to make page breaks visible."""
+        return """
+/* Preview-specific styles for page breaks */
+.page-break {
+    /* For preview: add visual representation of page break */
+    margin-top: 12em !important;
+    margin-bottom: 3em !important;
+    padding-bottom: 1em !important;
+    border-bottom: 2px dashed #ccc !important;
+    position: relative !important;
+}
+
+.page-break::after {
+    content: "— Page Break —" !important;
+    display: block !important;
+    text-align: center !important;
+    color: #999 !important;
+    margin-top: 1em !important;
+    font-size: 0.7rem !important;
+    font-style: italic !important;
+}
+
+/* Override the print-specific page-break-after for preview */
+.page-break {
+    page-break-after: auto !important;
+}
+
+/* PDF PREVIEW MODE ONLY */
+/* Indicate page breaks before h1 heading when index is included */
+/* heading-link is added to h1 headings when index is included */
+h1.heading-link {
+    margin-top: 8em !important;
+    margin-bottom: -2em !important;
+    padding-top: 4.5em !important;
+    padding-bottom: 0em !important;
+    border-top: 2px dashed #ccc !important;
+}
+
+h1.heading-link::before {
+  content: "— Page Break —";
+  display: block;          /* makes it start on a new line */
+  font-size: 0.7rem;     /* smaller than the h1 font-size */
+  font-weight: normal;     /* optional: not bold like h1 */
+  font-style: italic !important;
+  color: #999;             /* optional: muted color */
+  margin-top: -14em !important;
+  margin-bottom: 4em !important;   /* spacing between pseudo-text and the h1 */
+  text-align: center;
+  width: 100%;
+}
+"""
 
 
 # Singleton instance

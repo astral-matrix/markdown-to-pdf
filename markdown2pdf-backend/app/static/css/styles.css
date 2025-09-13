@@ -169,6 +169,12 @@ h1 {
   margin-bottom: 0.63em;
   page-break-before: avoid;
 }
+/* conditional class added when index is included */
+/* below formatting makes h1 flush with top of page break (if present) */
+h1.heading-link {
+  margin-top: 0em !important;
+  padding-top: 0em !important;
+}
 h2 {
   font-size: 1.563em;
   line-height: 1.3;
