@@ -16,9 +16,11 @@ function LayoutPanelComponent() {
     spacing,
     autoWidthTables,
     includeIndex,
+    addPageBreaks,
     setSpacing,
     setAutoWidthTables,
     setIncludeIndex,
+    setAddPageBreaks,
   } = useLayout();
 
   return (
@@ -79,6 +81,23 @@ function LayoutPanelComponent() {
             Include index
           </Label>
         </div>
+
+        {/* Conditional "Add page breaks" checkbox - only shows when includeIndex is true */}
+        {includeIndex && (
+          <div className="flex items-center space-x-2 ml-6">
+            <Checkbox
+              id="add-page-breaks"
+              checked={addPageBreaks}
+              onCheckedChange={(checked: boolean) => setAddPageBreaks(checked)}
+            />
+            <Label
+              htmlFor="add-page-breaks"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Add page breaks
+            </Label>
+          </div>
+        )}
       </div>
     </div>
   );

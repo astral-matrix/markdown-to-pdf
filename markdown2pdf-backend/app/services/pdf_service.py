@@ -124,8 +124,14 @@ class PDFService:
         
         # Build CSS with font settings for PDF generation (use system paths)
         css = self._build_css(request, for_preview=False)
-        html_doc = markdown_service.convert_to_html(request.markdown, css=css, include_index=getattr(request, 'include_index', False))
+        html_doc = markdown_service.convert_to_html(
+            request.markdown, 
+            css=css, 
+            include_index=getattr(request, 'include_index', False),
+            add_page_breaks=getattr(request, 'add_page_breaks', False)
+        )
 
+        print(f"pdf service contents of html_doc: {html_doc}")
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:
             return HTML(string=html_doc, base_url=str(Path.cwd())).write_pdf()
@@ -143,7 +149,12 @@ class PDFService:
         
         # Build CSS with font settings for preview (use web paths)
         css = self._build_css(request, for_preview=True)
-        html_doc = markdown_service.convert_to_html(request.markdown, css=css, include_index=getattr(request, 'include_index', False))
+        html_doc = markdown_service.convert_to_html(
+            request.markdown, 
+            css=css, 
+            include_index=getattr(request, 'include_index', False),
+            add_page_breaks=getattr(request, 'add_page_breaks', False)
+        )
 
         return html_doc
 

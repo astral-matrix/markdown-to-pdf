@@ -41,6 +41,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
     request.spacing,
     request.auto_width_tables,
     request.include_index,
+    request.add_page_breaks,
     isMarkdownEmpty,
     throttledGeneratePreview,
     request,
@@ -142,7 +143,8 @@ function arePropsEqual(prevProps: PDFPreviewProps, nextProps: PDFPreviewProps) {
     prevProps.request.spacing === nextProps.request.spacing &&
     prevProps.request.auto_width_tables ===
       nextProps.request.auto_width_tables &&
-    prevProps.request.include_index === nextProps.request.include_index
+    prevProps.request.include_index === nextProps.request.include_index &&
+    prevProps.request.add_page_breaks === nextProps.request.add_page_breaks
   );
 }
 

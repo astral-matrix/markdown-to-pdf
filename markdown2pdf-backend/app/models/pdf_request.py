@@ -18,6 +18,7 @@ class PDFGenerationRequest(BaseModel):
     auto_width_tables: bool = True
     filename: Optional[str] = None
     include_index: bool = False
+    add_page_breaks: bool = False
 
     @validator("markdown")
     def markdown_must_not_be_empty(cls, v):

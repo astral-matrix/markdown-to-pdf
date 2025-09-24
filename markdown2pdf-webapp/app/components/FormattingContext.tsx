@@ -17,6 +17,7 @@ export interface FormattingOptions {
   spacing: SpacingOption;
   autoWidthTables: boolean;
   includeIndex: boolean;
+  addPageBreaks: boolean;
   filename: string;
 }
 
@@ -37,9 +38,11 @@ interface LayoutContextType {
   spacing: SpacingOption;
   autoWidthTables: boolean;
   includeIndex: boolean;
+  addPageBreaks: boolean;
   setSpacing: (spacing: SpacingOption) => void;
   setAutoWidthTables: (auto: boolean) => void;
   setIncludeIndex: (include: boolean) => void;
+  setAddPageBreaks: (add: boolean) => void;
 }
 
 // Filename Context
@@ -71,6 +74,7 @@ const defaultFormattingOptions: FormattingOptions = {
   spacing: SpacingOption.DEFAULT,
   autoWidthTables: true,
   includeIndex: false,
+  addPageBreaks: false,
   filename: "",
 };
 
@@ -87,6 +91,7 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
     spacing: defaultFormattingOptions.spacing,
     autoWidthTables: defaultFormattingOptions.autoWidthTables,
     includeIndex: defaultFormattingOptions.includeIndex,
+    addPageBreaks: defaultFormattingOptions.addPageBreaks,
   });
 
   const [filename, setFilenameState] = useState(
@@ -133,6 +138,15 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
     setLayout((prev) => ({
       ...prev,
       includeIndex,
+      // Reset addPageBreaks when includeIndex is disabled
+      addPageBreaks: includeIndex ? prev.addPageBreaks : false,
+    }));
+  }, []);
+
+  const setAddPageBreaks = useCallback((addPageBreaks: boolean) => {
+    setLayout((prev) => ({
+      ...prev,
+      addPageBreaks,
     }));
   }, []);
 
@@ -150,6 +164,7 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
       spacing: defaultFormattingOptions.spacing,
       autoWidthTables: defaultFormattingOptions.autoWidthTables,
       includeIndex: defaultFormattingOptions.includeIndex,
+      addPageBreaks: defaultFormattingOptions.addPageBreaks,
     });
     setFilenameState(defaultFormattingOptions.filename);
   }, []);
@@ -171,8 +186,9 @@ export function FormattingProvider({ children }: { children: ReactNode }) {
       setSpacing,
       setAutoWidthTables,
       setIncludeIndex,
+      setAddPageBreaks,
     }),
-    [layout, setSpacing, setAutoWidthTables, setIncludeIndex]
+    [layout, setSpacing, setAutoWidthTables, setIncludeIndex, setAddPageBreaks]
   );
 
   const filenameValue = useMemo(

@@ -235,7 +235,7 @@ class MarkdownService:
         # Join all lines back together
         return '\n'.join(processed_lines)
 
-    def _add_heading_ids(self, html: str) -> str:
+    def _add_heading_ids(self, html: str, add_page_breaks: bool = False) -> str:
         """Add unique IDs to headings for index linking."""
         import re
         
@@ -249,12 +249,18 @@ class MarkdownService:
             # Convert to lowercase and replace spaces/special chars with hyphens
             slug = re.sub(r'[^\w\s-]', '', clean_text.lower())
             slug = re.sub(r'[-\s]+', '-', slug).strip('-')
+
+            css_heading_page_break_class = ""
             
+            # Check for add_page_breaks and if this is an H1 heading, apply heading-link class
+            if add_page_breaks and tag == "h1":
+                css_heading_page_break_class = "heading-link"
+
             # Ensure the slug is not empty
             if not slug:
                 slug = f"heading-{hash(content) % 10000}"
             
-            return f'<{tag} class="heading-link" id="{slug}">{content}</{tag}>'
+            return f'<{tag} class="{css_heading_page_break_class}" id="{slug}">{content}</{tag}>'
         
         # Match h1, h2, h3 headings and add IDs
         html = re.sub(r'<(h[1-3])>(.*?)</\1>', add_id_to_heading, html, flags=re.DOTALL)
@@ -264,9 +270,9 @@ class MarkdownService:
         """Generate an index/table of contents from headings in the HTML."""
         import re
         
-        # Extract headings with their IDs
+        # Extract headings with their IDs - handles both with and without class attributes
         headings = []
-        heading_pattern = r'<(h[1-3]) class="heading-link"\s+id="([^"]+)">(.*?)</\1>'
+        heading_pattern = r'<(h[1-3])(?:\s+class="[^"]*")?\s+id="([^"]+)">(.*?)</\1>'
         
         for match in re.finditer(heading_pattern, html, re.DOTALL):
             level = int(match.group(1)[1])  # Extract number from h1, h2, h3
@@ -388,10 +394,9 @@ class MarkdownService:
 }
 
 /* Ensure headings have proper targets for page counting */
-/* h1 page break rules used only when index is included */
-h1 {
+/* h1 page break rules used only when add_page_breaks is enabled */
+h1.heading-link {
     page-break-before: always;
-    
 }
 h1,h2, h3, h4, h5, h6 {
     page-break-after: avoid;
@@ -406,7 +411,7 @@ h1,h2, h3, h4, h5, h6 {
 }
 """
 
-    def convert_to_html(self, markdown_text: str, css: str | None = None, include_index: bool = False) -> str:
+    def convert_to_html(self, markdown_text: str, css: str | None = None, include_index: bool = False, add_page_breaks: bool = False) -> str:
         """Return **full HTML** (optionally wrapped with a `<style>` tag)."""
         # Preprocess markdown to handle nested lists
         markdown_text = self.preprocess_nested_lists(markdown_text)
@@ -418,7 +423,7 @@ h1,h2, h3, h4, h5, h6 {
         
         # Add IDs to headings for index linking if index is requested
         if include_index:
-            html_body = self._add_heading_ids(html_body)
+            html_body = self._add_heading_ids(html_body, add_page_breaks)
         
         # Post-process for PDF-specific text wrapping
         html_body = optimize_for_pdf_wrapping(html_body)

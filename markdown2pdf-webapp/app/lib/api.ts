@@ -16,6 +16,7 @@ export interface PDFGenerationRequest {
   auto_width_tables?: boolean;
   filename?: string;
   include_index?: boolean;
+  add_page_breaks?: boolean;
 }
 
 // API functions
