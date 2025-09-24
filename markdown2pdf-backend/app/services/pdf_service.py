@@ -229,9 +229,9 @@ class PDFService:
 
 /* PDF PREVIEW MODE ONLY */
 /* Indicate page breaks before h1 heading when index is included */
-/* heading-link is added to h1 headings when index is included */
+/* page-break-heading is added to h1 headings when index is included */
 
-h1.heading-link {
+h1.page-break-heading {
   position: relative;  /* needed for absolute positioning */
   margin-top: 8em !important;
   margin-bottom: 0.5em !important;
@@ -240,7 +240,7 @@ h1.heading-link {
   border-top: 2px dashed #ccc !important;
 }
 
-h1.heading-link::before {
+h1.page-break-heading::before {
   content: "— Page Break —";
   position: absolute;
   top: -3em !important;         /* controls how far above the border it sits */

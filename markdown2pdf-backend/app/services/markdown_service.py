@@ -252,9 +252,9 @@ class MarkdownService:
 
             css_heading_page_break_class = ""
             
-            # Check for add_page_breaks and if this is an H1 heading, apply heading-link class
+            # Check for add_page_breaks and if this is an H1 heading, apply page-break-heading class
             if add_page_breaks and tag == "h1":
-                css_heading_page_break_class = "heading-link"
+                css_heading_page_break_class = "page-break-heading"
 
             # Ensure the slug is not empty
             if not slug:
@@ -395,7 +395,7 @@ class MarkdownService:
 
 /* Ensure headings have proper targets for page counting */
 /* h1 page break rules used only when add_page_breaks is enabled */
-h1.heading-link {
+h1.page-break-heading {
     page-break-before: always;
 }
 h1,h2, h3, h4, h5, h6 {

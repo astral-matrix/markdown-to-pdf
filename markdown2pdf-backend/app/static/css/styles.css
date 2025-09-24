@@ -171,7 +171,7 @@ h1 {
 }
 /* conditional class added when index is included */
 /* below formatting makes h1 flush with top of page break (if present) */
-h1.heading-link {
+h1.page-break-heading {
   margin-top: 0em !important;
   padding-top: 0em !important;
 }
