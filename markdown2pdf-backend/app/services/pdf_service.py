@@ -131,7 +131,6 @@ class PDFService:
             add_page_breaks=getattr(request, 'add_page_breaks', False)
         )
 
-        print(f"pdf service contents of html_doc: {html_doc}")
         # Newer WeasyPrint versions return bytes directly, older ones accept a file‑like target.
         try:
             return HTML(string=html_doc, base_url=str(Path.cwd())).write_pdf()
