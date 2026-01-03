@@ -6,12 +6,13 @@ This version fixes:
 * Removed duplicate CSS append.
 * Converted `Path` → `str` for `base_url`.
 """
+# pylint: disable=line-too-long
 from __future__ import annotations
 
 import io
 from pathlib import Path
 
-from weasyprint import HTML
+from weasyprint import HTML  # type: ignore[import-untyped]
 
 from app.models import PDFGenerationRequest
 from app.services.markdown_service import markdown_service
@@ -121,12 +122,12 @@ class PDFService:
         """Generate PDF from markdown respecting the user's styling choices."""
         # Ensure fonts are registered
         font_service.register_fonts()
-        
+
         # Build CSS with font settings for PDF generation (use system paths)
         css = self._build_css(request, for_preview=False)
         html_doc = markdown_service.convert_to_html(
-            request.markdown, 
-            css=css, 
+            request.markdown,
+            css=css,
             include_index=getattr(request, 'include_index', False),
             add_page_breaks=getattr(request, 'add_page_breaks', False)
         )
@@ -145,12 +146,12 @@ class PDFService:
         """Generate HTML preview for markdown respecting the user's styling choices."""
         # Ensure fonts are registered
         font_service.register_fonts()
-        
+
         # Build CSS with font settings for preview (use web paths)
         css = self._build_css(request, for_preview=True)
         html_doc = markdown_service.convert_to_html(
-            request.markdown, 
-            css=css, 
+            request.markdown,
+            css=css,
             include_index=getattr(request, 'include_index', False),
             add_page_breaks=getattr(request, 'add_page_breaks', False)
         )
@@ -172,7 +173,7 @@ class PDFService:
         requested_font = getattr(request, "font_family", "Inter")
         font_stack = _FONT_STACKS.get(requested_font, "'DejaVu Sans', sans-serif")
         font_face_css = font_service.get_font_face_css(requested_font, for_preview=for_preview)
-        
+
         # Get the monospace font to use for code blocks
         monospace_font = font_service.get_monospace_font()
 
@@ -190,12 +191,12 @@ class PDFService:
         if theme_css:
             css_parts.append(theme_css)
         css_parts.append(body_css)
-        
+
         # Add preview-specific CSS for page breaks
         if for_preview:
             preview_css = self._get_preview_specific_css()
             css_parts.append(preview_css)
-            
+
         return "\n".join(css_parts)
 
     def _get_preview_specific_css(self) -> str:

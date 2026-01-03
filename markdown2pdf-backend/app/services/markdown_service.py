@@ -15,20 +15,19 @@ Key fixes
 5. **Styled** code blocks with light gray background, rounded corners, and proper padding.
 6. **Added** support for nested ordered and unordered lists with proper indentation.
 """
+# pylint: disable=line-too-long,fixme
 from __future__ import annotations
 
 import re
-import markdown
-from markdown.extensions.codehilite import CodeHiliteExtension
-from markdown.extensions.tables import TableExtension
-from markdown.extensions.fenced_code import FencedCodeExtension
-from markdown.extensions.extra import ExtraExtension
-from markdown.extensions import Extension
-from markdown.inlinepatterns import SubstituteTagInlineProcessor
+import markdown  # type: ignore[import-untyped]
+from markdown.extensions.codehilite import CodeHiliteExtension  # type: ignore[import-untyped]
+from markdown.extensions.tables import TableExtension  # type: ignore[import-untyped]
+from markdown.extensions.fenced_code import FencedCodeExtension  # type: ignore[import-untyped]
+from markdown.extensions.extra import ExtraExtension  # type: ignore[import-untyped]
+from markdown.extensions import Extension  # type: ignore[import-untyped]
+from markdown.inlinepatterns import SubstituteTagInlineProcessor  # type: ignore[import-untyped]
 
 # Import font service to get the monospace font
-from app.services.font_service import font_service
-
 # ---------- helpers ---------------------------------------------------------
 
 # This is a dictionary of glyphs that are problematic in markdown and need to be replaced with safe ASCII equivalents.
@@ -48,22 +47,19 @@ _GLYPH_MAP: dict[str, str] = {
     "\u2019": "'",   # right single quote
     "\u201c": '"',   # left double quote
     "\u201d": '"',   # right double quote
-    "\\~": '~',   # tilde
     r"\~": '~',   # tilde
-    "\\&": '&amp;',   # ampersand
     r"\&": '&amp;',   # ampersand
     r"\$": '$',   # dollar sign
     r"\#": '#',   # hash
-    "\\#": '#',   # hash
     "\\*": '*',   # asterisk
     "\\_": '_',   # underscore
     "\\+": '+',   # plus
     "\\-": '-',   # dash
     "\\=": '=',   # equals
-
 }
 
 def sanitize_glyphs(text: str) -> str:
+    """Replace problematic glyphs with safe equivalents."""
     for bad, good in _GLYPH_MAP.items():
         text = text.replace(bad, good)
     return text
@@ -72,7 +68,7 @@ def optimize_for_pdf_wrapping(html: str) -> str:
     """Post-process HTML to ensure better text wrapping in WeasyPrint/PDF generation."""
     # Add zero-width spaces after certain characters to encourage breaking
     # This helps WeasyPrint break long lines at better positions
-    
+
     # Add break opportunities after commas, semicolons, and other punctuation in code blocks
     def add_break_opportunities(match):
         code_content = match.group(1)
@@ -83,43 +79,44 @@ def optimize_for_pdf_wrapping(html: str) -> str:
         # Add break opportunities in long quoted strings
         code_content = re.sub(r'(&quot;[^&]{10,}?)([^&]{5})', r'\1&#8203;\2', code_content)
         return f'<code>{code_content}</code>'
-    
+
     # Apply to code blocks
     html = re.sub(r'<code>(.*?)</code>', add_break_opportunities, html, flags=re.DOTALL)
-    
+
     return html
 
 def ensure_nested_lists(html: str) -> str:
+    # pylint: disable=too-many-locals,too-many-branches
     """Ensure nested lists have proper class for styling in PDF."""
     # First, add a class to all nested lists - this regex handles both basic list items and those with formatted content
     html = re.sub(r'(<li>(?:.*?<\/[^>]+>)?\s*<[ou]l)', r'\1 class="nested-list"', html, flags=re.DOTALL)
-    
+
     # Handle specific case where list item starts with formatted text like <strong>
-    html = re.sub(r'(<li>\s*<p>(?:.*?<\/[^>]+>)?\s*<\/p>\s*<[ou]l)', 
+    html = re.sub(r'(<li>\s*<p>(?:.*?<\/[^>]+>)?\s*<\/p>\s*<[ou]l)',
                   r'\1 class="nested-list"', html, flags=re.DOTALL)
-    
+
     # Process HTML as a DOM tree to properly handle nesting
     # This is a simplified approach using string operations
     all_list_starts = re.finditer(r'<([ou])l(?: class="nested-list")?', html)
     all_list_ends = re.finditer(r'</([ou])l>', html)
-    
+
     # Track nesting level for each list tag
     list_positions = []
     for match in all_list_starts:
         list_positions.append((match.start(), "open", match.group(1)))
-    
+
     for match in all_list_ends:
         list_positions.append((match.end(), "close", match.group(1)))
-    
+
     # Sort by position
     list_positions.sort(key=lambda x: x[0])
-    
+
     # Calculate nesting level at each point
     modified_html = html
     offset = 0
     current_level = 0
     list_with_levels = []
-    
+
     for pos, action, list_type in list_positions:
         if action == "open":
             current_level += 1
@@ -128,17 +125,17 @@ def ensure_nested_lists(html: str) -> str:
                 list_with_levels.append((pos, list_type, current_level))
         else:  # action == "close"
             current_level = max(0, current_level - 1)
-    
+
     # Apply data-level attributes
     for pos, list_type, level in list_with_levels:
         actual_pos = pos + offset
-        
+
         # Find the end of this tag
         tag_end = modified_html.find('>', actual_pos)
-        
+
         # Check if this is a nested list (should have class="nested-list")
         tag_content = modified_html[actual_pos:tag_end]
-        
+
         if 'class="nested-list"' in tag_content:
             # Already has class, add or update data-level
             if 'data-level=' in tag_content:
@@ -154,12 +151,12 @@ def ensure_nested_lists(html: str) -> str:
             else:
                 # This shouldn't happen, but just in case
                 modified_tag = tag_content
-                
+
         # Apply the modification
         if modified_tag != tag_content:
             modified_html = modified_html[:actual_pos] + modified_tag + modified_html[tag_end:]
             offset += len(modified_tag) - len(tag_content)
-    
+
     return modified_html
 
 # Custom extension to handle line breaks
@@ -175,7 +172,7 @@ class LineBreakExtension(Extension):
 class MarkdownService:
     """Singleton service that converts Markdown to HTML."""
 
-    # to generate new pygment stylesheet run: 
+    # to generate new pygment stylesheet run:
     # pygmentize -S lightbulb -f html -a .code-highlight > code.css
     _extensions = [
         TableExtension(),
@@ -195,54 +192,53 @@ class MarkdownService:
         lines = markdown_text.split('\n')
         processed_lines = []
         i = 0
-        
+
         while i < len(lines):
             line = lines[i]
-            
+
             # Check if this is a parent list item
             parent_list_match = re.match(r'^([*+-]|\d+\.)\s', line)
-            
+
             if parent_list_match:
                 # This is a parent list item - add it
                 processed_lines.append(line)
-                
+
                 # Check ahead for blank line followed by nested list
                 if i + 2 < len(lines) and lines[i+1].strip() == '':
                     # Look for a nested list item after the blank line
                     potential_nested = lines[i+2]
                     nested_match = re.match(r'^(\s+)([*+-]|\d+\.)\s', potential_nested)
-                    
+
                     if nested_match:
                         # Found a nested list item after a blank line - skip the blank line
                         i += 1  # Skip the blank line
-                
+
             elif re.match(r'^(\s+)([*+-]|\d+\.)\s', line):
                 # This is a nested list item
                 # Calculate indentation level (each 2 spaces = 1 level)
                 indent_match = re.match(r'^(\s+)', line)
+                assert indent_match is not None
                 indentation = indent_match.group(1)
                 indent_level = len(indentation) // 2
-                
+
                 # Use 4 spaces for each level in the output for proper markdown parsing
                 new_indentation = '    ' * indent_level
                 processed_lines.append(new_indentation + line.lstrip())
             else:
                 # Not a list item - add as is
                 processed_lines.append(line)
-            
+
             i += 1  # Move to next line
-        
+
         # Join all lines back together
         return '\n'.join(processed_lines)
 
     def _add_heading_ids(self, html: str, add_page_breaks: bool = False) -> str:
         """Add unique IDs to headings for index linking."""
-        import re
-        
         def add_id_to_heading(match):
             tag = match.group(1)  # h1, h2, h3, etc.
             content = match.group(2)  # heading text
-            
+
             # Generate a slug from the heading content
             # Remove HTML tags first
             clean_text = re.sub(r'<[^>]+>', '', content)
@@ -251,7 +247,7 @@ class MarkdownService:
             slug = re.sub(r'[-\s]+', '-', slug).strip('-')
 
             css_heading_page_break_class = ""
-            
+
             # Check for add_page_breaks and if this is an H1 heading, apply page-break-heading class
             if add_page_breaks and tag == "h1":
                 css_heading_page_break_class = "page-break-heading"
@@ -259,21 +255,19 @@ class MarkdownService:
             # Ensure the slug is not empty
             if not slug:
                 slug = f"heading-{hash(content) % 10000}"
-            
+
             return f'<{tag} class="{css_heading_page_break_class}" id="{slug}">{content}</{tag}>'
-        
+
         # Match h1, h2, h3 headings and add IDs
         html = re.sub(r'<(h[1-3])>(.*?)</\1>', add_id_to_heading, html, flags=re.DOTALL)
         return html
 
     def _generate_index(self, html: str) -> str:
         """Generate an index/table of contents from headings in the HTML."""
-        import re
-        
         # Extract headings with their IDs - handles both with and without class attributes
         headings = []
         heading_pattern = r'<(h[1-3])(?:\s+class="[^"]*")?\s+id="([^"]+)">(.*?)</\1>'
-        
+
         for match in re.finditer(heading_pattern, html, re.DOTALL):
             level = int(match.group(1)[1])  # Extract number from h1, h2, h3
             heading_id = match.group(2)
@@ -283,15 +277,15 @@ class MarkdownService:
                 'id': heading_id,
                 'text': text.strip()
             })
-        
+
         if not headings:
             return ""
-        
+
         # Generate index HTML
         index_html = ['<div class="index-page">']
         index_html.append('<h1 class="index-title">Table of Contents</h1>')
         index_html.append('<div class="index-content">')
-        
+
         for heading in headings:
             level_class = f"index-level-{heading['level']}"
             index_html.append(
@@ -303,11 +297,11 @@ class MarkdownService:
                 f'</a>'
                 f'</div>'
             )
-        
+
         index_html.append('</div>')
         index_html.append('</div>')
         index_html.append('<div class="page-break"></div>')
-        
+
         return '\n'.join(index_html)
 
     def _get_index_css(self) -> str:
@@ -415,43 +409,40 @@ h1,h2, h3, h4, h5, h6 {
         """Return **full HTML** (optionally wrapped with a `<style>` tag)."""
         # Preprocess markdown to handle nested lists
         markdown_text = self.preprocess_nested_lists(markdown_text)
-        
+
         cleaned = sanitize_glyphs(markdown_text)
-        
+
         # Convert markdown to HTML
         html_body = markdown.markdown(cleaned, extensions=self._extensions)
-        
+
         # Add IDs to headings for index linking if index is requested
         if include_index:
             html_body = self._add_heading_ids(html_body, add_page_breaks)
-        
+
         # Post-process for PDF-specific text wrapping
         html_body = optimize_for_pdf_wrapping(html_body)
-        
+
         # Ensure nested lists are properly styled
         html_body = ensure_nested_lists(html_body)
-        
+
         # Handle paragraph breaks more explicitly to ensure they render in PDF
         # This replaces double newlines with properly spaced paragraphs
         html_body = re.sub(r'</p>\s*<p>', '</p>\n\n<p>', html_body)
-        
+
         # Ensure single line breaks within paragraphs are preserved (CommonMark treats single newlines as spaces)
         # We need to do this after markdown conversion for content not in code blocks
         html_body = re.sub(r'([^>])\n([^<])', r'\1<br>\n\2', html_body)
-        
+
         # Generate index if requested
         if include_index:
             index_html = self._generate_index(html_body)
             html_body = index_html + html_body
-        
-        # Get the monospace font for CSS
-        monospace_font = font_service.get_monospace_font()
-        
+
         if css:
             # Add index-specific CSS if index is included
             if include_index:
                 css += self._get_index_css()
-            
+
             return f"""
 <!DOCTYPE html>
 <html lang=\"en\">

@@ -1,7 +1,7 @@
+"""FastAPI application entrypoint for Markdown to PDF service."""
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import os
-from dotenv import load_dotenv
 
 from app.api import api_router
 
@@ -37,4 +37,4 @@ app.include_router(api_router)
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "ok"} 
+    return {"status": "ok"}

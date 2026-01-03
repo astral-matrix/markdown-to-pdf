@@ -1,3 +1,5 @@
+"""Public exports for request models."""
+
 from .pdf_request import PDFGenerationRequest, SpacingOption
 
-__all__ = ["PDFGenerationRequest", "SpacingOption"] 
+__all__ = ["PDFGenerationRequest", "SpacingOption"]

@@ -2,6 +2,7 @@
 """
 Simple test script to verify nested list rendering in markdown-to-pdf conversion.
 """
+# pylint: disable=duplicate-code
 import os
 from app.services.markdown_service import markdown_service
 
@@ -40,12 +41,14 @@ def test_nested_lists():
 
     # Convert to HTML
     html_result = markdown_service.convert_to_html(markdown_text)
-    
+
     # Save the HTML to a file for inspection
     output_dir = "test_output"
     os.makedirs(output_dir, exist_ok=True)
-    
-    with open(os.path.join(output_dir, "nested_lists_test.html"), "w") as f:
+
+    with open(
+        os.path.join(output_dir, "nested_lists_test.html"), "w", encoding="utf-8"
+    ) as f:
         f.write("""
 <!DOCTYPE html>
 <html>
@@ -90,22 +93,24 @@ def test_nested_lists():
 </body>
 </html>
 """)
-    
+
     print(f"HTML output saved to {os.path.join(output_dir, 'nested_lists_test.html')}")
-    
+
     # Print a portion of the processed HTML to verify nested lists are properly formatted
     print("\nHTML Output Preview:")
     preview_lines = html_result.split('\n')[:20]
     for line in preview_lines:
         print(line)
-    
+
     # Check specifically for the Problem Requirements list
     print("\nProblem Requirements List Preview:")
     requirements_start = html_result.find("<h1>Problem Requirements List Test</h1>")
     if requirements_start >= 0:
-        requirements_html = html_result[requirements_start:requirements_start+1000]  # Get a reasonable chunk
+        requirements_html = html_result[
+            requirements_start : requirements_start + 1000
+        ]  # Get a reasonable chunk
         for line in requirements_html.split('\n')[:30]:  # Show first 30 lines
             print(line)
 
 if __name__ == "__main__":
-    test_nested_lists() 
+    test_nested_lists()

@@ -1,6 +1,9 @@
+"""PDF generation and preview endpoints."""
+# pylint: disable=duplicate-code
+import io
+
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import StreamingResponse
-import io
 
 from app.models import PDFGenerationRequest
 from app.services import pdf_service
@@ -16,12 +19,12 @@ async def generate_pdf(request: PDFGenerationRequest):
     try:
         # Generate PDF
         pdf_bytes = pdf_service.generate_pdf(request)
-        
+
         # Use provided filename or default to "document"
         filename = "document.pdf"
         if request.filename:
             filename = f"{request.filename}.pdf"
-            
+
         # Return the PDF as a streaming response
         return StreamingResponse(
             io.BytesIO(pdf_bytes),
@@ -36,7 +39,7 @@ async def generate_pdf(request: PDFGenerationRequest):
         raise HTTPException(
             status_code=500,
             detail="Failed to generate PDF"
-        )
+        ) from e
 
 
 @router.post("/generate-pdf-preview")
@@ -48,7 +51,7 @@ async def generate_pdf_preview(request: PDFGenerationRequest):
     try:
         # Generate HTML preview
         html_content = pdf_service.generate_pdf_preview(request)
-        
+
         # Return the HTML as plain text response
         return Response(
             content=html_content,
@@ -63,4 +66,4 @@ async def generate_pdf_preview(request: PDFGenerationRequest):
         raise HTTPException(
             status_code=500,
             detail="Failed to generate PDF preview"
-        ) 
+        ) from e
