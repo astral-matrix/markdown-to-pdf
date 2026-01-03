@@ -11,12 +11,15 @@ from __future__ import annotations
 
 import io
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from weasyprint import HTML  # type: ignore[import-untyped]
 
-from app.models import PDFGenerationRequest
 from app.services.markdown_service import markdown_service
 from app.services.font_service import font_service
+
+if TYPE_CHECKING:
+    from app.models import PDFGenerationRequest
 
 # Path to custom CSS files for PDF output
 _STYLES_CSS_PATH = (
