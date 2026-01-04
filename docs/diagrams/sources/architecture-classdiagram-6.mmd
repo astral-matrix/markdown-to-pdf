@@ -1,0 +1,20 @@
+classDiagram
+    class PDFGenerationRequest {
+        +string markdown
+        +string font_family
+        +int size_level
+        +SpacingOption spacing
+        +bool auto_width_tables
+        +string filename
+        +bool include_index
+        +bool add_page_breaks
+    }
+
+    class SpacingOption {
+        <<enumeration>>
+        DEFAULT
+        COMPACT
+        SPACIOUS
+    }
+
+    PDFGenerationRequest --> SpacingOption

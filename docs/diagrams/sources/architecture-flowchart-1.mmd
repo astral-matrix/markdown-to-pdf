@@ -1,31 +1,29 @@
-flowchart LR
-  subgraph Browser
-    UI["Markdown Editor + Controls"]
-    Preview["PDF Preview iframe"]
-  end
+flowchart TB
+    subgraph Browser
+        User([User])
+        UI[Next.js Web App<br/>localhost:3000]
+    end
 
-  subgraph Frontend["Next.js / React"]
-    APIClient["API client<br/>fetch + React Query"]
-    State["Formatting Context<br/>Typography/Layout/Filename"]
-  end
+    subgraph Backend[FastAPI Server - localhost:8000]
+        API[API Routes]
+        PDF[PDFService]
+        MD[MarkdownService]
+        Font[FontService]
+    end
 
-  subgraph Backend[FastAPI]
-    Router["API Router<br/>/generate-pdf<br/>/generate-pdf-preview<br/>/fonts"]
-    PDFSvc[PDF Service]
-    MDService[Markdown Service]
-    FontSvc[Font Service]
-  end
+    subgraph Assets[Static Assets]
+        CSS[(CSS Stylesheets)]
+        Fonts[(Font Files)]
+    end
 
-  Assets["Static CSS + Fonts"]
-
-  UI -->|edits Markdown + options| State
-  State --> APIClient
-  APIClient -->|POST markdown + options| Router
-  Router --> PDFSvc
-  PDFSvc --> MDService
-  PDFSvc --> FontSvc
-  FontSvc --> Assets
-  MDService --> Assets
-  PDFSvc -->|HTML/PDF bytes| APIClient
-  APIClient --> Preview
-  APIClient -->|download| UI
+    User -->|Types markdown<br/>Selects options| UI
+    UI -->|POST /generate-pdf-preview| API
+    UI -->|POST /generate-pdf| API
+    UI -->|GET /fonts| API
+    API --> PDF
+    PDF --> MD
+    PDF --> Font
+    MD --> CSS
+    Font --> Fonts
+    PDF -->|HTML or PDF bytes| UI
+    UI -->|Renders preview<br/>Downloads PDF| User

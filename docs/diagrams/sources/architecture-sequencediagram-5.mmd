@@ -1,14 +1,24 @@
 sequenceDiagram
-  participant User
-  participant Frontend
-  participant Backend
-  participant PDFService
-  participant WeasyPrint
+    participant User
+    participant Button as GenerateButton
+    participant Query as React Query
+    participant API as api.ts
+    participant Backend as FastAPI
+    participant PDF as PDFService
+    participant MD as MarkdownService
+    participant WP as WeasyPrint
 
-  User->>Frontend: Click "Generate PDF"
-  Frontend->>Backend: POST /generate-pdf (markdown + formatting)
-  Backend->>PDFService: assemble CSS + HTML
-  PDFService->>WeasyPrint: render HTML → PDF bytes
-  WeasyPrint-->>PDFService: PDF buffer
-  PDFService-->>Frontend: StreamingResponse (application/pdf)
-  Frontend->>User: Save PDF with timestamp
+    User->>Button: Click Generate PDF
+    Button->>Query: mutate(request)
+    Query->>API: generatePDF(request)
+    API->>Backend: POST /generate-pdf
+    Backend->>PDF: generate_pdf(request)
+    PDF->>MD: convert_to_html(markdown, css)
+    MD-->>PDF: HTML string
+    PDF->>WP: HTML.write_pdf()
+    WP-->>PDF: PDF bytes
+    PDF-->>Backend: PDF bytes
+    Backend-->>API: StreamingResponse
+    API-->>Query: Blob
+    Query->>Button: onSuccess(blob)
+    Button->>User: Download PDF file

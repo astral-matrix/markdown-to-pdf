@@ -1,7 +1,0 @@
-sequenceDiagram
-  participant User
-  participant UI as Next.js UI
-  participant API as FastAPI API
-  participant Services as PDF/Markdown/Font Services
-  participant Render as WeasyPrint
-\n  User->>UI: Edit Markdown / options\n  UI->>API: POST /generate-pdf-preview\n  API->>Services: Build CSS + fonts, render Markdown → HTML\n  Services-->>UI: HTML preview\n  User->>UI: Click Generate PDF\n  UI->>API: POST /generate-pdf\n  API->>Services: Build CSS + HTML\n  Services->>Render: HTML to PDF bytes\n  Render-->>UI: PDF stream\n  UI-->>User: Download file\n

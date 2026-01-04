@@ -1,151 +1,260 @@
 # Architecture Overview
 
-This document summarizes the end-to-end architecture of the Markdown to PDF converter. It highlights how the Next.js frontend coordinates with the FastAPI backend, and how the backend assembles typography assets, converts Markdown to HTML, and renders PDFs.
+This document describes the architecture of the Markdown to PDF converter application—a full-stack system with a React/Next.js frontend and a Python/FastAPI backend.
 
-## System Context
-
-```mermaid
-flowchart LR
-  subgraph Browser
-    UI["Markdown Editor + Controls"]
-    Preview["PDF Preview iframe"]
-  end
-
-  subgraph Frontend["Next.js / React"]
-    APIClient["API client<br/>fetch + React Query"]
-    State["Formatting Context<br/>Typography/Layout/Filename"]
-  end
-
-  subgraph Backend[FastAPI]
-    Router["API Router<br/>/generate-pdf<br/>/generate-pdf-preview<br/>/fonts"]
-    PDFSvc[PDF Service]
-    MDService[Markdown Service]
-    FontSvc[Font Service]
-  end
-
-  Assets["Static CSS + Fonts"]
-
-  UI -->|edits Markdown + options| State
-  State --> APIClient
-  APIClient -->|POST markdown + options| Router
-  Router --> PDFSvc
-  PDFSvc --> MDService
-  PDFSvc --> FontSvc
-  FontSvc --> Assets
-  MDService --> Assets
-  PDFSvc -->|HTML/PDF bytes| APIClient
-  APIClient --> Preview
-  APIClient -->|download| UI
-```
-
-*The frontend sends Markdown plus formatting options to the backend. The backend renders HTML using Markdown + CSS, loads fonts, and returns either HTML (for preview) or a PDF stream.*
-
-## Backend Architecture
+## High-Level System Architecture
 
 ```mermaid
 flowchart TB
-  APIRouter["app/api/__init__.py"] --> PDFRoute["app/api/pdf.py"]
-  APIRouter --> FontsRoute["app/api/fonts.py"]
+    subgraph Browser
+        User([User])
+        UI[Next.js Web App<br/>localhost:3000]
+    end
 
-  PDFRoute -->|validates with| PDFModel["PDFGenerationRequest<br/>Pydantic"]
-  PDFRoute --> PDFService[PDFService]
-  FontsRoute --> FontService
+    subgraph Backend[FastAPI Server - localhost:8000]
+        API[API Routes]
+        PDF[PDFService]
+        MD[MarkdownService]
+        Font[FontService]
+    end
 
-  PDFService -->|build CSS + fonts| FontService
-  PDFService -->|Markdown to HTML| MarkdownService
-  PDFService -->|HTML to PDF| WeasyPrint
+    subgraph Assets[Static Assets]
+        CSS[(CSS Stylesheets)]
+        Fonts[(Font Files)]
+    end
 
-  MarkdownService -->|sanitize + render| MarkdownLib[("python-markdown extensions")]
-  MarkdownService -->|generate index + ids| Indexing
+    User -->|Types markdown<br/>Selects options| UI
+    UI -->|POST /generate-pdf-preview| API
+    UI -->|POST /generate-pdf| API
+    UI -->|GET /fonts| API
+    API --> PDF
+    PDF --> MD
+    PDF --> Font
+    MD --> CSS
+    Font --> Fonts
+    PDF -->|HTML or PDF bytes| UI
+    UI -->|Renders preview<br/>Downloads PDF| User
 ```
-
-Key responsibilities:
-
-- **API layer** (`app/api`): exposes `/generate-pdf`, `/generate-pdf-preview`, and `/fonts` routes and maps payloads to `PDFGenerationRequest` with validation for font availability and Markdown presence.
-- **Services** (`app/services`):
-  - `PDFService` orchestrates font registration, CSS assembly (page settings, font stacks, theme styles), Markdown-to-HTML conversion, and PDF rendering via WeasyPrint. Preview mode injects extra CSS for visible page breaks.
-  - `MarkdownService` preprocesses nested lists, sanitizes glyphs, renders Markdown with code highlighting, injects heading IDs, builds optional table of contents pages, and ensures PDF-friendly spacing.
-  - `FontService` registers bundled font families with ReportLab, exposes available font names to the frontend, and emits `@font-face` rules for preview/PDF contexts.
-- **Static assets** (`app/static/css`, `app/static/fonts`): provide theme CSS and font files shared by preview and PDF generation.
 
 ## Frontend Architecture
 
+The frontend is a Next.js application using React with TypeScript. It uses React Query for API state management and React Context for UI state.
+
 ```mermaid
 flowchart TB
-  App["app/page.tsx"] --> Providers
-  App --> Typography[TypographyPanel]
-  App --> Layout[LayoutPanel]
-  App --> Editor[MarkdownEditor]
-  App --> Preview[PDFPreview]
-  App --> Actions["PDFActions<br/>Filename + GenerateButton"]
+    subgraph Providers[React Providers]
+        QC[QueryClientProvider]
+        DM[DarkModeProvider]
+        FP[FormattingProvider]
+    end
 
-  subgraph Providers
-    DarkMode[DarkModeProvider]
-    Formatting["FormattingProvider<br/>Typography/Layout/Filename contexts"]
-    Query[React Query Client]
-  end
+    subgraph Contexts[State Contexts]
+        TC[TypographyContext<br/>font, size]
+        LC[LayoutContext<br/>spacing, index, breaks]
+        FC[FilenameContext]
+    end
 
-  Actions --> GenerateBtn[GenerateButton]
-  Preview --> ThrottleHook[useThrottledPreview]
-  ThrottleHook --> APIClient["api.ts"]
-  GenerateBtn --> APIClient
-  Typography --> Formatting
-  Layout --> Formatting
-  Editor --> Preview
+    subgraph Components[UI Components]
+        Page[page.tsx]
+        Editor[MarkdownEditor]
+        TP[TypographyPanel]
+        LP[LayoutPanel]
+        Preview[PDFPreview]
+        Actions[PDFActions]
+        GenBtn[GenerateButton]
+    end
+
+    subgraph Hooks[Custom Hooks]
+        Throttle[useThrottledPreview]
+    end
+
+    subgraph API[API Layer]
+        ApiLib[api.ts]
+    end
+
+    QC --> DM --> FP
+    FP --> TC & LC & FC
+
+    Page --> Editor & TP & LP & Preview & Actions
+    Actions --> GenBtn
+
+    TP --> TC
+    LP --> LC
+    Preview --> Throttle
+    Throttle --> ApiLib
+    GenBtn --> ApiLib
 ```
 
-Front-end flow:
+### Key Frontend Components
 
-1. `FormattingProvider` maintains typography (font, size), layout (spacing, index, page breaks, auto-width tables), and filename state that child panels manipulate.
-2. `app/lib/api.ts` exposes fetch helpers for `/fonts`, `/generate-pdf-preview`, and `/generate-pdf` requests. React Query handles mutations for PDF downloads.
-3. `PDFPreview` uses `useThrottledPreview` to debounce preview requests and writes returned HTML into an iframe for immediate visual feedback.
-4. `GenerateButton` posts the same payload to retrieve PDF bytes and saves the file with a timestamp.
+| Component             | Purpose                                             |
+| --------------------- | --------------------------------------------------- |
+| `page.tsx`            | Root page, sets up providers and layout             |
+| `FormattingContext`   | Manages typography, layout, and filename state      |
+| `MarkdownEditor`      | Textarea for markdown input                         |
+| `TypographyPanel`     | Font family and size controls                       |
+| `LayoutPanel`         | Spacing, table width, index, and page break options |
+| `PDFPreview`          | Displays live HTML preview in an iframe             |
+| `GenerateButton`      | Triggers PDF generation and download                |
+| `useThrottledPreview` | Debounces preview API calls (2s delay)              |
 
-## Request Lifecycles
+## Backend Architecture
 
-**Preview**
+The backend is a FastAPI application that converts Markdown to styled HTML and renders PDFs using WeasyPrint.
+
+```mermaid
+flowchart TB
+    subgraph API[API Layer]
+        Main[main.py<br/>FastAPI App]
+        Routes[api/__init__.py]
+        PDFRoutes[pdf.py]
+        FontRoutes[fonts.py]
+    end
+
+    subgraph Models
+        Request[PDFGenerationRequest<br/>Pydantic Model]
+    end
+
+    subgraph Services
+        PDFSvc[PDFService]
+        MDSvc[MarkdownService]
+        FontSvc[FontService]
+    end
+
+    subgraph External
+        WP[WeasyPrint]
+        RL[ReportLab]
+        PyMD[python-markdown]
+    end
+
+    subgraph Static[Static Assets]
+        StylesCSS[styles.css]
+        HighlightCSS[code-highlight.css]
+        FontFiles[Font Files TTF/WOFF2]
+    end
+
+    Main --> Routes
+    Routes --> PDFRoutes & FontRoutes
+    PDFRoutes --> Request
+    PDFRoutes --> PDFSvc
+    FontRoutes --> FontSvc
+
+    PDFSvc --> MDSvc
+    PDFSvc --> FontSvc
+    PDFSvc --> WP
+
+    MDSvc --> PyMD
+    FontSvc --> RL
+    FontSvc --> FontFiles
+
+    PDFSvc --> StylesCSS & HighlightCSS
+```
+
+### Backend Services
+
+| Service           | Responsibility                                                                                                                      |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `PDFService`      | Orchestrates CSS assembly, calls MarkdownService for HTML, renders PDF via WeasyPrint                                               |
+| `MarkdownService` | Converts Markdown to HTML with extensions (tables, fenced code, syntax highlighting), adds heading IDs, generates table of contents |
+| `FontService`     | Registers fonts with ReportLab, provides @font-face CSS rules, lists available fonts                                                |
+
+## API Endpoints
+
+| Method | Endpoint                | Description                                 |
+| ------ | ----------------------- | ------------------------------------------- |
+| `POST` | `/generate-pdf`         | Returns PDF bytes as streaming response     |
+| `POST` | `/generate-pdf-preview` | Returns styled HTML for iframe preview      |
+| `GET`  | `/fonts`                | Returns list of available font family names |
+| `GET`  | `/health`               | Health check endpoint                       |
+
+## Request Flow: Live Preview
 
 ```mermaid
 sequenceDiagram
-  participant User
-  participant Frontend
-  participant Backend
-  participant PDFService
-  participant MarkdownService
-  participant FontService
+    participant User
+    participant Editor as MarkdownEditor
+    participant Hook as useThrottledPreview
+    participant API as api.ts
+    participant Backend as FastAPI
+    participant PDF as PDFService
+    participant MD as MarkdownService
+    participant Preview as PDFPreview
 
-  User->>Frontend: Edit Markdown / options
-  Frontend->>Backend: POST /generate-pdf-preview (markdown, font, spacing, options)
-  Backend->>PDFService: build preview CSS + fonts
-  PDFService->>FontService: get @font-face CSS
-  PDFService->>MarkdownService: convert markdown → styled HTML
-  MarkdownService-->>PDFService: HTML body
-  PDFService-->>Frontend: Full HTML (with CSS)
-  Frontend->>Frontend: Inject HTML into iframe
+    User->>Editor: Types markdown
+    Editor->>Hook: request object
+    Note over Hook: Debounce 2 seconds
+    Hook->>API: generatePDFPreview(request)
+    API->>Backend: POST /generate-pdf-preview
+    Backend->>PDF: generate_pdf_preview(request)
+    PDF->>MD: convert_to_html(markdown, css)
+    MD-->>PDF: HTML string
+    PDF-->>Backend: Full HTML document
+    Backend-->>API: HTML response
+    API-->>Hook: HTML string
+    Hook->>Preview: onPreviewUpdate(html)
+    Preview->>Preview: Write to iframe
 ```
 
-**PDF Generation**
+## Request Flow: PDF Generation
 
 ```mermaid
 sequenceDiagram
-  participant User
-  participant Frontend
-  participant Backend
-  participant PDFService
-  participant WeasyPrint
+    participant User
+    participant Button as GenerateButton
+    participant Query as React Query
+    participant API as api.ts
+    participant Backend as FastAPI
+    participant PDF as PDFService
+    participant MD as MarkdownService
+    participant WP as WeasyPrint
 
-  User->>Frontend: Click "Generate PDF"
-  Frontend->>Backend: POST /generate-pdf (markdown + formatting)
-  Backend->>PDFService: assemble CSS + HTML
-  PDFService->>WeasyPrint: render HTML → PDF bytes
-  WeasyPrint-->>PDFService: PDF buffer
-  PDFService-->>Frontend: StreamingResponse (application/pdf)
-  Frontend->>User: Save PDF with timestamp
+    User->>Button: Click Generate PDF
+    Button->>Query: mutate(request)
+    Query->>API: generatePDF(request)
+    API->>Backend: POST /generate-pdf
+    Backend->>PDF: generate_pdf(request)
+    PDF->>MD: convert_to_html(markdown, css)
+    MD-->>PDF: HTML string
+    PDF->>WP: HTML.write_pdf()
+    WP-->>PDF: PDF bytes
+    PDF-->>Backend: PDF bytes
+    Backend-->>API: StreamingResponse
+    API-->>Query: Blob
+    Query->>Button: onSuccess(blob)
+    Button->>User: Download PDF file
 ```
 
-## Deployment & Runtime Notes
+## Data Model
 
-- The backend loads environment variables via `python-dotenv` before initializing the FastAPI app.
-- CORS is configured for `http://localhost:3000` (frontend) and `http://localhost:8000` (local testing).
-- Font registration happens lazily on first request and falls back to system fonts if assets are missing.
-- Preview uses public font paths (`/fonts/...`), while PDF generation references the frontend `public/fonts` directory relative to the backend.
+```mermaid
+classDiagram
+    class PDFGenerationRequest {
+        +string markdown
+        +string font_family
+        +int size_level
+        +SpacingOption spacing
+        +bool auto_width_tables
+        +string filename
+        +bool include_index
+        +bool add_page_breaks
+    }
+
+    class SpacingOption {
+        <<enumeration>>
+        DEFAULT
+        COMPACT
+        SPACIOUS
+    }
+
+    PDFGenerationRequest --> SpacingOption
+```
+
+## Technology Stack
+
+| Layer         | Technologies                                               |
+| ------------- | ---------------------------------------------------------- |
+| Frontend      | Next.js 15, React 19, TypeScript, TailwindCSS, React Query |
+| Backend       | Python 3.11+, FastAPI, Uvicorn, Pydantic                   |
+| PDF Rendering | WeasyPrint                                                 |
+| Markdown      | python-markdown with extensions                            |
+| Fonts         | ReportLab (registration), custom TTF/WOFF2 files           |

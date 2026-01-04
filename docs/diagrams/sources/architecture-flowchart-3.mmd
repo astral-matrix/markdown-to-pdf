@@ -1,21 +1,45 @@
 flowchart TB
-  App["app/page.tsx"] --> Providers
-  App --> Typography[TypographyPanel]
-  App --> Layout[LayoutPanel]
-  App --> Editor[MarkdownEditor]
-  App --> Preview[PDFPreview]
-  App --> Actions["PDFActions<br/>Filename + GenerateButton"]
+    subgraph API[API Layer]
+        Main[main.py<br/>FastAPI App]
+        Routes[api/__init__.py]
+        PDFRoutes[pdf.py]
+        FontRoutes[fonts.py]
+    end
 
-  subgraph Providers
-    DarkMode[DarkModeProvider]
-    Formatting["FormattingProvider<br/>Typography/Layout/Filename contexts"]
-    Query[React Query Client]
-  end
+    subgraph Models
+        Request[PDFGenerationRequest<br/>Pydantic Model]
+    end
 
-  Actions --> GenerateBtn[GenerateButton]
-  Preview --> ThrottleHook[useThrottledPreview]
-  ThrottleHook --> APIClient["api.ts"]
-  GenerateBtn --> APIClient
-  Typography --> Formatting
-  Layout --> Formatting
-  Editor --> Preview
+    subgraph Services
+        PDFSvc[PDFService]
+        MDSvc[MarkdownService]
+        FontSvc[FontService]
+    end
+
+    subgraph External
+        WP[WeasyPrint]
+        RL[ReportLab]
+        PyMD[python-markdown]
+    end
+
+    subgraph Static[Static Assets]
+        StylesCSS[styles.css]
+        HighlightCSS[code-highlight.css]
+        FontFiles[Font Files TTF/WOFF2]
+    end
+
+    Main --> Routes
+    Routes --> PDFRoutes & FontRoutes
+    PDFRoutes --> Request
+    PDFRoutes --> PDFSvc
+    FontRoutes --> FontSvc
+
+    PDFSvc --> MDSvc
+    PDFSvc --> FontSvc
+    PDFSvc --> WP
+
+    MDSvc --> PyMD
+    FontSvc --> RL
+    FontSvc --> FontFiles
+
+    PDFSvc --> StylesCSS & HighlightCSS
