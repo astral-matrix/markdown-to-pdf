@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph Providers[React Providers]
+        QC[QueryClientProvider]
+        DM[DarkModeProvider]
+        FP[FormattingProvider]
+    end
+
+    subgraph Contexts[State Contexts]
+        TC[TypographyContext<br/>font, size]
+        LC[LayoutContext<br/>spacing, index, breaks]
+        FC[FilenameContext]
+    end
+
+    subgraph Components[UI Components]
+        Page[page.tsx]
+        Editor[MarkdownEditor]
+        TP[TypographyPanel]
+        LP[LayoutPanel]
+        Preview[PDFPreview]
+        Actions[PDFActions]
+        GenBtn[GenerateButton]
+    end
+
+    subgraph Hooks[Custom Hooks]
+        Throttle[useThrottledPreview]
+    end
+
+    subgraph API[API Layer]
+        ApiLib[api.ts]
+    end
+
+    QC --> DM --> FP
+    FP --> TC & LC & FC
+
+    Page --> Editor & TP & LP & Preview & Actions
+    Actions --> GenBtn
+
+    TP --> TC
+    LP --> LC
+    Preview --> Throttle
+    Throttle --> ApiLib
+    GenBtn --> ApiLib

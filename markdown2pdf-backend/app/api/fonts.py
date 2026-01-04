@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+"""Font listing endpoints."""
 from typing import List
+
+from fastapi import APIRouter
 
 from app.services import font_service
 
@@ -11,4 +13,4 @@ async def get_available_fonts():
     """
     Get a list of available font families for PDF generation.
     """
-    return font_service.get_available_fonts() 
+    return font_service.get_available_fonts()

@@ -2,6 +2,7 @@
 """
 Test script to verify nested lists with blank lines are properly handled.
 """
+# pylint: disable=duplicate-code
 import os
 from app.services.markdown_service import markdown_service
 
@@ -28,12 +29,14 @@ def test_blank_line_in_lists():
 
     # Convert to HTML
     html_result = markdown_service.convert_to_html(markdown_text)
-    
+
     # Save the HTML to a file for inspection
     output_dir = "test_output"
     os.makedirs(output_dir, exist_ok=True)
-    
-    with open(os.path.join(output_dir, "blank_line_test.html"), "w") as f:
+
+    with open(
+        os.path.join(output_dir, "blank_line_test.html"), "w", encoding="utf-8"
+    ) as f:
         f.write("""
 <!DOCTYPE html>
 <html>
@@ -72,9 +75,9 @@ def test_blank_line_in_lists():
 </body>
 </html>
 """)
-    
+
     print(f"HTML output saved to {os.path.join(output_dir, 'blank_line_test.html')}")
-    
+
     # Check both list sections and print them for comparison
     print("\nWorks - No blank line:")
     works_start = html_result.find("<h2>Works - No blank line</h2>")
@@ -84,7 +87,7 @@ def test_blank_line_in_lists():
             works_end = len(html_result)
         works_html = html_result[works_start:works_end]
         print(works_html)
-    
+
     print("\nProblematic - Blank line after parent item:")
     problem_start = html_result.find("<h2>Problematic - Blank line after parent item</h2>")
     if problem_start >= 0:
@@ -92,4 +95,4 @@ def test_blank_line_in_lists():
         print(problem_html)
 
 if __name__ == "__main__":
-    test_blank_line_in_lists() 
+    test_blank_line_in_lists()

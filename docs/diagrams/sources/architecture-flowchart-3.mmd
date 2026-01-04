@@ -1,0 +1,45 @@
+flowchart TB
+    subgraph API[API Layer]
+        Main[main.py<br/>FastAPI App]
+        Routes[api/__init__.py]
+        PDFRoutes[pdf.py]
+        FontRoutes[fonts.py]
+    end
+
+    subgraph Models
+        Request[PDFGenerationRequest<br/>Pydantic Model]
+    end
+
+    subgraph Services
+        PDFSvc[PDFService]
+        MDSvc[MarkdownService]
+        FontSvc[FontService]
+    end
+
+    subgraph External
+        WP[WeasyPrint]
+        RL[ReportLab]
+        PyMD[python-markdown]
+    end
+
+    subgraph Static[Static Assets]
+        StylesCSS[styles.css]
+        HighlightCSS[code-highlight.css]
+        FontFiles[Font Files TTF/WOFF2]
+    end
+
+    Main --> Routes
+    Routes --> PDFRoutes & FontRoutes
+    PDFRoutes --> Request
+    PDFRoutes --> PDFSvc
+    FontRoutes --> FontSvc
+
+    PDFSvc --> MDSvc
+    PDFSvc --> FontSvc
+    PDFSvc --> WP
+
+    MDSvc --> PyMD
+    FontSvc --> RL
+    FontSvc --> FontFiles
+
+    PDFSvc --> StylesCSS & HighlightCSS

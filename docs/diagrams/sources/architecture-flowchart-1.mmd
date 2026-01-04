@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph Browser
+        User([User])
+        UI[Next.js Web App<br/>localhost:3000]
+    end
+
+    subgraph Backend[FastAPI Server - localhost:8000]
+        API[API Routes]
+        PDF[PDFService]
+        MD[MarkdownService]
+        Font[FontService]
+    end
+
+    subgraph Assets[Static Assets]
+        CSS[(CSS Stylesheets)]
+        Fonts[(Font Files)]
+    end
+
+    User -->|Types markdown<br/>Selects options| UI
+    UI -->|POST /generate-pdf-preview| API
+    UI -->|POST /generate-pdf| API
+    UI -->|GET /fonts| API
+    API --> PDF
+    PDF --> MD
+    PDF --> Font
+    MD --> CSS
+    Font --> Fonts
+    PDF -->|HTML or PDF bytes| UI
+    UI -->|Renders preview<br/>Downloads PDF| User

@@ -1,0 +1,10 @@
+flowchart TB
+    A["Page CSS (A4, margins)"] --> E[Combined CSS]
+    B["Font-face Rules"] --> E
+    C["Theme CSS (styles.css)"] --> E
+    D["Syntax Highlighting CSS"] --> E
+    F["Body CSS (font, size, line-height)"] --> E
+    E --> G{Preview Mode?}
+    G -->|Yes| H["Add Preview CSS"]
+    G -->|No| I[Final CSS]
+    H --> I

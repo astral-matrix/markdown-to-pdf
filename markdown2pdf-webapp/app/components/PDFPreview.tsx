@@ -50,7 +50,7 @@ function PDFPreviewComponent({ request }: PDFPreviewProps) {
   // Cleanup effect - runs once on unmount
   useEffect(() => {
     return cleanup;
-  }, []);
+  }, [cleanup]);
 
   // Update iframe content when HTML changes
   useEffect(() => {

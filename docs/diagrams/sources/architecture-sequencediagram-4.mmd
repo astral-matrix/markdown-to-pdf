@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant User
+    participant Editor as MarkdownEditor
+    participant Hook as useThrottledPreview
+    participant API as api.ts
+    participant Backend as FastAPI
+    participant PDF as PDFService
+    participant MD as MarkdownService
+    participant Preview as PDFPreview
+
+    User->>Editor: Types markdown
+    Editor->>Hook: request object
+    Note over Hook: Debounce 2 seconds
+    Hook->>API: generatePDFPreview(request)
+    API->>Backend: POST /generate-pdf-preview
+    Backend->>PDF: generate_pdf_preview(request)
+    PDF->>MD: convert_to_html(markdown, css)
+    MD-->>PDF: HTML string
+    PDF-->>Backend: Full HTML document
+    Backend-->>API: HTML response
+    API-->>Hook: HTML string
+    Hook->>Preview: onPreviewUpdate(html)
+    Preview->>Preview: Write to iframe

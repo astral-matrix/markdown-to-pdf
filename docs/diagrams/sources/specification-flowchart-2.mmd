@@ -1,0 +1,11 @@
+flowchart TB
+    A[Raw Markdown] --> B[Preprocess Nested Lists]
+    B --> C[Sanitize Glyphs]
+    C --> D[python-markdown]
+    D --> E[Add Heading IDs]
+    E --> F[Optimize for PDF Wrapping]
+    F --> G[Ensure Nested List Classes]
+    G --> H{Include Index?}
+    H -->|Yes| I[Generate TOC]
+    H -->|No| J[Final HTML]
+    I --> J

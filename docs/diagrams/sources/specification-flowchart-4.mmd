@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph Contexts
+        A[TypographyContext]
+        B[LayoutContext]
+        C[FilenameContext]
+        D[ResetContext]
+    end
+
+    subgraph Typography State
+        A --> E[fontFamily]
+        A --> F[availableFonts]
+        A --> G[sizeLevel]
+    end
+
+    subgraph Layout State
+        B --> H[spacing]
+        B --> I[autoWidthTables]
+        B --> J[includeIndex]
+        B --> K[addPageBreaks]
+    end
+
+    C --> L[filename]
+    D --> M[resetToDefaults]

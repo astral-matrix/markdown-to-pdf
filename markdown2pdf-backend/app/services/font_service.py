@@ -1,11 +1,14 @@
-from typing import List, Optional
+"""Font registration and lookup helpers for PDF/preview rendering."""
+# pylint: disable=line-too-long,too-many-branches,too-many-return-statements,broad-exception-caught,no-else-return
+from typing import List
 import os
 from pathlib import Path
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics  # type: ignore[import-untyped]
+from reportlab.pdfbase.ttfonts import TTFont  # type: ignore[import-untyped]
 
 
 class FontService:
+    """Manage available fonts and resolve font faces for styles."""
     def __init__(self):
         self.default_font = "Helvetica"
         self.fonts_path = Path(__file__).parent.parent / "static" / "fonts"
@@ -124,25 +127,25 @@ class FontService:
         }
         self._fonts_registered = False
         self._monospace_font = None
-        
+
     def register_fonts(self):
         """Register all fonts with ReportLab"""
         if self._fonts_registered:
             return
-        
+
         # Register all available fonts
         for font_family, variants in self.available_fonts.items():
             try:
                 # Check if all required font files exist
-                if all(os.path.exists(self.fonts_path / variants[style]) 
+                if all(os.path.exists(self.fonts_path / variants[style])
                       for style in ["regular", "bold", "italic", "bold_italic"]):
-                    
+
                     # Register individual font files
                     pdfmetrics.registerFont(TTFont(font_family, str(self.fonts_path / variants["regular"])))
                     pdfmetrics.registerFont(TTFont(f'{font_family}-Bold', str(self.fonts_path / variants["bold"])))
                     pdfmetrics.registerFont(TTFont(f'{font_family}-Italic', str(self.fonts_path / variants["italic"])))
                     pdfmetrics.registerFont(TTFont(f'{font_family}-BoldItalic', str(self.fonts_path / variants["bold_italic"])))
-                    
+
                     # Create font family
                     pdfmetrics.registerFontFamily(
                         font_family,
@@ -152,22 +155,22 @@ class FontService:
                         boldItalic=f'{font_family}-BoldItalic'
                     )
                     print(f"Registered {font_family} font family")
-                    
+
                     # Set monospace font preference
                     if font_family == "MesloLGS" and not self._monospace_font:
                         self._monospace_font = "MesloLGS"
                     elif font_family == "SourceCodePro" and not self._monospace_font:
                         self._monospace_font = "SourceCodePro"
-                        
+
             except Exception as e:
                 print(f"Error registering {font_family} fonts: {e}")
                 continue
-        
+
         # Set fallback monospace font if none were registered
         if not self._monospace_font:
             self._monospace_font = "Courier"
             print("No custom monospace fonts available, using built-in Courier")
-            
+
         self._fonts_registered = True
 
     def get_font_face_css(self, font_family: str, for_preview: bool = False) -> str:
@@ -196,30 +199,30 @@ class FontService:
             else:
                 # For PDF generation: use relative path to webapp public fonts from backend
                 font_src = f"../markdown2pdf-webapp/public/fonts/{filename}"
-            
+
             css_rules.append(
                 f"@font-face {{ font-family: '{font_family}'; src: url('{font_src}') format('{font_format}'); font-weight: {font_weight}; font-style: {font_style}; }}"
             )
 
         return "\n".join(css_rules)
-    
+
     def get_available_fonts(self) -> List[str]:
         """Return list of available font families"""
         # Include the built-in ReportLab fonts and custom fonts
         return ["Inter", "AlbertSans", "HankenGrotesk", "Jost", "Spartan", "Formera", "Archivo", "Manrope", "Barlow", "OpenSans", "Lato", "NunitoSans", "IBMPlexSans", "Roboto", "MesloLGS", "SourceCodePro", "Helvetica", "Times-Roman", "Courier"]
-    
+
     def get_font_for_style(self, font_family: str, bold: bool = False, italic: bool = False) -> str:
         """Get the appropriate font name for the given style"""
         # Make sure fonts are registered
         if not self._fonts_registered:
             self.register_fonts()
-        
+
         # Check if the font family is available in our custom fonts
         if font_family in self.available_fonts:
             # Check if all required font files exist
-            if all(os.path.exists(self.fonts_path / self.available_fonts[font_family][style]) 
+            if all(os.path.exists(self.fonts_path / self.available_fonts[font_family][style])
                   for style in ["regular", "bold", "italic", "bold_italic"]):
-                
+
                 if bold and italic:
                     return f"{font_family}-BoldItalic"
                 elif bold:
@@ -228,7 +231,7 @@ class FontService:
                     return f"{font_family}-Italic"
                 else:
                     return font_family
-        
+
         # Handle built-in fonts for fallback
         if font_family == "Helvetica":
             if bold and italic:
@@ -266,9 +269,9 @@ class FontService:
         # Make sure fonts are registered
         if not self._fonts_registered:
             self.register_fonts()
-            
+
         return self._monospace_font or "Courier"
 
 
 # Create a singleton instance
-font_service = FontService() 
+font_service = FontService()
