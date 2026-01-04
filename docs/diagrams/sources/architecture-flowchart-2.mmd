@@ -1,0 +1,14 @@
+flowchart TB
+  APIRouter["app/api/__init__.py"] --> PDFRoute["app/api/pdf.py"]
+  APIRouter --> FontsRoute["app/api/fonts.py"]
+
+  PDFRoute -->|validates with| PDFModel["PDFGenerationRequest<br/>Pydantic"]
+  PDFRoute --> PDFService[PDFService]
+  FontsRoute --> FontService
+
+  PDFService -->|build CSS + fonts| FontService
+  PDFService -->|Markdown to HTML| MarkdownService
+  PDFService -->|HTML to PDF| WeasyPrint
+
+  MarkdownService -->|sanitize + render| MarkdownLib[("python-markdown extensions")]
+  MarkdownService -->|generate index + ids| Indexing

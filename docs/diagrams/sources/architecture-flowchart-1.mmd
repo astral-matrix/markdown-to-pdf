@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph Browser
+    UI["Markdown Editor + Controls"]
+    Preview["PDF Preview iframe"]
+  end
+
+  subgraph Frontend["Next.js / React"]
+    APIClient["API client<br/>fetch + React Query"]
+    State["Formatting Context<br/>Typography/Layout/Filename"]
+  end
+
+  subgraph Backend[FastAPI]
+    Router["API Router<br/>/generate-pdf<br/>/generate-pdf-preview<br/>/fonts"]
+    PDFSvc[PDF Service]
+    MDService[Markdown Service]
+    FontSvc[Font Service]
+  end
+
+  Assets["Static CSS + Fonts"]
+
+  UI -->|edits Markdown + options| State
+  State --> APIClient
+  APIClient -->|POST markdown + options| Router
+  Router --> PDFSvc
+  PDFSvc --> MDService
+  PDFSvc --> FontSvc
+  FontSvc --> Assets
+  MDService --> Assets
+  PDFSvc -->|HTML/PDF bytes| APIClient
+  APIClient --> Preview
+  APIClient -->|download| UI

@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant Backend
+  participant PDFService
+  participant WeasyPrint
+
+  User->>Frontend: Click "Generate PDF"
+  Frontend->>Backend: POST /generate-pdf (markdown + formatting)
+  Backend->>PDFService: assemble CSS + HTML
+  PDFService->>WeasyPrint: render HTML → PDF bytes
+  WeasyPrint-->>PDFService: PDF buffer
+  PDFService-->>Frontend: StreamingResponse (application/pdf)
+  Frontend->>User: Save PDF with timestamp

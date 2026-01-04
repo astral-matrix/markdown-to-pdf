@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "diagrams": "node ../docs/generate-diagrams.mjs",
+    "diagrams:watch": "node ../docs/generate-diagrams.mjs && echo 'Run again after editing markdown files'"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",
@@ -33,6 +35,7 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.4.2",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/typography": "^0.5.16",
     "@types/file-saver": "^2.0.5",

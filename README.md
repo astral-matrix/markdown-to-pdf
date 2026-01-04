@@ -165,6 +165,19 @@ The frontend will be available at http://localhost:3000.
 | POST   | /generate-pdf | Generates a PDF from markdown content   |
 | GET    | /fonts        | Returns list of available font families |
 
+## Documentation Diagrams
+
+The architecture and specification documents in `docs/` contain Mermaid diagrams. Pre-rendered SVG images are stored in `docs/diagrams/`.
+
+To regenerate the diagram images after editing the Mermaid source in the markdown files:
+
+```bash
+cd markdown2pdf-webapp
+npm run diagrams
+```
+
+This extracts all Mermaid code blocks from the documentation, saves the source files to `docs/diagrams/sources/`, and generates SVG images to `docs/diagrams/`.
+
 ## Project Goals
 
 - **User workflow:** Paste markdown → choose typography options → generate PDF → download

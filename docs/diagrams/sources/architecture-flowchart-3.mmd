@@ -1,0 +1,21 @@
+flowchart TB
+  App["app/page.tsx"] --> Providers
+  App --> Typography[TypographyPanel]
+  App --> Layout[LayoutPanel]
+  App --> Editor[MarkdownEditor]
+  App --> Preview[PDFPreview]
+  App --> Actions["PDFActions<br/>Filename + GenerateButton"]
+
+  subgraph Providers
+    DarkMode[DarkModeProvider]
+    Formatting["FormattingProvider<br/>Typography/Layout/Filename contexts"]
+    Query[React Query Client]
+  end
+
+  Actions --> GenerateBtn[GenerateButton]
+  Preview --> ThrottleHook[useThrottledPreview]
+  ThrottleHook --> APIClient["api.ts"]
+  GenerateBtn --> APIClient
+  Typography --> Formatting
+  Layout --> Formatting
+  Editor --> Preview

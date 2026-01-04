@@ -7,23 +7,23 @@ This document summarizes the end-to-end architecture of the Markdown to PDF conv
 ```mermaid
 flowchart LR
   subgraph Browser
-    UI[Markdown Editor + Controls]
-    Preview[PDF Preview iframe]
+    UI["Markdown Editor + Controls"]
+    Preview["PDF Preview iframe"]
   end
 
-  subgraph Frontend[Next.js / React]
-    APIClient[API client (fetch + React Query)]
-    State[Formatting Context (Typography/Layout/Filename)]
+  subgraph Frontend["Next.js / React"]
+    APIClient["API client<br/>fetch + React Query"]
+    State["Formatting Context<br/>Typography/Layout/Filename"]
   end
 
   subgraph Backend[FastAPI]
-    Router[API Router]\n/generate-pdf\n/generate-pdf-preview\n/fonts
+    Router["API Router<br/>/generate-pdf<br/>/generate-pdf-preview<br/>/fonts"]
     PDFSvc[PDF Service]
     MDService[Markdown Service]
     FontSvc[Font Service]
   end
 
-  Assets[Static CSS + Fonts]
+  Assets["Static CSS + Fonts"]
 
   UI -->|edits Markdown + options| State
   State --> APIClient
@@ -44,18 +44,18 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  APIRouter[/app/api/__init__.py/] --> PDFRoute[/app/api/pdf.py/]
-  APIRouter --> FontsRoute[/app/api/fonts.py/]
+  APIRouter["app/api/__init__.py"] --> PDFRoute["app/api/pdf.py"]
+  APIRouter --> FontsRoute["app/api/fonts.py"]
 
-  PDFRoute -->|validates with| PDFModel[PDFGenerationRequest (Pydantic)]
+  PDFRoute -->|validates with| PDFModel["PDFGenerationRequest<br/>Pydantic"]
   PDFRoute --> PDFService[PDFService]
   FontsRoute --> FontService
 
   PDFService -->|build CSS + fonts| FontService
-  PDFService -->|Markdown → HTML| MarkdownService
-  PDFService -->|HTML → PDF| WeasyPrint
+  PDFService -->|Markdown to HTML| MarkdownService
+  PDFService -->|HTML to PDF| WeasyPrint
 
-  MarkdownService -->|sanitize + render| MarkdownLib[(python-markdown extensions)]
+  MarkdownService -->|sanitize + render| MarkdownLib[("python-markdown extensions")]
   MarkdownService -->|generate index + ids| Indexing
 ```
 
@@ -72,21 +72,22 @@ Key responsibilities:
 
 ```mermaid
 flowchart TB
-  App[app/page.tsx]\nProviders --> Typography[TypographyPanel]
+  App["app/page.tsx"] --> Providers
+  App --> Typography[TypographyPanel]
   App --> Layout[LayoutPanel]
   App --> Editor[MarkdownEditor]
   App --> Preview[PDFPreview]
-  App --> Actions[PDFActions\n(Filename + GenerateButton)]
+  App --> Actions["PDFActions<br/>Filename + GenerateButton"]
 
   subgraph Providers
     DarkMode[DarkModeProvider]
-    Formatting[FormattingProvider\n(Typography/Layout/Filename contexts)]
+    Formatting["FormattingProvider<br/>Typography/Layout/Filename contexts"]
     Query[React Query Client]
   end
 
   Actions --> GenerateBtn[GenerateButton]
   Preview --> ThrottleHook[useThrottledPreview]
-  ThrottleHook --> APIClient[api.ts]
+  ThrottleHook --> APIClient["api.ts"]
   GenerateBtn --> APIClient
   Typography --> Formatting
   Layout --> Formatting
