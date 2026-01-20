@@ -27,7 +27,7 @@ npm install
 cd ..
 
 echo "Installation complete!"
-echo "To activate the Python environment, run: source .venv/bin/activate"
+echo "To activate the Python environment, run: source markdown2pdf-backend/.venv/bin/activate"
 echo "To start the backend server: cd markdown2pdf-backend && python3 run.py"
 echo "To start the frontend server: cd markdown2pdf-webapp && npm run dev" 
 echo "To run ESLint: cd markdown2pdf-webapp && npx eslint ."
